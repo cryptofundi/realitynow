@@ -62,10 +62,14 @@
       </div>
 
       <!-- Category filter -->
-      <div class="tabs section-sm animate-fade-in stagger-2" id="cat-tabs">
-        <button class="tab-btn active" onclick="switchCategory('crowd',this)">☕ Crowd</button>
-        <button class="tab-btn" onclick="switchCategory('traffic',this)">🚗 Traffic</button>
-        <button class="tab-btn" onclick="switchCategory('parking',this)">🅿 Parking</button>
+      <div class="tabs-wrapper section-sm animate-fade-in stagger-2">
+        <button class="tabs-arrow" onclick="document.getElementById('cat-tabs').scrollBy({left:-120,behavior:'smooth'})">&#8249;</button>
+        <div class="tabs" id="cat-tabs">
+          <button class="tab-btn active" onclick="switchCategory('crowd',this)">☕ Crowd</button>
+          <button class="tab-btn" onclick="switchCategory('traffic',this)">🚗 Traffic</button>
+          <button class="tab-btn" onclick="switchCategory('parking',this)">🅿 Parking</button>
+        </div>
+        <button class="tabs-arrow" onclick="document.getElementById('cat-tabs').scrollBy({left:120,behavior:'smooth'})">&#8250;</button>
       </div>
 
       <!-- State history -->
