@@ -529,6 +529,40 @@ input, textarea, select { font-family: inherit; }
 }
 
 /* ── Tabs ────────────────────────────────── */
+/* ── Tabs wrapper with desktop scroll arrows ─ */
+.tabs-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.tabs-arrow {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all var(--transition-fast);
+}
+.tabs-arrow:hover {
+  background: var(--color-surface-subtle);
+  border-color: var(--color-border-strong);
+}
+.tabs-arrow:disabled { opacity: 0.3; cursor: default; }
+
+/* Show arrows only on desktop (mouse/trackpad) */
+@media (hover: hover) and (pointer: fine) {
+  .tabs-arrow { display: flex; }
+}
+
 .tabs {
   display: flex;
   gap: var(--space-1);
@@ -536,6 +570,8 @@ input, textarea, select { font-family: inherit; }
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding-bottom: 1px;
+  scroll-behavior: smooth;
+  flex: 1;
 }
 .tabs::-webkit-scrollbar { display: none; }
 
