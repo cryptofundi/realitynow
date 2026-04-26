@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RealityCheck — What's happening near you</title>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <script src="js/app.js"></script>
+</head>
+<body>
+
+<div class="page-shell">
+
+  <!-- Header injected by JS -->
+  <div id="header-slot"></div>
+
+  <!-- Main content -->
+  <main class="page-content">
+    <div class="page-content-inner">
+
+      <!-- Stats row -->
+      <div class="stats-row section-sm animate-fade-in">
+        <div class="stat-card">
+          <div class="stat-value">142</div>
+          <div class="stat-label">Posts today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--color-brand-primary)">89%</div>
+          <div class="stat-label">Avg accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--color-brand-accent)">₹234</div>
+          <div class="stat-label">Rewards today</div>
+        </div>
+      </div>
+
+      <!-- Gap cards (growth engine) -->
+      <div id="gap-cards-slot" class="section-sm"></div>
+
+      <!-- Category tabs -->
+      <div class="tabs section-sm animate-fade-in stagger-1" id="category-tabs">
+        <button class="tab-btn active" data-cat="all"     onclick="filterFeed('all',this)">All</button>
+        <button class="tab-btn"        data-cat="traffic" onclick="filterFeed('traffic',this)">🚗 Traffic</button>
+        <button class="tab-btn"        data-cat="crowd"   onclick="filterFeed('crowd',this)">☕ Crowd</button>
+        <button class="tab-btn"        data-cat="queue"   onclick="filterFeed('queue',this)">🏢 Queue</button>
+        <button class="tab-btn"        data-cat="weather" onclick="filterFeed('weather',this)">🌧 Weather</button>
+        <button class="tab-btn"        data-cat="parking" onclick="filterFeed('parking',this)">🅿 Parking</button>
+      </div>
+
+      <!-- Feed -->
+      <div class="section-label animate-fade-in stagger-2">Nearby truth</div>
+      <div class="stack stack-3" id="feed-slot"></div>
+
+      <!-- Empty / loading state -->
+      <div id="empty-state" style="display:none;text-align:center;padding:var(--space-12) 0">
+        <div style="font-size:40px;margin-bottom:var(--space-3)">📡</div>
+        <div style="font-size:var(--text-base);font-weight:var(--weight-medium);color:var(--color-text-primary);margin-bottom:var(--space-2)">
+          No posts in this category yet
+        </div>
+        <div style="font-size:var(--text-sm);color:var(--color-text-tertiary);margin-bottom:var(--space-4)">
+          Be the first to share ground truth
+        </div>
+        <a href="post.html" class="btn btn-primary">Post reality</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Bottom nav injected by JS -->
+  <div id="bottom-nav-slot"></div>
+
+  <!-- Footer injected by JS -->
+  <div id="footer-slot"></div>
+
+</div><!-- /page-shell -->
+
+<script>
+  // ── Mock data ────────────────────────────
+  const MOCK_POSTS = [
+    {
+      id: 1, locationName: 'Jubilee Hills Rd No. 36',
+      state: 'SLOW', category: 'traffic', categoryIcon: '🚗',
+      confidence: 82, minutesAgo: 2,
+      validatorCount: 3, blockchainHash: '0x4a2f…c8b1',
+    },
+    {
+      id: 2, locationName: 'Third Wave Coffee, Banjara Hills',
+      state: 'EMPTY', category: 'crowd', categoryIcon: '☕',
+      confidence: 67, minutesAgo: 5,
+      validatorCount: 2, blockchainHash: '0x91cc…f30d',
+    },
+    {
+      id: 3, locationName: 'Apollo Hospital Queue',
+      state: 'BUSY', category: 'queue', categoryIcon: '🏥',
+      confidence: 91, minutesAgo: 8,
+      validatorCount: 3, blockchainHash: '0x7d3a…b22c',
+    },
+    {
+      id: 4, locationName: 'PVNR Expressway',
+      state: 'MODERATE', category: 'traffic', categoryIcon: '🚗',
+      confidence: 54, minutesAgo: 12,
+      validatorCount: 1, blockchainHash: '0x22fe…9a01',
+    },
+    {
+      id: 5, locationName: 'Inorbit Mall Parking',
+      state: 'BUSY', category: 'parking', categoryIcon: '🅿',
+      confidence: 78, minutesAgo: 6,
+      validatorCount: 3, blockchainHash: '0x55bd…e71f',
+    },
+  ];
+
+  const MOCK_GAPS = [
+    { name: 'GVK One Mall',         staleMin: 28, reward: 3 },
+    { name: 'Taj Banjara Hotel',    staleMin: 35, reward: 2 },
+  ];
+
+  // ── Render on load ───────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    injectHeader({ type: 'home', showNotif: true });
+    injectBottomNav('feed');
+    injectFooter();
+    renderGapCards();
+    renderFeed(MOCK_POSTS);
+  });
+
+  function renderGapCards() {
+    const slot = document.getElementById('gap-cards-slot');
+    slot.innerHTML = MOCK_GAPS.map(renderGapCard).join('');
+  }
+
+  function renderFeed(posts) {
+    const slot = document.getElementById('feed-slot');
+    const empty = document.getElementById('empty-state');
+    if (!posts.length) {
+      slot.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    slot.innerHTML = posts.map((p, i) => renderFeedCard(p, i)).join('');
+  }
+
+  function filterFeed(cat, btn) {
+    // Update active tab
+    document.querySelectorAll('#category-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Filter posts
+    const filtered = cat === 'all'
+      ? MOCK_POSTS
+      : MOCK_POSTS.filter(p => p.category === cat);
+    renderFeed(filtered);
+  }
+</script>
+</body>
+</html>
