@@ -42,14 +42,18 @@
       <div id="gap-cards-slot" class="section-sm"></div>
 
       <!-- Category tabs -->
-      <div class="tabs section-sm animate-fade-in stagger-1" id="category-tabs">
+      <div class="tabs-wrapper section-sm animate-fade-in stagger-1">
+        <button class="tabs-arrow" id="tabs-prev" onclick="scrollTabs(-1)" title="Scroll left">&#8249;</button>
+        <div class="tabs" id="category-tabs">
         <button class="tab-btn active" data-cat="all"     onclick="filterFeed('all',this)">All</button>
         <button class="tab-btn"        data-cat="traffic" onclick="filterFeed('traffic',this)">🚗 Traffic</button>
         <button class="tab-btn"        data-cat="crowd"   onclick="filterFeed('crowd',this)">☕ Crowd</button>
         <button class="tab-btn"        data-cat="queue"   onclick="filterFeed('queue',this)">🏢 Queue</button>
         <button class="tab-btn"        data-cat="weather" onclick="filterFeed('weather',this)">🌧 Weather</button>
         <button class="tab-btn"        data-cat="parking" onclick="filterFeed('parking',this)">🅿 Parking</button>
-      </div>
+        </div><!-- /tabs -->
+        <button class="tabs-arrow" id="tabs-next" onclick="scrollTabs(1)" title="Scroll right">&#8250;</button>
+      </div><!-- /tabs-wrapper -->
 
       <!-- Feed -->
       <div class="section-label animate-fade-in stagger-2">Nearby truth</div>
@@ -431,6 +435,28 @@ function handleDispute(postId) {
       : MOCK_POSTS.filter(p => p.category === cat);
     renderFeed(filtered);
   }
+
+  // ── Tab scroll arrows ──────────────────────
+  function scrollTabs(direction) {
+    const tabs = document.getElementById('category-tabs');
+    tabs.scrollBy({ left: direction * 120, behavior: 'smooth' });
+    setTimeout(updateTabArrows, 300);
+  }
+
+  function updateTabArrows() {
+    const tabs = document.getElementById('category-tabs');
+    const prev = document.getElementById('tabs-prev');
+    const next = document.getElementById('tabs-next');
+    if (!tabs || !prev || !next) return;
+    prev.disabled = tabs.scrollLeft <= 0;
+    next.disabled = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 2;
+  }
+
+  // Init arrows on load and on resize
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(updateTabArrows, 100);
+  });
+  window.addEventListener('resize', updateTabArrows);
 </script>
 </body>
 </html>
