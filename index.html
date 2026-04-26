@@ -185,14 +185,18 @@ function injectFooter() {
   const html = `
     <footer class="site-footer">
       <div class="site-footer-inner">
-        <div class="site-footer-brand">⚡ RealityCheck</div>
+        <div class="site-footer-brand">
+          <span style="font-size:16px">⚡</span> RealityCheck
+        </div>
         <div class="site-footer-links">
-          <a href="about.html" class="site-footer-link">How it works</a>
-          <a href="#" class="site-footer-link">Privacy</a>
-          <a href="#" class="site-footer-link">Terms</a>
+          <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy — coming soon')">Privacy</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Terms — coming soon')">Terms</a>
+          <a href="https://polygon.technology" target="_blank" class="site-footer-link">Polygon</a>
         </div>
         <div class="site-footer-copy">
-          Truth is on-chain. Immutable. Forever. · Built on Polygon
+          Truth is on-chain · Immutable · Forever<br>
+          Ward data sourced from official government portals
         </div>
       </div>
     </footer>`;
