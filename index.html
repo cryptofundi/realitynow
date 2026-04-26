@@ -22,6 +22,22 @@
   <main class="page-content">
     <div class="page-content-inner">
 
+      <!-- Live activity bar — urgency layer -->
+      <div id="live-bar" class="animate-fade-in" style="
+        display:flex;align-items:center;justify-content:space-between;
+        background:linear-gradient(135deg,#E8F8F3,#F0FBF7);
+        border:1px solid #a8e6d5;border-radius:var(--radius-md);
+        padding:var(--space-2) var(--space-3);margin-bottom:var(--space-3);
+        font-size:var(--text-xs);">
+        <div style="display:flex;align-items:center;gap:var(--space-2);color:var(--color-brand-primary)">
+          <span id="pulse-dot" style="width:7px;height:7px;border-radius:50%;
+            background:var(--color-brand-primary);display:inline-block;
+            animation:pulseDot 1.5s ease-in-out infinite"></span>
+          <span id="live-count"><strong>12 people</strong> checking nearby right now</span>
+        </div>
+        <span id="last-update" style="color:var(--color-text-tertiary)">Updated 8s ago</span>
+      </div>
+
       <!-- Stats row -->
       <div class="stats-row section-sm animate-fade-in">
         <div class="stat-card">
@@ -334,14 +350,22 @@ function renderFeedCard(post, index = 0) {
 
 // ── Render gap card HTML ───────────────────
 function renderGapCard(location) {
+  const scarcity = location.rewardLeft === 1
+    ? `<span style="color:var(--color-busy);font-weight:600">⚠ Only 1 reward left</span>`
+    : `<span style="color:var(--color-brand-accent)">${location.rewardLeft} rewards available</span>`;
+  const social = location.checkers > 0
+    ? `<span style="color:var(--color-text-tertiary)">👀 ${location.checkers} people checked recently</span>`
+    : '';
   return `
     <div class="gap-card animate-fade-in section-sm">
       <div class="gap-card-icon">⏱</div>
       <div class="gap-card-content">
         <div class="gap-card-title">No update — ${location.name}</div>
-        <div class="gap-card-sub">
+        <div class="gap-card-sub" style="margin-bottom:var(--space-2)">
           Last report was ${location.staleMin} min ago.
-          Earn ₹${location.reward} to check and post.
+        </div>
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-2);font-size:var(--text-xs)">
+          ${scarcity} ${social}
         </div>
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
@@ -399,8 +423,8 @@ function handleDispute(postId) {
   ];
 
   const MOCK_GAPS = [
-    { name: 'GVK One Mall',         staleMin: 28, reward: 3 },
-    { name: 'Taj Banjara Hotel',    staleMin: 35, reward: 2 },
+    { name: 'GVK One Mall',      staleMin: 28, reward: 3, rewardLeft: 1, checkers: 3 },
+    { name: 'Taj Banjara Hotel', staleMin: 35, reward: 2, rewardLeft: 2, checkers: 1 },
   ];
 
   // ── Render on load ───────────────────────
@@ -440,6 +464,41 @@ function handleDispute(postId) {
     renderFeed(filtered);
   }
 
+  // ── Live feel — ticker + pulse ────────────
+  const liveMessages = [
+    '<strong>12 people</strong> checking nearby right now',
+    '<strong>Priya</strong> just posted in Jubilee Hills',
+    '<strong>3 people</strong> validating near you',
+    '<strong>Rahul</strong> earned ₹2.40 just now',
+    '<strong>18 people</strong> active in your area',
+  ];
+  let liveIdx = 0;
+  let secondsAgo = 8;
+
+  function tickLive() {
+    const el = document.getElementById('live-count');
+    const ts = document.getElementById('last-update');
+    if (el) {
+      liveIdx = (liveIdx + 1) % liveMessages.length;
+      el.innerHTML = liveMessages[liveIdx];
+    }
+    if (ts) ts.textContent = 'Updated just now';
+    secondsAgo = 0;
+  }
+
+  function tickTimestamp() {
+    secondsAgo++;
+    const ts = document.getElementById('last-update');
+    if (ts && secondsAgo > 0) {
+      ts.textContent = secondsAgo < 60
+        ? `Updated ${secondsAgo}s ago`
+        : `Updated ${Math.floor(secondsAgo/60)}m ago`;
+    }
+  }
+
+  setInterval(tickLive, 7000);
+  setInterval(tickTimestamp, 1000);
+
   // ── Tab scroll arrows ──────────────────────
   function scrollTabs(direction) {
     const tabs = document.getElementById('category-tabs');
@@ -462,5 +521,11 @@ function handleDispute(postId) {
   });
   window.addEventListener('resize', updateTabArrows);
 </script>
+<style>
+@keyframes pulseDot {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.4; transform:scale(0.7); }
+}
+</style>
 </body>
 </html>
