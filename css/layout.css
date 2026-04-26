@@ -1,6 +1,6 @@
 /* ============================================
    RealityCheck — Layout Styles
-   Header, footer, bottom nav, page shells,
+   Header, footer, bottom nav, page structure,
    responsive breakpoints.
    ============================================ */
 
@@ -96,6 +96,7 @@
   color: var(--color-text-primary);
   flex-shrink: 0;
   transition: background var(--transition-fast);
+  text-decoration: none;
 }
 .page-header-back:hover { background: var(--color-surface-subtle); }
 
@@ -163,10 +164,6 @@
 
 .page-content-inner {
   padding: var(--space-4);
-}
-
-.page-content-inner + .page-content-inner {
-  padding-top: 0;
 }
 
 /* ── Bottom navigation ───────────────────── */
@@ -244,7 +241,7 @@
   transform: scale(1.05);
 }
 
-/* ── Footer (desktop only) ───────────────── */
+/* ── Footer ──────────────────────────────── */
 .site-footer {
   display: none;
   background: var(--color-surface);
@@ -302,65 +299,28 @@
 .row-2 { gap: var(--space-2); }
 .row-3 { gap: var(--space-3); }
 
-/* ── Desktop responsive ──────────────────── */
-@media (min-width: 640px) {
+/* ── Desktop — centred mobile-app layout ─── */
+/*    Max 520px wide, centred, card shadow.   */
+/*    Bottom nav stays — no sidebar.          */
+@media (min-width: 600px) {
+
+  body {
+    background: #EAEDF0;  /* subtle page bg so card pops */
+  }
 
   .page-shell {
-    max-width: var(--max-width-wide);
-    flex-direction: row;
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--color-bg);
+    box-shadow: 0 0 60px rgba(0,0,0,0.12);
+    min-height: 100vh;
+    position: relative;
   }
 
-  /* Sidebar nav on desktop */
+  /* Bottom nav stays fixed but constrained to shell width */
   .bottom-nav {
-    position: sticky;
-    top: 0;
-    left: 0;
-    transform: none;
-    width: 220px;
-    height: 100vh;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    border-top: none;
-    border-right: 1px solid var(--color-border);
-    padding: var(--space-6) var(--space-3);
-    gap: var(--space-1);
-  }
-
-  .bottom-nav-item {
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: var(--space-3);
-    gap: var(--space-3);
-  }
-
-  .bottom-nav-icon { font-size: 18px; }
-  .bottom-nav-label { font-size: var(--text-sm); }
-
-  .post-fab {
-    width: auto;
-    border-radius: var(--radius-md);
-    padding: 0 var(--space-4);
-    font-size: var(--text-base);
-    font-weight: var(--weight-semibold);
-    gap: var(--space-2);
-    height: 44px;
-    margin: var(--space-3);
-  }
-
-  .page-content {
-    flex: 1;
-    padding-bottom: 0;
-    max-width: 600px;
+    max-width: 520px;
   }
 
   .site-footer { display: block; }
-
-  .stats-row { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (min-width: 960px) {
-  .page-content-inner {
-    padding: var(--space-6) var(--space-8);
-  }
 }
