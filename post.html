@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post Reality — RealityCheck</title>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <script src="js/app.js"></script>
+</head>
+<body>
+
+<div class="page-shell">
+  <div id="header-slot"></div>
+
+  <main class="page-content">
+
+    <!-- STEP 1: Capture + Category -->
+    <div id="step-1" class="step-panel page-content-inner animate-fade-in">
+
+      <!-- Upload area -->
+      <div class="section-sm">
+        <div class="upload-area" onclick="triggerUpload()" id="upload-area">
+          <div class="upload-area-icon">📸</div>
+          <div class="upload-area-title">Tap to open camera</div>
+          <div class="upload-area-sub">Photo of the situation — road, crowd, queue etc.</div>
+          <div class="upload-area-warning">⚠ Photograph the issue only — not people</div>
+        </div>
+        <input type="file" id="file-input" accept="image/*" capture="environment"
+               style="display:none" onchange="handleUpload(this)" />
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <div class="form-label">What is this about?</div>
+        <div class="category-grid" id="category-grid">
+          <button class="category-btn" data-cat="traffic" onclick="selectCategory(this)">
+            <span class="cat-icon">🚗</span>Traffic
+          </button>
+          <button class="category-btn" data-cat="crowd" onclick="selectCategory(this)">
+            <span class="cat-icon">☕</span>Crowd
+          </button>
+          <button class="category-btn" data-cat="queue" onclick="selectCategory(this)">
+            <span class="cat-icon">🏢</span>Queue
+          </button>
+          <button class="category-btn" data-cat="mall" onclick="selectCategory(this)">
+            <span class="cat-icon">🛍</span>Mall
+          </button>
+          <button class="category-btn" data-cat="weather" onclick="selectCategory(this)">
+            <span class="cat-icon">🌧</span>Weather
+          </button>
+          <button class="category-btn" data-cat="parking" onclick="selectCategory(this)">
+            <span class="cat-icon">🅿</span>Parking
+          </button>
+        </div>
+      </div>
+
+      <!-- Current state -->
+      <div class="form-group">
+        <div class="form-label">Current state</div>
+        <div class="state-grid">
+          <button class="state-btn busy"     onclick="selectState('BUSY',this)">😰 Busy / Slow</button>
+          <button class="state-btn moderate" onclick="selectState('MODERATE',this)">😐 Moderate</button>
+          <button class="state-btn empty"    onclick="selectState('EMPTY',this)">😊 Empty / Clear</button>
+        </div>
+      </div>
+
+      <!-- Auto-detected location -->
+      <div class="form-group">
+        <div class="form-label">Location</div>
+        <div class="location-pill">
+          <span class="location-pill-icon">📍</span>
+          <div class="location-pill-text">
+            <div class="location-pill-name" id="detected-location">Jubilee Hills, Ward No. 36</div>
+            <div class="location-pill-sub">Auto-detected via GPS · <span style="color:var(--color-brand-primary)">Full rewards eligible</span></div>
+          </div>
+          <span class="location-pill-edit" onclick="editLocation()">Edit</span>
+        </div>
+        <div style="margin-top:var(--space-2)">
+          <span style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
+            No GPS? Enter pincode instead →
+          </span>
+          <span style="font-size:var(--text-xs);color:var(--color-brand-primary);cursor:pointer" onclick="showPincode()">
+            Use pincode (50% rewards)
+          </span>
+        </div>
+        <!-- Pincode fallback (hidden by default) -->
+        <div id="pincode-row" style="display:none;margin-top:var(--space-2)">
+          <input type="text" class="form-input" placeholder="Enter pincode e.g. 500034"
+                 maxlength="6" inputmode="numeric" />
+        </div>
+      </div>
+
+      <!-- Optional description -->
+      <div class="form-group">
+        <div class="form-label">Description <span style="color:var(--color-text-tertiary);font-weight:400">(optional)</span></div>
+        <textarea class="form-textarea" id="description"
+                  placeholder="Add more detail — e.g. 'backed up from the junction, about 15 min delay'"></textarea>
+      </div>
+
+      <button class="btn btn-primary btn-full btn-lg" onclick="goToStep(2)" id="step1-next">
+        Continue → Pay ₹5
+      </button>
+      <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-2)">
+        Select category and state to continue
+      </p>
+
+    </div><!-- /step-1 -->
+
+    <!-- STEP 2: Payment -->
+    <div id="step-2" class="step-panel page-content-inner" style="display:none">
+
+      <!-- Summary -->
+      <div class="card card-body section-sm animate-fade-in">
+        <div class="section-label" style="margin-bottom:var(--space-2)">Your post</div>
+        <div class="row row-3" style="margin-bottom:var(--space-2)">
+          <div id="summary-state-badge"></div>
+          <div id="summary-category-badge" class="badge badge-neutral"></div>
+          <span class="badge badge-verified">GPS verified</span>
+        </div>
+        <div style="font-size:var(--text-sm);color:var(--color-text-secondary)" id="summary-location">
+          Jubilee Hills, Ward No. 36
+        </div>
+      </div>
+
+      <!-- Payment method -->
+      <div class="form-group">
+        <div class="form-label">Pay ₹5 via</div>
+        <div class="payment-grid">
+          <div class="payment-option active" id="pay-upi" onclick="selectPayment('upi')">
+            <div class="payment-option-icon">📱</div>
+            <div class="payment-option-title">UPI / Card</div>
+            <div class="payment-option-sub">Google Pay, PhonePe, Razorpay</div>
+          </div>
+          <div class="payment-option" id="pay-crypto" onclick="selectPayment('crypto')">
+            <div class="payment-option-icon">🔐</div>
+            <div class="payment-option-title">Crypto wallet</div>
+            <div class="payment-option-sub">MetaMask · MATIC · Full validator rights</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How ₹5 is split -->
+      <div class="form-group">
+        <div class="form-label">How your ₹5 is used</div>
+        <div class="fee-breakdown">
+          <div class="fee-row">
+            <span class="fee-label">Your reward (if validated ≥70%)</span>
+            <span class="fee-value earn">up to ₹3</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">Validator rewards</span>
+            <span class="fee-value">₹1</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">Platform</span>
+            <span class="fee-value">₹1</span>
+          </div>
+        </div>
+        <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-2);line-height:var(--leading-relaxed)">
+          Net cost for an accurate post: ₹2.60. For an inaccurate post: ₹5. Accuracy pays.
+        </p>
+      </div>
+
+      <!-- Crypto note (hidden by default) -->
+      <div id="crypto-note" style="display:none" class="card card-body-sm section-sm">
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:var(--leading-relaxed)">
+          🔐 <strong>Wallet users get full validator rights</strong> — you can vote on other posts
+          and earn ₹0.33 per correct validation. Rewards sent directly to your wallet.
+        </p>
+      </div>
+
+      <button class="btn btn-primary btn-full btn-lg" onclick="submitPost()">
+        Pay ₹5 and publish to blockchain
+      </button>
+      <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-2);line-height:var(--leading-relaxed)">
+        Post stored on Polygon · Cannot be deleted · Community validates truth
+      </p>
+
+    </div><!-- /step-2 -->
+
+    <!-- STEP 3: Success -->
+    <div id="step-3" class="step-panel page-content-inner" style="display:none">
+
+      <div style="text-align:center;padding:var(--space-8) 0 var(--space-6)">
+        <div class="success-icon animate-fade-in">✓</div>
+        <h1 style="font-size:var(--text-xl);font-weight:var(--weight-semibold);margin-bottom:var(--space-2)" class="animate-fade-in stagger-1">
+          Posted on blockchain
+        </h1>
+        <p style="font-size:var(--text-base);color:var(--color-text-secondary)" class="animate-fade-in stagger-2">
+          Your post is live. Community is now validating.
+        </p>
+      </div>
+
+      <!-- Transaction details -->
+      <div class="card card-body section-sm animate-fade-in stagger-3">
+        <div class="section-label" style="margin-bottom:var(--space-3)">Transaction details</div>
+        <div class="fee-breakdown">
+          <div class="fee-row">
+            <span class="fee-label">Location</span>
+            <span class="fee-value" id="tx-location">Jubilee Hills Rd 36</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">State posted</span>
+            <span class="fee-value" id="tx-state">Congested</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">Potential reward</span>
+            <span class="fee-value earn">up to ₹3</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">Tx hash</span>
+            <span class="fee-value" style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-slow)">
+              0x4a2f…c8b1
+            </span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">Network</span>
+            <span class="fee-value">Polygon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earn while you wait CTA -->
+      <div class="validate-card section-sm animate-fade-in stagger-4">
+        <div class="validate-card-title">Earn while you wait</div>
+        <div class="validate-card-sub">
+          3 posts near you need validation. Each correct vote earns ₹0.33. Takes 30 seconds.
+        </div>
+        <a href="validate.html" class="btn btn-primary btn-full">
+          Validate nearby posts → earn ₹1
+        </a>
+      </div>
+
+      <!-- Share + view actions -->
+      <div class="stack stack-2 animate-fade-in stagger-5">
+        <button class="btn btn-secondary btn-full" onclick="sharePost()">
+          📤 Share on WhatsApp
+        </button>
+        <button class="btn btn-secondary btn-full" onclick="viewOnChain()">
+          🔗 View on Polygon
+        </button>
+        <a href="index.html" class="btn btn-ghost btn-full">
+          ← Back to feed
+        </a>
+      </div>
+
+    </div><!-- /step-3 -->
+
+  </main>
+
+  <div id="bottom-nav-slot"></div>
+  <div id="footer-slot"></div>
+
+</div>
+
+<script>
+  let selectedCategory = null;
+  let selectedState    = null;
+  let selectedPayment  = 'upi';
+  let currentStep      = 1;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    injectHeader({
+      type: 'step',
+      title: 'Post reality',
+      step: 1,
+      totalSteps: 3,
+      backHref: 'index.html',
+    });
+    injectBottomNav('post');
+    injectFooter();
+
+    // Pre-fill from URL params
+    const params = new URLSearchParams(window.location.search);
+    const loc = params.get('location');
+    if (loc) document.getElementById('detected-location').textContent = loc;
+  });
+
+  function selectCategory(btn) {
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedCategory = btn.dataset.cat;
+    checkStep1Ready();
+  }
+
+  function selectState(state, btn) {
+    document.querySelectorAll('.state-btn').forEach(b => {
+      b.style.boxShadow = '';
+      b.style.transform = '';
+    });
+    btn.style.boxShadow = 'var(--shadow-md)';
+    btn.style.transform = 'translateY(-2px)';
+    selectedState = state;
+    checkStep1Ready();
+  }
+
+  function checkStep1Ready() {
+    const btn = document.getElementById('step1-next');
+    const ready = selectedCategory && selectedState;
+    btn.style.opacity = ready ? '1' : '0.5';
+    btn.querySelector ? null : null;
+  }
+
+  function goToStep(n) {
+    if (n === 2 && (!selectedCategory || !selectedState)) {
+      showToast('Please select category and state first');
+      return;
+    }
+    currentStep = n;
+
+    document.querySelectorAll('.step-panel').forEach(p => p.style.display = 'none');
+    document.getElementById(`step-${n}`).style.display = 'block';
+
+    // Update step header
+    const titles = { 1:'Post reality', 2:'Pay ₹5', 3:'Posted!' };
+    injectHeader({
+      type: 'step',
+      title: titles[n],
+      step: n,
+      totalSteps: 3,
+      backHref: n === 1 ? 'index.html' : `javascript:goToStep(${n-1})`,
+    });
+
+    // Populate summary for step 2
+    if (n === 2) {
+      document.getElementById('summary-state-badge').innerHTML = stateBadge(selectedState);
+      document.getElementById('summary-category-badge').textContent =
+        selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
+    }
+
+    window.scrollTo(0, 0);
+  }
+
+  function selectPayment(type) {
+    selectedPayment = type;
+    document.getElementById('pay-upi').classList.toggle('active', type === 'upi');
+    document.getElementById('pay-crypto').classList.toggle('active', type === 'crypto');
+    document.getElementById('crypto-note').style.display = type === 'crypto' ? 'block' : 'none';
+  }
+
+  function submitPost() {
+    // Simulate submission
+    const btn = document.querySelector('#step-2 .btn-primary');
+    btn.textContent = 'Submitting to blockchain…';
+    btn.style.opacity = '0.7';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      goToStep(3);
+      document.getElementById('tx-location').textContent =
+        document.getElementById('detected-location')?.textContent || 'Jubilee Hills';
+      document.getElementById('tx-state').textContent = selectedState || 'SLOW';
+    }, 1500);
+  }
+
+  function triggerUpload() {
+    document.getElementById('file-input').click();
+  }
+
+  function handleUpload(input) {
+    if (!input.files?.[0]) return;
+    const area = document.getElementById('upload-area');
+    area.style.background = 'var(--color-brand-light)';
+    area.style.borderColor = 'var(--color-brand-primary)';
+    area.innerHTML = `
+      <div class="upload-area-icon">✅</div>
+      <div class="upload-area-title">Photo added</div>
+      <div class="upload-area-sub">${input.files[0].name}</div>
+      <div class="upload-area-warning">Uploading to IPFS…</div>`;
+    showToast('📸 Photo added — uploading to IPFS');
+  }
+
+  function showPincode() {
+    document.getElementById('pincode-row').style.display = 'block';
+  }
+
+  function editLocation() {
+    showToast('📍 Location editing coming soon');
+  }
+
+  function sharePost() {
+    const text = encodeURIComponent('🚗 Just posted a traffic update on RealityCheck — check what\'s happening near you: https://realitycheck.app');
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  }
+
+  function viewOnChain() {
+    window.open('https://polygonscan.com/tx/0x4a2f', '_blank');
+  }
+</script>
+</body>
+</html>
