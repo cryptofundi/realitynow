@@ -1,0 +1,120 @@
+/* ============================================
+   RealityCheck — Design Tokens
+   Edit this file to change colours, fonts,
+   spacing across the entire app.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+
+  /* ── Brand colours ──────────────────────── */
+  --color-brand-primary:    #0D9373;   /* teal green — main CTA */
+  --color-brand-dark:       #0A6E57;
+  --color-brand-light:      #E0F5EF;
+  --color-brand-accent:     #F5A623;   /* amber — earning / reward */
+
+  /* ── Semantic colours ───────────────────── */
+  --color-busy:             #E8453C;
+  --color-busy-bg:          #FEF0EF;
+  --color-moderate:         #F5A623;
+  --color-moderate-bg:      #FEF8ED;
+  --color-empty:            #0D9373;
+  --color-empty-bg:         #E0F5EF;
+  --color-slow:             #5B7FE8;
+  --color-slow-bg:          #EEF2FE;
+  --color-closed:           #888;
+  --color-closed-bg:        #F3F3F3;
+
+  /* ── Neutral palette ────────────────────── */
+  --color-bg:               #F7F8F9;
+  --color-surface:          #FFFFFF;
+  --color-surface-raised:   #FFFFFF;
+  --color-surface-subtle:   #F0F2F4;
+  --color-border:           #E4E7EB;
+  --color-border-strong:    #C8CDD4;
+
+  /* ── Text colours ───────────────────────── */
+  --color-text-primary:     #0F1923;
+  --color-text-secondary:   #4A5568;
+  --color-text-tertiary:    #8896A8;
+  --color-text-inverse:     #FFFFFF;
+
+  /* ── Confidence / score colours ─────────── */
+  --color-conf-high:        #0D9373;
+  --color-conf-med:         #F5A623;
+  --color-conf-low:         #E8453C;
+
+  /* ── Typography ─────────────────────────── */
+  --font-body:              'DM Sans', sans-serif;
+  --font-mono:              'DM Mono', monospace;
+
+  --text-xs:    11px;
+  --text-sm:    13px;
+  --text-base:  15px;
+  --text-md:    17px;
+  --text-lg:    20px;
+  --text-xl:    24px;
+  --text-2xl:   30px;
+  --text-3xl:   38px;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.7;
+
+  /* ── Spacing scale ───────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ── Radius ─────────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────── */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:  0 8px 24px rgba(0,0,0,0.10), 0 3px 8px rgba(0,0,0,0.05);
+
+  /* ── Transitions ─────────────────────────── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* ── Layout ──────────────────────────────── */
+  --max-width:        480px;   /* mobile-first max content width */
+  --max-width-wide:   960px;   /* desktop max */
+  --header-height:    60px;
+  --bottom-nav-height:64px;
+}
+
+/* ── Dark mode overrides ─────────────────────
+   Uncomment and adjust to enable dark theme.
+   All variables above will cascade automatically.
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:             #0F1923;
+    --color-surface:        #1A2433;
+    --color-surface-subtle: #222F3E;
+    --color-border:         #2D3D50;
+    --color-text-primary:   #F0F4F8;
+    --color-text-secondary: #8EA5BE;
+    --color-text-tertiary:  #5A7A96;
+  }
+}
+────────────────────────────────────────────── */
