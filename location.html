@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Location Detail — RealityCheck</title>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <script src="js/app.js"></script>
+</head>
+<body>
+
+<div class="page-shell">
+  <div id="header-slot"></div>
+
+  <main class="page-content">
+    <div class="page-content-inner">
+
+      <!-- Current state hero -->
+      <div style="text-align:center;padding:var(--space-6) 0 var(--space-4)" class="animate-fade-in">
+        <div id="state-hero" style="font-size:var(--text-3xl);font-weight:var(--weight-semibold);margin-bottom:var(--space-2)">
+          BUSY
+        </div>
+        <div style="font-size:var(--text-sm);color:var(--color-text-tertiary);margin-bottom:var(--space-4)">
+          Verified <span id="verified-time">4 min ago</span> ·
+          <span id="conf-label" style="color:var(--color-brand-primary)">87% confidence</span>
+        </div>
+        <!-- Confidence bar -->
+        <div style="max-width:200px;margin:0 auto var(--space-4)">
+          <div class="conf-bar-wrap" style="height:6px">
+            <div class="conf-bar-fill high" id="conf-bar" style="width:87%"></div>
+          </div>
+        </div>
+        <div id="state-badge-hero"></div>
+      </div>
+
+      <!-- Unverified notice (shown when <2 validators) -->
+      <div id="unverified-notice" class="unverified-notice section-sm" style="display:none">
+        ⚠ Unverified — only 1 report so far.
+        <strong style="color:var(--color-brand-primary);cursor:pointer" onclick="window.location='validate.html'">
+          Be the first to confirm →
+        </strong>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row section-sm animate-fade-in stagger-1">
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--color-busy)" id="stat-open">4</div>
+          <div class="stat-label">Active reports</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-conf">87%</div>
+          <div class="stat-label">Confidence</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-time">4m</div>
+          <div class="stat-label">Last updated</div>
+        </div>
+      </div>
+
+      <!-- Category filter -->
+      <div class="tabs section-sm animate-fade-in stagger-2" id="cat-tabs">
+        <button class="tab-btn active" onclick="switchCategory('crowd',this)">☕ Crowd</button>
+        <button class="tab-btn" onclick="switchCategory('traffic',this)">🚗 Traffic</button>
+        <button class="tab-btn" onclick="switchCategory('parking',this)">🅿 Parking</button>
+      </div>
+
+      <!-- State history -->
+      <div class="section animate-fade-in stagger-3">
+        <div class="section-label">State history today</div>
+        <div class="card">
+          <div id="history-list"></div>
+        </div>
+      </div>
+
+      <!-- Recent reports -->
+      <div class="section animate-fade-in stagger-4">
+        <div class="section-label">Blockchain reports</div>
+        <div class="stack stack-3" id="reports-list"></div>
+      </div>
+
+      <!-- Post update CTA -->
+      <div class="section animate-fade-in stagger-5" style="padding-bottom:var(--space-8)">
+        <a href="post.html?location=GVK+One+Mall" class="btn btn-primary btn-full btn-lg">
+          📸 Post an update for this location
+        </a>
+        <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-2)">
+          All data from Polygon blockchain · Immutable · No server controls truth
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="bottom-nav-slot"></div>
+  <div id="footer-slot"></div>
+</div>
+
+<script>
+  // Mock location data
+  const LOCATION = {
+    name: 'GVK One Mall',
+    area: 'Banjara Hills',
+    state: 'BUSY',
+    confidence: 87,
+    minutesAgo: 4,
+    activeReports: 4,
+  };
+
+  const HISTORY = [
+    { time: '11:02 AM', state: 'BUSY',     conf: 83, reports: 4 },
+    { time: '10:38 AM', state: 'EMPTY',    conf: 76, reports: 2 },
+    { time: '10:12 AM', state: 'MODERATE', conf: 71, reports: 3 },
+    { time: '9:44 AM',  state: 'EMPTY',    conf: 90, reports: 3 },
+    { time: '9:20 AM',  state: 'MODERATE', conf: 68, reports: 2 },
+  ];
+
+  const REPORTS = [
+    {
+      id: 101, state: 'BUSY', category: 'Crowd',
+      desc: 'Very crowded near food court. Long wait for tables.',
+      minutesAgo: 4, hash: '0x4a2f…c8b1', validators: 3, minNeeded: 3,
+    },
+    {
+      id: 102, state: 'BUSY', category: 'Crowd',
+      desc: 'Crowded near H&M — weekend rush.',
+      minutesAgo: 7, hash: '0x91cc…f30d', validators: 2, minNeeded: 3,
+    },
+    {
+      id: 103, state: 'BUSY', category: 'Parking',
+      desc: 'B3 level full. B2 has some space.',
+      minutesAgo: 9, hash: '0x77ab…12e9', validators: 3, minNeeded: 3,
+    },
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    injectHeader({
+      type: 'page',
+      title: LOCATION.name,
+      subtitle: LOCATION.area,
+      backHref: 'index.html',
+    });
+    injectBottomNav('location');
+    injectFooter();
+    renderLocationPage();
+  });
+
+  function renderLocationPage() {
+    // Hero
+    const hero = document.getElementById('state-hero');
+    hero.textContent = LOCATION.state;
+    hero.style.color = stateColor(LOCATION.state);
+
+    document.getElementById('verified-time').textContent = freshnessLabel(LOCATION.minutesAgo);
+    document.getElementById('conf-label').textContent = `${LOCATION.confidence}% confidence`;
+    document.getElementById('state-badge-hero').innerHTML = stateBadge(LOCATION.state);
+
+    const cls = confClass(LOCATION.confidence);
+    document.getElementById('conf-bar').className = `conf-bar-fill ${cls}`;
+    document.getElementById('conf-bar').style.width = `${LOCATION.confidence}%`;
+
+    // Stats
+    document.getElementById('stat-conf').textContent = `${LOCATION.confidence}%`;
+    document.getElementById('stat-time').textContent = `${LOCATION.minutesAgo}m`;
+
+    // Unverified check
+    const lowValidation = REPORTS.some(r => r.validators < 2);
+    document.getElementById('unverified-notice').style.display = lowValidation ? 'block' : 'none';
+
+    renderHistory();
+    renderReports();
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    list.innerHTML = HISTORY.map((h, i) => `
+      <div style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-4);
+                  border-bottom:${i < HISTORY.length-1 ? '1px solid var(--color-border)' : 'none'}">
+        <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);min-width:60px;
+                    font-variant-numeric:tabular-nums">${h.time}</div>
+        ${stateBadge(h.state)}
+        <div class="conf-bar-wrap" style="flex:1;max-width:80px">
+          <div class="conf-bar-fill ${confClass(h.conf)}" style="width:${h.conf}%"></div>
+        </div>
+        <div style="font-size:var(--text-xs);color:var(--color-text-tertiary)">${h.conf}%</div>
+        <div style="font-size:var(--text-xs);color:var(--color-text-tertiary)">${h.reports} reports</div>
+      </div>`).join('');
+  }
+
+  function renderReports() {
+    const list = document.getElementById('reports-list');
+    list.innerHTML = REPORTS.map(r => {
+      const pending = r.validators < r.minNeeded;
+      return `
+        <div class="card animate-fade-in">
+          <div class="card-body">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-2)">
+              <div style="display:flex;gap:var(--space-2);align-items:center">
+                ${stateBadge(r.state)}
+                <span class="badge badge-neutral">${r.category}</span>
+              </div>
+              <span style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
+                ${freshnessLabel(r.minutesAgo)}
+              </span>
+            </div>
+            <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                      margin-bottom:var(--space-3);line-height:var(--leading-relaxed)">${r.desc}</p>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;gap:var(--space-2);align-items:center">
+                <span class="badge ${pending ? 'badge-moderate' : 'badge-verified'}">
+                  ${r.validators}/${r.minNeeded} validators
+                </span>
+                <span style="font-size:var(--text-xs);color:var(--color-slow);
+                             font-family:var(--font-mono)">${r.hash}</span>
+              </div>
+              ${pending ? `
+                <div style="display:flex;gap:var(--space-1)">
+                  <button class="btn btn-sm btn-confirm" onclick="handleConfirm(${r.id})">✓</button>
+                  <button class="btn btn-sm btn-danger" onclick="handleDispute(${r.id})">✗</button>
+                </div>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function switchCategory(cat, btn) {
+    document.querySelectorAll('#cat-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // In production: re-fetch state for this category
+    showToast(`Showing ${cat} data`);
+  }
+</script>
+</body>
+</html>
