@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RealityCheck — System Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --ink: #0D0F12;
+    --ink-soft: #3A3E47;
+    --ink-muted: #767D8C;
+    --paper: #F8F6F1;
+    --paper-warm: #F2EEE6;
+    --accent: #1A6B45;
+    --accent-light: #E3F2EB;
+    --accent-2: #C44B1A;
+    --accent-2-light: #FAEEE8;
+    --gold: #B8860B;
+    --gold-light: #FDF6E3;
+    --purple: #4A3B8C;
+    --border: #DDD9D0;
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --body: 'Lora', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── Cover ── */
+  .cover {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 41px
+    );
+  }
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 20px;
+  }
+  .cover-title {
+    font-family: var(--display);
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 1.0;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .cover-title span { color: #4ADE80; }
+  .cover-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    font-family: var(--body);
+    font-style: italic;
+  }
+  .cover-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .cover-meta-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+  }
+  .cover-meta-item strong {
+    display: block;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--paper-warm);
+    border-top: 3px solid var(--ink);
+    padding: 40px 0;
+  }
+  .toc-title {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 20px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 4px;
+  }
+  .toc-item {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--border);
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 14px;
+    transition: color 0.15s;
+  }
+  .toc-item:hover { color: var(--accent); }
+  .toc-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+
+  /* ── Section ── */
+  .section {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .section-intro {
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 680px;
+    margin-bottom: 36px;
+    line-height: 1.75;
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 32px 0 12px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 24px 0 10px;
+  }
+  p { margin-bottom: 16px; color: var(--ink-soft); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── Callout box ── */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+  }
+  .callout.warn { border-color: var(--accent-2); background: var(--accent-2-light); }
+  .callout.gold { border-color: var(--gold); background: var(--gold-light); }
+  .callout.dark { border-color: var(--ink); background: var(--paper-warm); }
+  .callout p { font-size: 15px; }
+  .callout strong { color: var(--ink); }
+
+  /* ── Code block ── */
+  .code-block {
+    background: var(--ink);
+    color: #A8E6C4;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 20px 24px;
+    border-radius: 8px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+  .code-block .cm { color: #5A6B5A; }
+  .code-block .kw { color: #7DD3FC; }
+  .code-block .num { color: #FCD34D; }
+  .code-block .str { color: #86EFAC; }
+
+  /* ── Formula box ── */
+  .formula {
+    background: linear-gradient(135deg, #0D0F12, #1A2A1A);
+    color: #4ADE80;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 2;
+    padding: 24px 28px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border: 1px solid rgba(74, 222, 128, 0.2);
+  }
+  .formula .label {
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .formula .result {
+    color: #FCD34D;
+    font-size: 16px;
+    font-weight: 500;
+    border-top: 1px solid rgba(74,222,128,0.2);
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  /* ── Table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 20px 0;
+  }
+  .data-table th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; color: var(--ink); }
+  .data-table tr:hover td { background: var(--paper-warm); }
+
+  /* ── Role cards ── */
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .role-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .role-icon { font-size: 28px; margin-bottom: 10px; }
+  .role-name {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .role-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.5; }
+
+  /* ── Scenario block ── */
+  .scenario {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+  .scenario-head {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .scenario-icon { font-size: 24px; }
+  .scenario-title {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .scenario-sub { font-size: 12px; opacity: 0.6; margin-top: 2px; }
+  .scenario-body { padding: 20px; }
+  .scenario-step {
+    display: flex; gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    align-items: flex-start;
+  }
+  .scenario-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 24px; height: 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-text { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  .step-text strong { color: var(--ink); }
+  .step-credit {
+    margin-left: auto; flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+
+  /* ── Flow diagram ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 24px 0;
+    position: relative;
+  }
+  .flow::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 24px; bottom: 24px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--border));
+  }
+  .flow-step {
+    display: flex; gap: 16px;
+    align-items: flex-start;
+    padding: 12px 0;
+    position: relative;
+  }
+  .flow-dot {
+    width: 40px; height: 40px;
+    background: var(--paper);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .flow-content { padding-top: 8px; }
+  .flow-title { font-family: var(--display); font-size: 15px; font-weight: 700; color: var(--ink); }
+  .flow-desc { font-size: 13px; color: var(--ink-muted); margin-top: 2px; line-height: 1.5; }
+
+  /* ── Architecture layers ── */
+  .arch-layer {
+    border-left: 4px solid;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    border-radius: 0 8px 8px 0;
+  }
+  .arch-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .arch-desc { font-size: 13px; line-height: 1.6; }
+  .arch-items { font-family: var(--mono); font-size: 12px; margin-top: 6px; opacity: 0.8; }
+
+  /* ── Badge inline ── */
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 500;
+    margin: 0 2px;
+  }
+  .badge-green { background: var(--accent-light); color: var(--accent); }
+  .badge-red { background: var(--accent-2-light); color: var(--accent-2); }
+  .badge-gold { background: var(--gold-light); color: var(--gold); }
+  .badge-ink { background: #E8E9EB; color: var(--ink); }
+
+  /* ── Credit economy ── */
+  .credit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .credit-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .credit-box-title {
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .credit-row {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13px;
+  }
+  .credit-row:last-child { border-bottom: none; }
+  .credit-val { font-family: var(--mono); font-weight: 500; }
+
+  /* ── Print / GitHub friendly ── */
+  @media print {
+    .cover { background: #000; }
+    .section { page-break-inside: avoid; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .credit-grid { grid-template-columns: 1fr; }
+    .role-grid { grid-template-columns: 1fr 1fr; }
+    .cover { padding: 48px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="container">
+    <div class="cover-eyebrow">System Documentation · v1.0 · Confidential</div>
+    <div class="cover-title">Reality<span>Check</span></div>
+    <div class="cover-sub">
+      A real-time, location-based truth network powered by proof,
+      community validation, and reputation — not opinions.
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>Network</strong>Polygon (Amoy testnet → Mainnet)</div>
+      <div class="cover-meta-item"><strong>Launch Zone</strong>Banjara Hills / Jubilee Hills, Hyderabad</div>
+      <div class="cover-meta-item"><strong>Payment</strong>₹5 per post via UPI (Razorpay)</div>
+      <div class="cover-meta-item"><strong>Incentive</strong>Credits system (no crypto distribution)</div>
+      <div class="cover-meta-item"><strong>Storage</strong>Polygon blockchain + PostgreSQL indexer</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TOC -->
+<div class="toc">
+  <div class="container">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-grid">
+      <a href="#s1" class="toc-item"><span class="toc-num">01</span>What is RealityCheck?</a>
+      <a href="#s2" class="toc-item"><span class="toc-num">02</span>How the System Works</a>
+      <a href="#s3" class="toc-item"><span class="toc-num">03</span>User Roles</a>
+      <a href="#s4" class="toc-item"><span class="toc-num">04</span>The Proof System</a>
+      <a href="#s5" class="toc-item"><span class="toc-num">05</span>Validation Engine</a>
+      <a href="#s6" class="toc-item"><span class="toc-num">06</span>Reputation & Trust Score</a>
+      <a href="#s7" class="toc-item"><span class="toc-num">07</span>Credits Economy</a>
+      <a href="#s8" class="toc-item"><span class="toc-num">08</span>Real-World Scenarios</a>
+      <a href="#s9" class="toc-item"><span class="toc-num">09</span>Technical Architecture</a>
+      <a href="#s10" class="toc-item"><span class="toc-num">10</span>Smart Contracts</a>
+      <a href="#s11" class="toc-item"><span class="toc-num">11</span>Payment Model</a>
+      <a href="#s12" class="toc-item"><span class="toc-num">12</span>City Launch Partners</a>
+      <a href="#s13" class="toc-item"><span class="toc-num">13</span>Anti-Gaming Rules</a>
+      <a href="#s14" class="toc-item"><span class="toc-num">14</span>FAQs</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S1 -->
+<div class="section" id="s1">
+  <div class="container">
+    <div class="section-num">Section 01</div>
+    <div class="section-title">What is RealityCheck?</div>
+    <div class="section-intro">
+      RealityCheck is a real-time truth network. Citizens post ground-level proof of
+      what is happening at physical locations — traffic jams, crowded malls, long queues,
+      full parking lots. The community validates these reports. Validated truth is stored
+      permanently on the Polygon blockchain and cannot be deleted or edited by anyone,
+      including the platform operators.
+    </div>
+
+    <div class="callout">
+      <p><strong>Core promise:</strong> "This report is on the blockchain. It cannot be deleted
+      by anyone — not even us. The truth is immutable."</p>
+    </div>
+
+    <h3>What problem does it solve?</h3>
+    <p>You want to go to GVK One Mall on a Saturday afternoon. Is the parking full?
+    Is the food court crowded? Google Maps shows you the location — it does not tell
+    you the reality right now. RealityCheck does. The information comes from people
+    who are physically there, verified by the community, stored permanently.</p>
+
+    <h3>Six categories of truth</h3>
+    <table class="data-table">
+      <tr><th>Category</th><th>What it covers</th><th>Staleness window</th><th>Example states</th></tr>
+      <tr><td>🚗 Traffic</td><td>Road congestion, accidents, slow zones</td><td>5 minutes</td><td>Busy · Moderate · Slow · Clear</td></tr>
+      <tr><td>☕ Crowd</td><td>Cafés, restaurants, public spaces</td><td>15 minutes</td><td>Busy · Moderate · Empty</td></tr>
+      <tr><td>🏢 Queue</td><td>Hospital OPD, banks, government offices</td><td>15 minutes</td><td>Long · Moderate · Short · Closed</td></tr>
+      <tr><td>🛍 Mall</td><td>Shopping malls, multiplexes</td><td>20 minutes</td><td>Busy · Moderate · Empty · Closed</td></tr>
+      <tr><td>🌧 Weather</td><td>Local rain, flooding, visibility</td><td>20 minutes</td><td>Raining · Flooding · Clear · Foggy</td></tr>
+      <tr><td>🅿 Parking</td><td>Open parking lots, mall parking</td><td>10 minutes</td><td>Full · Almost Full · Available · Closed</td></tr>
+    </table>
+
+    <div class="callout dark">
+      <p><strong>Dynamic categories:</strong> New categories can be added by the platform
+      operator by inserting one row in the database and calling one contract function.
+      No redeployment needed.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S2 -->
+<div class="section" id="s2">
+  <div class="container">
+    <div class="section-num">Section 02</div>
+    <div class="section-title">How the System Works</div>
+    <div class="section-intro">
+      The system has five layers. Each layer has one job. No layer does the job
+      of another layer.
+    </div>
+
+    <div class="arch-layer" style="border-color:#1A6B45;background:#E3F2EB">
+      <div class="arch-label" style="color:#1A6B45">Layer 1 — Proof Layer</div>
+      <div class="arch-desc">User captures reality. GPS location + timestamp + optional photo.
+      This is the raw evidence before any community verification.</div>
+      <div class="arch-items">GPS · Timestamp · Photo (IPFS hash) · Category · State</div>
+    </div>
+    <div class="arch-layer" style="border-color:#4A3B8C;background:#EDE8F8">
+      <div class="arch-label" style="color:#4A3B8C">Layer 2 — Blockchain Layer</div>
+      <div class="arch-desc">Post, validations, and outcome stored on Polygon. Immutable.
+      Cannot be deleted by anyone. This is the truth record.</div>
+      <div class="arch-items">PostCreated · ValidationSubmitted · PostFinalized · ReputationUpdated</div>
+    </div>
+    <div class="arch-layer" style="border-color:#C44B1A;background:#FAEEE8">
+      <div class="arch-label" style="color:#C44B1A">Layer 3 — Validation Layer</div>
+      <div class="arch-desc">Community confirms or disputes the post. Minimum 3 validators.
+      70% confirm threshold = VALID. Blind voting prevents herd bias.</div>
+      <div class="arch-items">3–5 validators · 70% threshold · Blind votes · Ground witness bonus</div>
+    </div>
+    <div class="arch-layer" style="border-color:#B8860B;background:#FDF6E3">
+      <div class="arch-label" style="color:#B8860B">Layer 4 — Indexer Layer</div>
+      <div class="arch-desc">Node.js service reads blockchain events, computes derived state,
+      and serves the API. Rebuilds from chain if database is wiped.</div>
+      <div class="arch-items">Feed queries · Confidence scores · Staleness detection · Gap cards</div>
+    </div>
+    <div class="arch-layer" style="border-color:#0D0F12;background:#F2EEE6">
+      <div class="arch-label" style="color:#0D0F12">Layer 5 — Credits Layer</div>
+      <div class="arch-desc">Off-chain incentive system. Credits earned by contributing accurate
+      posts and validations. Spent on platform features. No inflation by design.</div>
+      <div class="arch-items">Daily cap · Spending sinks · No transfer · No cash value</div>
+    </div>
+
+    <h3>The complete lifecycle of one post</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot">📍</div>
+        <div class="flow-content">
+          <div class="flow-title">User opens app</div>
+          <div class="flow-desc">App detects location via GPS. Geohash computed. Feed shows nearby truth. Gap cards show stale locations needing updates.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">📸</div>
+        <div class="flow-content">
+          <div class="flow-title">User posts a reality update</div>
+          <div class="flow-desc">Pays ₹5 via UPI. Takes photo (optional but recommended). Selects category and state. Post goes on-chain via relay server.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">⏳</div>
+        <div class="flow-content">
+          <div class="flow-title">Validation window opens</div>
+          <div class="flow-desc">3–5 nearby validators see the post. They confirm or dispute. Votes are hidden until window closes — prevents herd bias.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">⚖️</div>
+        <div class="flow-content">
+          <div class="flow-title">Post is finalized</div>
+          <div class="flow-desc">Contract computes outcome: VALID (≥70% confirms), INVALID (&lt;70%), or INCONCLUSIVE (&lt;3 validators). PostFinalized event emitted.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">⭐</div>
+        <div class="flow-content">
+          <div class="flow-title">Credits awarded, reputation updated</div>
+          <div class="flow-desc">Valid post: poster earns +2 credits, correct validators earn +1 each. Reputation scores updated on-chain for all participants.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">🌍</div>
+        <div class="flow-content">
+          <div class="flow-title">Feed updated, location state refreshed</div>
+          <div class="flow-desc">Indexer updates location_states table. Feed shows new truth. 120+ nearby users who check the app see accurate information.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S3 -->
+<div class="section" id="s3">
+  <div class="container">
+    <div class="section-num">Section 03</div>
+    <div class="section-title">User Roles</div>
+    <div class="section-intro">
+      There are four roles in the system. Three are user roles (earned through activity),
+      one is an operational role (appointed by the platform). Roles are not exclusive —
+      a Trusted User is also a Poster and a Validator.
+    </div>
+
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-icon">📸</div>
+        <div class="role-name">Poster</div>
+        <div class="role-desc">Any user who pays ₹5 to submit a reality update. No minimum reputation required. Everyone starts here.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">✅</div>
+        <div class="role-name">Validator</div>
+        <div class="role-desc">User who has made ≥1 valid post OR has reputation score ≥5.0. Can confirm or dispute others' posts. Cannot validate own posts.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">🏆</div>
+        <div class="role-name">Trusted User</div>
+        <div class="role-desc">Computed status, not a separate role. Score ≥20.0 (2,000 stored). Votes carry higher weight (3×). Shown as badge in UI. No contract change needed.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">🤝</div>
+        <div class="role-name">City Launch Partner (CLP)</div>
+        <div class="role-desc">Independent contractor hired by the platform to seed activity in a new city. Paid milestone-based, not per post. Never posts themselves.</div>
+      </div>
+    </div>
+
+    <h3>Role permissions matrix</h3>
+    <table class="data-table">
+      <tr><th>Action</th><th>Newbie</th><th>Poster (1+ post)</th><th>Validator</th><th>Trusted</th></tr>
+      <tr><td>Post a reality update</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>View feed</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Submit validation</td><td>✗</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Vote weight</td><td>—</td><td>1×</td><td>1.5×</td><td>3×</td></tr>
+      <tr><td>Ground witness bonus</td><td>✗</td><td>✓ if nearby</td><td>✓ if nearby</td><td>✓ if nearby</td></tr>
+      <tr><td>Earn credits from posts</td><td>if validated</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Earn credits from validation</td><td>✗</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Daily credit cap</td><td>10</td><td>10</td><td>10</td><td>10</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S4 -->
+<div class="section" id="s4">
+  <div class="container">
+    <div class="section-num">Section 04</div>
+    <div class="section-title">The Proof System</div>
+    <div class="section-intro">
+      Every post has an initial proof score before community validation.
+      Higher proof score = faster validation threshold reached = more credible post.
+    </div>
+
+    <h3>Proof score components</h3>
+    <table class="data-table">
+      <tr><th>Component</th><th>Weight</th><th>How earned</th><th>Notes</th></tr>
+      <tr><td>GPS accuracy</td><td>20%</td><td>Device GPS confirms location within 50m of claimed geohash</td><td>Primary. Cannot be faked without physical presence.</td></tr>
+      <tr><td>Freshness</td><td>20%</td><td>Post submitted within staleness window of last update</td><td>A 2-min-old report on a stale location scores high.</td></tr>
+      <tr><td>Photo evidence</td><td>20%</td><td>Photo uploaded, IPFS hash stored on-chain</td><td>Optional but strongly encouraged. +20 points if present.</td></tr>
+      <tr><td>User reputation</td><td>20%</td><td>Poster's existing reputation score scaled to 0–20</td><td>Expert poster's posts start with higher initial credibility.</td></tr>
+      <tr><td>Community validation</td><td>20%</td><td>Added after validation: (confirmCount/totalVotes) × 20</td><td>Final proof score only known after finalization.</td></tr>
+    </table>
+
+    <div class="formula">
+      <span class="label">Initial Proof Score (before validation)</span>
+      ProofScore_initial = GPS(0–20) + Freshness(0–20) + Photo(0 or 20) + Reputation(0–20)<br>
+      <br>
+      <span class="label">Final Proof Score (after validation)</span>
+      ProofScore_final = ProofScore_initial + Validation(0–20)<br>
+      <br>
+      <span class="result">Maximum possible: 100 · Minimum for display: 0</span>
+    </div>
+
+    <h3>GPS precision model</h3>
+    <table class="data-table">
+      <tr><th>Geohash precision</th><th>Area covered</th><th>Use in system</th></tr>
+      <tr><td>4 chars (e.g. tdr5)</td><td>~40 × 20 km</td><td>Zone config in admin panel</td></tr>
+      <tr><td>5 chars (e.g. tdr5r)</td><td>~5 × 5 km</td><td>Feed grouping, gap card detection</td></tr>
+      <tr><td>6 chars (e.g. tdr5r8)</td><td>~1 × 0.5 km</td><td>Stored in PostCreated event for precise analytics</td></tr>
+    </table>
+
+    <div class="callout">
+      <p><strong>Pincode fallback:</strong> If GPS is unavailable, user enters pincode.
+      Pincode → lat/long → geohash via geocoding API. Proof score is capped at 50%
+      for pincode-based posts (GPS component is 0). Credits earned are halved.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S5 -->
+<div class="section" id="s5">
+  <div class="container">
+    <div class="section-num">Section 05</div>
+    <div class="section-title">Validation Engine</div>
+    <div class="section-intro">
+      Validation is the truth mechanism. Without it, a post is just a claim.
+      The validation engine turns claims into verified truth.
+    </div>
+
+    <h3>Validation rules (all enforced in smart contract)</h3>
+    <table class="data-table">
+      <tr><th>Rule</th><th>Value</th><th>Why</th></tr>
+      <tr><td>Minimum validators</td><td>3</td><td>Prevents 1-person manipulation</td></tr>
+      <tr><td>Maximum validators</td><td>5</td><td>Prevents gas explosion, bounds loop</td></tr>
+      <tr><td>Confidence threshold</td><td>70%</td><td>Supermajority needed for VALID</td></tr>
+      <tr><td>Validation window</td><td>Per category (5–20 min)</td><td>Matches reality change rate</td></tr>
+      <tr><td>Self-validation</td><td>Not allowed</td><td>Cannot confirm own post</td></tr>
+      <tr><td>Rate limit</td><td>10 validations/hour</td><td>Prevents spam farming</td></tr>
+      <tr><td>Blind voting</td><td>Yes — votes hidden until window closes</td><td>Prevents herd bias</td></tr>
+      <tr><td>Eligibility</td><td>Must have ≥1 valid post OR score ≥5.0</td><td>Cold start friendly</td></tr>
+    </table>
+
+    <h3>Outcome calculation</h3>
+    <div class="formula">
+      <span class="label">Confidence Score</span>
+      confidence = (confirmCount / totalVotes) × 100<br>
+      <br>
+      <span class="label">Outcome Rules</span>
+      if totalVotes &lt; MIN_VALIDATORS (3):  outcome = INCONCLUSIVE<br>
+      if confidence ≥ 70:                   outcome = VALID<br>
+      if confidence &lt; 70:                  outcome = INVALID<br>
+      <br>
+      <span class="result">Example: 4 votes, 3 confirms → confidence = 75% → VALID ✓</span>
+    </div>
+
+    <h3>Ground Witness Bonus</h3>
+    <p>A validator who is physically within 500m of the reported location at validation
+    time receives a "Ground Witness" bonus. Their vote carries 1.5× weight in the
+    confidence calculation. This is determined by GPS proximity check at vote submission time.</p>
+
+    <div class="callout gold">
+      <p><strong>Why blind voting matters:</strong> If validators can see prior votes,
+      the first vote anchors all subsequent votes (herd bias). Studies show 40–60%
+      of secondary voters simply follow the first vote. Blind voting forces each validator
+      to make an independent decision based on the photo evidence alone.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S6 -->
+<div class="section" id="s6">
+  <div class="container">
+    <div class="section-num">Section 06</div>
+    <div class="section-title">Reputation &amp; Trust Score</div>
+    <div class="section-intro">
+      Reputation is the system's memory. It tracks how reliable each user has been
+      historically and uses that to weight their future contributions.
+    </div>
+
+    <h3>On-chain vs off-chain split</h3>
+    <p><strong>On-chain (stored in ReputationRegistryV1):</strong> Raw counts
+    (totalPosts, validPosts, totalValidations, correctValidations) and current score integer.
+    Permanent, immutable, cannot be manipulated.</p>
+    <p><strong>Off-chain (computed in indexer):</strong> Display score (score ÷ 100),
+    tier label, accuracy percentages, "people helped" metric, activity graphs.</p>
+
+    <h3>Score mechanics</h3>
+    <table class="data-table">
+      <tr><th>Action</th><th>Score change</th><th>Reason</th></tr>
+      <tr><td>Post outcome: VALID</td><td>+1.50 (stored as +150)</td><td>High reward for accurate posting</td></tr>
+      <tr><td>Post outcome: INVALID</td><td>−1.00 (stored as −100)</td><td>Penalty for inaccurate posts</td></tr>
+      <tr><td>Post outcome: INCONCLUSIVE</td><td>0</td><td>Not enough data to judge</td></tr>
+      <tr><td>Validation: correct</td><td>+0.30 (stored as +30)</td><td>Smaller gain — validation easier than posting</td></tr>
+      <tr><td>Validation: wrong</td><td>−0.10 (stored as −10)</td><td>Light penalty — wrong isn't always obvious</td></tr>
+      <tr><td>Inactivity decay (7 days)</td><td>×0.95 (5% reduction)</td><td>Scores reflect recent activity, not history</td></tr>
+    </table>
+
+    <div class="formula">
+      <span class="label">Score stored as integer (×100 to avoid floats in Solidity)</span>
+      stored_score = display_score × 100<br>
+      <br>
+      Example: display score 18.4 → stored as 1840<br>
+      <br>
+      <span class="label">Decay formula (applied after 7 days inactivity)</span>
+      new_score = old_score × 95 / 100<br>
+      Floor: score never goes below 1 if previously above 0<br>
+      <br>
+      <span class="label">Score cap</span>
+      <span class="result">Maximum score: 10,000 stored (100.0 display). Expert tier ceiling.</span>
+    </div>
+
+    <h3>Reputation tiers</h3>
+    <table class="data-table">
+      <tr><th>Tier</th><th>Display range</th><th>Stored range</th><th>Validate?</th><th>Vote weight</th><th>Credit multiplier</th></tr>
+      <tr><td>🔘 Newbie</td><td>0.0 – 4.99</td><td>0 – 499</td><td>Only if ≥1 valid post</td><td>1×</td><td>1×</td></tr>
+      <tr><td>🟢 Contributor</td><td>5.0 – 19.99</td><td>500 – 1999</td><td>Yes</td><td>1.5×</td><td>1.1×</td></tr>
+      <tr><td>🔵 Trusted</td><td>20.0 – 49.99</td><td>2000 – 4999</td><td>Yes</td><td>3×</td><td>1.3×</td></tr>
+      <tr><td>⭐ Expert</td><td>50.0 – 100.0</td><td>5000 – 10000</td><td>Yes</td><td>6×</td><td>1.5×</td></tr>
+    </table>
+
+    <div class="callout">
+      <p><strong>"Trusted User" is not a new contract role.</strong> It is a computed
+      display tier derived from the reputation score by the indexer. No contract change
+      is needed to introduce it. The tier affects vote weight and credit multiplier,
+      both computed off-chain.</p>
+    </div>
+
+    <h3>Accuracy formula (displayed on profile)</h3>
+    <div class="formula">
+      <span class="label">Post accuracy</span>
+      postAccuracy = validPosts / totalPosts × 100<br>
+      <br>
+      <span class="label">Validation accuracy</span>
+      validationAccuracy = correctValidations / totalValidations × 100<br>
+      <br>
+      <span class="label">Overall accuracy (for display)</span>
+      overallAccuracy = (validationAccuracy × 0.70) + (postAccuracy × 0.30)<br>
+      <br>
+      <span class="result">Validation weighted higher — it is harder to game than posting</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S7 -->
+<div class="section" id="s7">
+  <div class="container">
+    <div class="section-num">Section 07</div>
+    <div class="section-title">Credits Economy</div>
+    <div class="section-intro">
+      Credits are the platform's participation incentive. They have no cash value,
+      cannot be transferred, and cannot be converted to money. Their sole purpose is
+      to reward contribution and unlock platform features.
+    </div>
+
+    <div class="callout warn">
+      <p><strong>Anti-inflation design rule:</strong> Total credits that can be spent
+      must exceed total credits that can be earned. Spending sinks are stronger than
+      earning rates. This prevents credit hyperinflation which would make them worthless.</p>
+    </div>
+
+    <div class="credit-grid">
+      <div class="credit-box" style="border-color:#1A6B45">
+        <div class="credit-box-title" style="color:#1A6B45">Earning credits</div>
+        <div class="credit-row">
+          <span>Valid post confirmed</span>
+          <span class="credit-val" style="color:#1A6B45">+2</span>
+        </div>
+        <div class="credit-row">
+          <span>Gap post (stale area)</span>
+          <span class="credit-val" style="color:#1A6B45">+3</span>
+        </div>
+        <div class="credit-row">
+          <span>Correct validation</span>
+          <span class="credit-val" style="color:#1A6B45">+1</span>
+        </div>
+        <div class="credit-row">
+          <span>Ground witness bonus</span>
+          <span class="credit-val" style="color:#1A6B45">+0.5</span>
+        </div>
+        <div class="credit-row" style="font-style:italic">
+          <span>Daily cap (all sources)</span>
+          <span class="credit-val" style="color:#C44B1A">max 10</span>
+        </div>
+      </div>
+      <div class="credit-box" style="border-color:#C44B1A">
+        <div class="credit-box-title" style="color:#C44B1A">Spending credits (sinks)</div>
+        <div class="credit-row">
+          <span>Boost post visibility</span>
+          <span class="credit-val" style="color:#C44B1A">−5</span>
+        </div>
+        <div class="credit-row">
+          <span>Highlight post in feed</span>
+          <span class="credit-val" style="color:#C44B1A">−3</span>
+        </div>
+        <div class="credit-row">
+          <span>Priority validation queue</span>
+          <span class="credit-val" style="color:#C44B1A">−2</span>
+        </div>
+        <div class="credit-row">
+          <span>Unlock location analytics</span>
+          <span class="credit-val" style="color:#C44B1A">−2</span>
+        </div>
+        <div class="credit-row">
+          <span>Saved places alerts</span>
+          <span class="credit-val" style="color:#C44B1A">−1/month</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Credit rules (locked — cannot change without product decision)</h3>
+    <table class="data-table">
+      <tr><th>Rule</th><th>Value</th></tr>
+      <tr><td>Can transfer to another user</td><td>❌ Never</td></tr>
+      <tr><td>Can sell for cash</td><td>❌ Never</td></tr>
+      <tr><td>Can convert to MATIC/crypto</td><td>❌ Never</td></tr>
+      <tr><td>Expire if unused</td><td>Credits do not expire in v1</td></tr>
+      <tr><td>Daily earning cap</td><td>10 credits per day</td></tr>
+      <tr><td>Stored on blockchain</td><td>❌ Backend DB only</td></tr>
+      <tr><td>Affected by contract upgrade</td><td>❌ Fully off-chain, survives contract changes</td></tr>
+    </table>
+
+    <h3>Credit inflation protection — the math</h3>
+    <div class="formula">
+      <span class="label">Maximum daily earn at cap</span>
+      Max earn = 10 credits/day<br>
+      <br>
+      <span class="label">Example: active user, 30 days</span>
+      Total earn = 10 × 30 = 300 credits (theoretical maximum)<br>
+      <br>
+      <span class="label">Minimum spend to maintain visibility</span>
+      Boost post (weekly) = 5 credits × 4 = 20 credits/month<br>
+      Alerts (2 locations) = 2 credits/month<br>
+      Total minimum spend = ~22 credits/month<br>
+      <br>
+      <span class="result">A very active user accumulates ~278 credits/month. Spending sinks
+      create natural consumption. Casual users accumulate slowly.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S8 -->
+<div class="section" id="s8">
+  <div class="container">
+    <div class="section-num">Section 08</div>
+    <div class="section-title">Real-World Scenarios</div>
+    <div class="section-intro">
+      These scenarios show how the system works in practice for each category.
+      Each scenario traces the full lifecycle from post to validated truth.
+    </div>
+
+    <!-- Scenario 1: Traffic -->
+    <div class="scenario">
+      <div class="scenario-head">
+        <div class="scenario-icon">🚗</div>
+        <div>
+          <div class="scenario-title">Scenario 1 — Traffic: PVNR Expressway jam</div>
+          <div class="scenario-sub">Category: Traffic · Staleness window: 5 minutes</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Priya</strong> is stuck in traffic on PVNR Expressway at 8:47 AM. She opens RealityCheck. The last update was 6 minutes ago (stale). She sees a gap card: "No update — PVNR Expressway · Earn +3 credits".</div>
+          <span class="step-credit">Gap card shown</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Priya posts:</strong> Category=Traffic, State=Busy, takes a photo of the jam. Pays ₹5 via Google Pay. Post goes on Polygon. Validation window opens: 5 minutes.</div>
+          <span class="step-credit">PostCreated event</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>3 nearby validators</strong> (Ravi, Amit, Sneha) see the post in their validate feed. Each independently confirms — they can also see the PVNR jam from the photo. Votes are hidden from each other.</div>
+          <span class="step-credit">3 ValidationSubmitted</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>Finalization:</strong> 3 confirms, 0 disputes. Confidence = 100%. Outcome = VALID. PostFinalized event emitted. Location state updated to Busy.</div>
+          <span class="step-credit">VALID 100%</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">5</div>
+          <div class="step-text"><strong>Credits:</strong> Priya earns +3 (gap post bonus). Ravi, Amit, Sneha each earn +1 (correct validation). <strong>Rahul</strong> opens app while planning to take PVNR — sees "Busy · 100% confidence · 47s ago" and takes the service road instead.</div>
+          <span class="step-credit">+3 +1 +1 +1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 2: Parking -->
+    <div class="scenario">
+      <div class="scenario-head">
+        <div class="scenario-icon">🅿</div>
+        <div>
+          <div class="scenario-title">Scenario 2 — Parking: Inorbit Mall parking full</div>
+          <div class="scenario-sub">Category: Parking · Staleness window: 10 minutes</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Kiran</strong> just drove 20 minutes to Inorbit Mall. Parking is completely full. He sees no recent update in the app (12 minutes stale). Gap card visible: "Earn +3 credits".</div>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Kiran posts:</strong> Parking=Full, photo of "FULL" sign at entrance. Pays ₹5. Post on-chain. Validation window: 10 minutes.</div>
+          <span class="step-credit">PostCreated</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>2 of 3 validators confirm, 1 disputes</strong> (they think adjacent street parking counts). Confidence = 67% — below 70% threshold.</div>
+          <span class="step-credit">Confidence 67%</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>4th validator joins:</strong> Also confirms from inside mall (ground witness bonus applies). Now 3 confirms, 1 dispute. Confidence = 75%. Threshold crossed: VALID.</div>
+          <span class="step-credit">VALID 75%</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">5</div>
+          <div class="step-text"><strong>Deepa</strong> is 5 minutes away from Inorbit by car. Opens app. Sees "Parking: Full · 75% confidence · 3 min ago". Takes alternative route to Phoenix Mall instead. <strong>Saved 25 minutes.</strong></div>
+          <span class="step-credit">1 person helped</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 3: Mall crowd -->
+    <div class="scenario">
+      <div class="scenario-head">
+        <div class="scenario-icon">🛍</div>
+        <div>
+          <div class="scenario-title">Scenario 3 — Mall: GVK One Mall crowd on weekend</div>
+          <div class="scenario-sub">Category: Mall · Staleness window: 20 minutes</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Two competing posts:</strong> Arjun posts "Moderate" at 2:00 PM. Sunita posts "Busy" at 2:18 PM (just before Arjun's post becomes stale). Both are in the validation queue simultaneously.</div>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Arjun's post:</strong> 3 validators, 2 confirm (Moderate), 1 disputes. Confidence = 67%. INVALID — the mall was already getting crowded.</div>
+          <span class="step-credit">INVALID 67%</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Sunita's post:</strong> 4 validators, 4 confirms (Busy). Confidence = 100%. VALID. Location state updated to Busy.</div>
+          <span class="step-credit">VALID 100%</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>Arjun's reputation:</strong> Post INVALID → −1.00 score. Correct validators (who disputed) earn +0.30 score each. Incorrect confirmers get −0.10 each. System self-corrects.</div>
+          <span class="step-credit">Reputation updated</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">5</div>
+          <div class="step-text"><strong>Feed shows:</strong> GVK One Mall → Busy · 100% confidence · 2m ago · 📸 photo verified. <strong>73 people</strong> see this before deciding whether to go. System works even when one post is wrong — community corrects it.</div>
+          <span class="step-credit">73 helped</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 4: Queue -->
+    <div class="scenario">
+      <div class="scenario-head">
+        <div class="scenario-icon">🏢</div>
+        <div>
+          <div class="scenario-title">Scenario 4 — Queue: Apollo Hospital OPD</div>
+          <div class="scenario-sub">Category: Queue · Staleness window: 15 minutes</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Meera</strong> posts "Queue: Long" at Apollo Hospital OPD at 9:15 AM with a photo of the waiting room. Gap post (20 min stale). Pays ₹5.</div>
+          <span class="step-credit">Gap post +3</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Validators struggle:</strong> Only 2 validators are in the area. Validation window runs out after 15 minutes. Only 2 votes — below MIN_VALIDATORS (3).</div>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Outcome: INCONCLUSIVE.</strong> PostFinalized emitted with outcome=INCONCLUSIVE. Meera earns 0 credits. Validators earn 0 credits. No reputation change for anyone. Location state remains stale.</div>
+          <span class="step-credit">INCONCLUSIVE</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>Learning:</strong> Apollo Hospital OPD is a location with low validator density. System detects this pattern. Admin can reduce MIN_VALIDATORS for Queue category in low-density zones, or CLP can seed more validators in this area.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 5: Weather -->
+    <div class="scenario">
+      <div class="scenario-head">
+        <div class="scenario-icon">🌧</div>
+        <div>
+          <div class="scenario-title">Scenario 5 — Weather: Flash flooding on Road No. 36</div>
+          <div class="scenario-sub">Category: Weather · Staleness window: 20 minutes</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Heavy rain</strong> causes flash flooding at Jubilee Hills Road No. 36 at 4:30 PM. <strong>Vikram</strong> posts "Weather: Flooding" with a video still photo. This is the highest-urgency post type in the system.</div>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>5 validators rapidly confirm</strong> — many people can see the flooding from the photo. MAX_VALIDATORS (5) reached in 4 minutes. Auto-finalization triggered immediately (threshold reached, no need to wait for window).</div>
+          <span class="step-credit">Auto-finalized</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>VALID in 4 minutes.</strong> Location state: Flooding · 100% confidence · 4m ago. Feed highlights this with high urgency. Gap card algorithm marks surrounding roads as potentially affected — prompts neighbouring posters.</div>
+          <span class="step-credit">VALID 100%</span>
+        </div>
+        <div class="scenario-step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>120+ users</strong> in Jubilee Hills see the alert before attempting to use Road 36. The flooding post stays visible as current truth until 20 minutes pass with no confirming update. Then it becomes stale and a new gap card appears.</div>
+          <span class="step-credit">120+ helped</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S9 -->
+<div class="section" id="s9">
+  <div class="container">
+    <div class="section-num">Section 09</div>
+    <div class="section-title">Technical Architecture</div>
+
+    <h3>System components</h3>
+    <table class="data-table">
+      <tr><th>Component</th><th>Technology</th><th>Role</th></tr>
+      <tr><td>Blockchain</td><td>Polygon (PoS)</td><td>Immutable event storage. PostCreated, ValidationSubmitted, PostFinalized, ReputationUpdated.</td></tr>
+      <tr><td>Smart contracts</td><td>Solidity 0.8.28</td><td>3 contracts: Core, Treasury, Reputation. Deployed once, upgradeable via admin functions.</td></tr>
+      <tr><td>Indexer</td><td>Node.js</td><td>Reads chain events, builds PostgreSQL tables, serves REST API. Rebuildable from chain.</td></tr>
+      <tr><td>Database</td><td>PostgreSQL (Supabase)</td><td>11 tables: posts, validations, rewards, reputation_events, location_states, location_slots, user_stats, zones, categories, config_changes, indexer_checkpoints.</td></tr>
+      <tr><td>Media storage</td><td>IPFS via Pinata</td><td>Photos uploaded to IPFS. CID hash stored on-chain. Permanent, decentralised.</td></tr>
+      <tr><td>UPI payments</td><td>Razorpay</td><td>₹5 fee collection. Merchant account receives INR. No crypto conversion in v1.</td></tr>
+      <tr><td>Frontend</td><td>HTML/CSS/JS</td><td>5 pages: Feed, Validate, Post, Location, Profile. Hosted on GitHub Pages.</td></tr>
+      <tr><td>Admin panel</td><td>Simple web dashboard</td><td>Zone control, category management, staleness window config, monitoring.</td></tr>
+    </table>
+
+    <h3>Data flow</h3>
+    <div class="code-block">
+<span class="cm">// User submits post</span>
+User (UPI) → Razorpay → Relay Server → submitPost() → Polygon
+User (Wallet) → MetaMask → submitPost() → Polygon
+
+<span class="cm">// Indexer reads events</span>
+Polygon event → Indexer listener → PostgreSQL
+  posts table ← PostCreated event
+  validations table ← ValidationSubmitted event
+  location_states ← PostFinalized (derived, updated)
+  user_stats ← ReputationUpdated (derived, updated)
+
+<span class="cm">// Frontend reads</span>
+Frontend → REST API → PostgreSQL → User sees feed
+Frontend → REST API → /config → Zones, categories, active contract version
+
+<span class="cm">// Credits (fully off-chain)</span>
+PostFinalized event → Indexer → credits table → +2 credits to poster
+ValidationSubmitted + PostFinalized → credits table → +1 to validators
+    </div>
+
+    <h3>Multi-version contract support</h3>
+    <p>When V2 contracts are deployed, the indexer reads events from both V1 and V2
+    addresses simultaneously. All data flows into the same database tables with a
+    <code>contract_version</code> column for attribution. Frontend sees unified feed.
+    No schema migration. No downtime.</p>
+
+    <h3>Chain reorg safety</h3>
+    <p>Polygon can reorg. Events from recent blocks may be replaced. The indexer
+    waits for <strong>10 block confirmations</strong> before writing derived state
+    (location_states, user_stats). Chain mirror tables (posts, validations) are
+    written immediately but marked <code>confirmed=FALSE</code> until 10 blocks pass.
+    Practical effect: ~20 second delay between posting and appearing in feed.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S10 -->
+<div class="section" id="s10">
+  <div class="container">
+    <div class="section-num">Section 10</div>
+    <div class="section-title">Smart Contracts</div>
+
+    <h3>Contract 1 — RealityCheckCoreV1</h3>
+    <p><strong>Role:</strong> Truth and orchestration. Post creation, validation submission, finalization.</p>
+    <table class="data-table">
+      <tr><th>Function</th><th>Access</th><th>What it does</th></tr>
+      <tr><td>submitPost()</td><td>Anyone / Relay</td><td>Creates post. Conditional payment: Mode A requires msg.value=0, Mode B requires msg.value=postFeeWei.</td></tr>
+      <tr><td>submitValidation()</td><td>Wallet users only</td><td>Submit confirm or dispute. Rate limited, eligibility gated, no self-validation.</td></tr>
+      <tr><td>finalizePost()</td><td>Anyone (public)</td><td>Trigger finalization after window expires. Permissionless — prevents stuck posts.</td></tr>
+      <tr><td>enableCryptoPayment()</td><td>Owner only</td><td>One-way flag. Activates on-chain payments, sets Treasury address and fee. Cannot be reversed.</td></tr>
+      <tr><td>setStalenessWindow()</td><td>Owner only</td><td>Update per-category validation window. New category = just call with new ID.</td></tr>
+      <tr><td>setRelayWallet()</td><td>Owner only</td><td>Whitelist / revoke relay wallet. Rotate key without redeployment.</td></tr>
+    </table>
+
+    <h3>Contract 2 — RewardTreasuryV1</h3>
+    <p><strong>Role:</strong> Fee accounting and payouts. Dormant in Mode A (no funds on-chain).</p>
+    <table class="data-table">
+      <tr><th>Function</th><th>Access</th><th>What it does</th></tr>
+      <tr><td>registerFee()</td><td>Core only</td><td>Receives ₹5 fee. Splits: 20% platform, 60% poster pool, 20% validator pool.</td></tr>
+      <tr><td>evaluateReward()</td><td>Core only</td><td>Re-verifies 3 conditions independently: VALID outcome + genuinely stale + slot available.</td></tr>
+      <tr><td>distributeValidatorRewards()</td><td>Core only</td><td>Equal split of validator pool among correct voters. Max 5 validators.</td></tr>
+      <tr><td>claimRewards()</td><td>Wallet users</td><td>CEI pattern. Zero before transfer. Reentrancy guarded.</td></tr>
+      <tr><td>claimUPIRewards()</td><td>Wallet users</td><td>Signature-based. User signs reporterIds. Includes chainId. Replay protected.</td></tr>
+      <tr><td>withdrawPlatformFees()</td><td>Owner only</td><td>Monthly platform revenue withdrawal.</td></tr>
+      <tr><td>announceEmergencyWithdraw()</td><td>Owner only</td><td>Start 48-hour timelock. Visible on-chain. Only withdraws platformBalance — never user rewards.</td></tr>
+    </table>
+
+    <h3>Contract 3 — ReputationRegistryV1</h3>
+    <p><strong>Role:</strong> Trust scoring. Does not hold funds. Lightweight by design.</p>
+    <table class="data-table">
+      <tr><th>Function</th><th>Access</th><th>What it does</th></tr>
+      <tr><td>isEligibleValidator()</td><td>View</td><td>Returns true if score ≥ 500 OR validPosts ≥ 1. Called by Core before accepting vote.</td></tr>
+      <tr><td>isEligible()</td><td>View</td><td>Short alias for frontend direct calls.</td></tr>
+      <tr><td>updateScores()</td><td>Core only</td><td>Updates poster and all validators after finalization. Bounded loops (max 5 validators).</td></tr>
+      <tr><td>applyDecay()</td><td>Anyone</td><td>5% decay after 7 days inactivity. Resets activity timer to prevent spam calls.</td></tr>
+      <tr><td>getReputation()</td><td>View</td><td>Returns score, tier, counts, eligibility, lastActivityAt for any wallet.</td></tr>
+    </table>
+
+    <h3>cryptoPaymentEnabled flag</h3>
+    <div class="code-block">
+<span class="cm">// Default at deployment: Mode A — UPI only, no funds on-chain</span>
+bool public cryptoPaymentEnabled = false;
+
+<span class="cm">// When ready (after legal clearance + audit):</span>
+<span class="kw">function</span> enableCryptoPayment(address _treasury, uint256 _feeWei) external onlyOwner {
+    <span class="cm">// One-way — cannot be disabled. Protects user reward flow.</span>
+    cryptoPaymentEnabled = true;
+    cryptoTreasuryAddress = _treasury;
+    postFee = _feeWei;
+}
+
+<span class="cm">// submitPost conditional payment check:</span>
+if (cryptoPaymentEnabled) {
+    require(msg.value == postFee, <span class="str">"Core: incorrect fee"</span>);
+} else {
+    require(msg.value == 0, <span class="str">"Core: no ETH in UPI mode"</span>);
+}
+    </div>
+
+    <h3>Deployment order (Amoy testnet → Mainnet)</h3>
+    <div class="code-block">
+<span class="num">1.</span> Deploy ReputationRegistryV1(_coreContract=placeholder)
+   → Save: REPUTATION_ADDRESS
+
+<span class="num">2.</span> Deploy RewardTreasuryV1(_coreContract=placeholder)
+   → Save: TREASURY_ADDRESS
+
+<span class="num">3.</span> Deploy RealityCheckCoreV1(_reputationReg=REPUTATION_ADDRESS)
+   → Save: CORE_ADDRESS
+   Note: No postFee or treasury in constructor (Mode A default)
+
+<span class="num">4.</span> ReputationRegistryV1.setCoreContract(CORE_ADDRESS)
+<span class="num">5.</span> RewardTreasuryV1.setCoreContract(CORE_ADDRESS)
+<span class="num">6.</span> RealityCheckCoreV1.setRelayWallet(RELAY_ADDRESS, true)
+<span class="num">7.</span> Verify all 3 contracts on Polygonscan (use Remix Flatten feature)
+<span class="num">8.</span> Update contract_versions table in DB with deployed addresses
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S11 -->
+<div class="section" id="s11">
+  <div class="container">
+    <div class="section-num">Section 11</div>
+    <div class="section-title">Payment Model</div>
+
+    <h3>Mode A — UPI only (launch default)</h3>
+    <table class="data-table">
+      <tr><th>Flow step</th><th>What happens</th><th>Who controls</th></tr>
+      <tr><td>User pays ₹5</td><td>Razorpay collects via UPI. Stays as INR in merchant account.</td><td>Razorpay (regulated)</td></tr>
+      <tr><td>Relay submits post</td><td>Relay calls submitPost with msg.value=0. No MATIC in contract.</td><td>Relay server</td></tr>
+      <tr><td>Relay gas cost</td><td>~₹0.50 per post in MATIC. Relay wallet needs weekly top-up.</td><td>Platform operator</td></tr>
+      <tr><td>User reward</td><td>Credits only. Off-chain. No MATIC distribution.</td><td>Backend DB</td></tr>
+      <tr><td>Platform revenue</td><td>₹5 per post stays in Razorpay merchant account as INR.</td><td>Razorpay settlement</td></tr>
+    </table>
+
+    <h3>Mode B — Crypto enabled (future, one-way switch)</h3>
+    <table class="data-table">
+      <tr><th>User type</th><th>Payment</th><th>Reward</th></tr>
+      <tr><td>Wallet user (MetaMask)</td><td>Pays postFeeWei MATIC directly in transaction</td><td>MATIC from Treasury + credits</td></tr>
+      <tr><td>UPI user</td><td>Pays ₹5 via Razorpay. Relay pays postFeeWei from MATIC float.</td><td>Credits only (no MATIC)</td></tr>
+    </table>
+
+    <h3>Relay wallet operations</h3>
+    <table class="data-table">
+      <tr><th></th><th>Mode A</th><th>Mode B</th></tr>
+      <tr><td>Weekly top-up needed</td><td>Gas only (~₹500–1,000/week at 500 posts)</td><td>Gas + fees (~₹3,000/week at 500 posts)</td></tr>
+      <tr><td>Top-up source</td><td>Buy MATIC from exchange monthly</td><td>Convert Razorpay earnings to MATIC</td></tr>
+      <tr><td>Regulatory risk</td><td>Zero — no crypto rewards to users</td><td>Low-medium — get legal opinion first</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S12 -->
+<div class="section" id="s12">
+  <div class="container">
+    <div class="section-num">Section 12</div>
+    <div class="section-title">City Launch Partners (CLP)</div>
+    <div class="section-intro">
+      CLPs solve the cold-start problem. A new area with no users has no data.
+      CLPs seed the first cohort of active users in a specific neighbourhood.
+    </div>
+
+    <h3>What CLPs do and don't do</h3>
+    <div class="credit-grid">
+      <div class="credit-box" style="border-color:#1A6B45">
+        <div class="credit-box-title" style="color:#1A6B45">CLP does ✓</div>
+        <div class="credit-row"><span>Onboards first 50–200 users in one area</span></div>
+        <div class="credit-row"><span>Educates users on how the app works</span></div>
+        <div class="credit-row"><span>Seeds initial activity density</span></div>
+        <div class="credit-row"><span>Creates first WhatsApp/community seeding</span></div>
+      </div>
+      <div class="credit-box" style="border-color:#C44B1A">
+        <div class="credit-box-title" style="color:#C44B1A">CLP does NOT ✗</div>
+        <div class="credit-row"><span>Post fake updates themselves</span></div>
+        <div class="credit-row"><span>Get paid per post</span></div>
+        <div class="credit-row"><span>Receive ongoing commission</span></div>
+        <div class="credit-row"><span>Control data or influence truth</span></div>
+      </div>
+    </div>
+
+    <h3>Verified Active User (VAU) definition</h3>
+    <div class="callout">
+      <p>A <strong>VAU</strong> is a user who has: (1) verified phone number via OTP,
+      (2) made at least 1 post that reached VALID outcome, (3) submitted at least 5 validations,
+      (4) had at least 1 correct validation. This definition cannot be gamed without physical
+      presence near real locations.</p>
+    </div>
+
+    <h3>Milestone payout structure</h3>
+    <table class="data-table">
+      <tr><th>Milestone</th><th>Target</th><th>Payout</th><th>Why this metric</th></tr>
+      <tr><td>Level 1</td><td>50 VAUs in one area</td><td>₹1,000</td><td>Forces focus on one neighbourhood — density over geography</td></tr>
+      <tr><td>Level 2</td><td>100 VAUs + 500 total validations</td><td>₹2,500</td><td>Ensures users actually validate — the truth layer is working</td></tr>
+      <tr><td>Level 3</td><td>2-week retention rate &gt; 30%</td><td>₹5,000</td><td>Proves app is genuinely useful — users came back on their own</td></tr>
+    </table>
+
+    <h3>Legal and operational rules</h3>
+    <table class="data-table">
+      <tr><th>Rule</th><th>Detail</th></tr>
+      <tr><td>Agreement type</td><td>Independent Contractor Agreement (not employment)</td></tr>
+      <tr><td>Payment recording</td><td>Marketing / Business Development expense</td></tr>
+      <tr><td>TDS threshold</td><td>Deduct 10% TDS if single CLP exceeds ₹30,000/year (Section 194J/194H)</td></tr>
+      <tr><td>Inactivity rule</td><td>No new VAU in 60 days → deactivate referral code</td></tr>
+      <tr><td>Reactivation</td><td>Must bring 5 VAUs in 7 days to reactivate</td></tr>
+      <tr><td>Max CLPs at launch</td><td>2 CLPs maximum in one area initially — test model first</td></tr>
+      <tr><td>Territorial incentive</td><td>City exclusivity for 6 months (non-cash incentive)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S13 -->
+<div class="section" id="s13">
+  <div class="container">
+    <div class="section-num">Section 13</div>
+    <div class="section-title">Anti-Gaming Rules</div>
+
+    <h3>How each attack vector is blocked</h3>
+    <table class="data-table">
+      <tr><th>Attack</th><th>Defence</th><th>Where enforced</th></tr>
+      <tr><td>Post fake data repeatedly</td><td>Each post costs ₹5. Invalid posts reduce reputation score −1.0. Cost + penalty makes spam unprofitable.</td><td>Contract + Reputation</td></tr>
+      <tr><td>Self-validation (confirm own post)</td><td>Hard require: msg.sender cannot equal post.posterWallet.</td><td>Contract (Core)</td></tr>
+      <tr><td>Spam validation farming</td><td>Rate limit: max 10 validations per hour. Smart contract enforced.</td><td>Contract (Core)</td></tr>
+      <tr><td>Colluding validators</td><td>Blind voting prevents coordination. Max 5 validators. Wrong validators lose reputation.</td><td>Contract + Reputation</td></tr>
+      <tr><td>GPS spoofing</td><td>Ground witness bonus detection. Proof score lower for GPS-spoofed posts (no real geohash match). Validators nearby can dispute.</td><td>Indexer + Reputation</td></tr>
+      <tr><td>New wallet spam (Sybil)</td><td>Each new wallet must make 1 valid post before validating. ₹5 fee per post makes mass wallet creation expensive.</td><td>Contract (Reputation)</td></tr>
+      <tr><td>Replay attack on UPI claim</td><td>Signature includes: msg.sender + reporterIds + contract address + chainId. Each signature stored and rejected if reused.</td><td>Contract (Treasury)</td></tr>
+      <tr><td>Owner draining user funds</td><td>Emergency withdraw restricted to platformBalance only. pendingRewards never touched by owner.</td><td>Contract (Treasury)</td></tr>
+      <tr><td>CLP fake user onboarding</td><td>VAU requires VALID post outcome (needs real validators) + 5 validations. Hard to fake at scale.</td><td>DB + Indexer</td></tr>
+      <tr><td>Double finalization</td><td>post.finalized = true set before any external calls. require(!post.finalized) on all paths.</td><td>Contract (Core)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ S14 -->
+<div class="section" id="s14">
+  <div class="container">
+    <div class="section-num">Section 14</div>
+    <div class="section-title">Frequently Asked Questions</div>
+
+    <h3>For users</h3>
+
+    <h4>Why does posting cost ₹5?</h4>
+    <p>The ₹5 fee prevents spam. Anyone can post anything for free — that produces
+    noise, not truth. The fee creates accountability: if your post is invalid,
+    you paid ₹5 for nothing. If it is valid, you earn credits and build reputation.
+    Accurate posts are net positive. Spam posts are net negative.</p>
+
+    <h4>What happens to my ₹5?</h4>
+    <p>In the current model (Mode A), ₹5 goes to the platform's Razorpay merchant
+    account as INR. It funds platform operations, relay gas costs, and CLP milestone
+    payouts. In future Mode B (crypto enabled), the fee is split: 60% to poster reward
+    pool, 20% to validator pool, 20% to platform.</p>
+
+    <h4>My post was marked INVALID. Why?</h4>
+    <p>Less than 70% of validators agreed with your assessment. Either the situation
+    changed between your post and the validation window, or validators disagreed
+    with your state label. INVALID posts reduce your reputation score by −1.0.
+    Repeated invalid posts reduce validation weight over time.</p>
+
+    <h4>Can I see who validated my post?</h4>
+    <p>Not during the validation window — votes are hidden to prevent herd bias.
+    After finalization, the validator addresses are visible on-chain at
+    polygonscan.com by searching your post transaction.</p>
+
+    <h4>What can I do with credits?</h4>
+    <p>Credits boost your posts in the feed, enable location alerts ("notify me when
+    GVK Mall is not busy"), unlock location analytics, and access the priority
+    validation queue. Credits cannot be transferred, sold, or converted to money.</p>
+
+    <h4>Is this like a gambling app?</h4>
+    <p>No. Rewards are based on accuracy (a skill), not chance. The ₹5 is a quality
+    fee, not a bet. Your outcome depends entirely on whether your reality report
+    matches what the community observes — which is verifiable.</p>
+
+    <h3>For validators</h3>
+
+    <h4>How do I become a validator?</h4>
+    <p>Make one post that gets validated as VALID. That is the only requirement to
+    start. Alternatively, reach a reputation score of 5.0 through any combination
+    of accurate posts and correct validations.</p>
+
+    <h4>What if I validate incorrectly?</h4>
+    <p>Your reputation score drops by −0.10. This is intentionally light — wrong
+    votes are not always obvious. Repeated wrong validations accumulate and
+    eventually reduce your vote weight and eligibility.</p>
+
+    <h3>Technical questions</h3>
+
+    <h4>Can the platform delete a post?</h4>
+    <p>No. Posts are stored on the Polygon blockchain. Once a PostCreated event
+    is emitted, it is permanent. Not even the smart contract owner can delete it.
+    The platform can choose not to display a post in the feed, but the underlying
+    data remains on-chain forever and is publicly readable by anyone.</p>
+
+    <h4>What happens if the platform shuts down?</h4>
+    <p>All post data, validation records, and reputation scores remain on the
+    Polygon blockchain indefinitely. The indexer database can be rebuilt by
+    anyone by replaying blockchain events from block 0. The frontend can be
+    re-hosted. The smart contracts continue to operate — they have no off switch.</p>
+
+    <h4>Is the contract audited?</h4>
+    <p>Not yet. The contracts follow security best practices (CEI pattern,
+    ReentrancyGuard, CEI, idempotency guards, replay protection) but have not
+    been reviewed by an independent audit firm. An audit is planned before mainnet
+    launch with significant volume.</p>
+
+    <h4>What is the cryptoPaymentEnabled flag?</h4>
+    <p>A one-way switch in the Core contract. Default is false — UPI only, no crypto
+    on-chain, zero regulatory risk. When the owner calls enableCryptoPayment(),
+    wallet users can pay MATIC directly and receive MATIC rewards. This cannot
+    be reversed once enabled. UPI users continue to work in both modes.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ FOOTER -->
+<div style="background:var(--ink);color:rgba(255,255,255,0.4);padding:40px 0;margin-top:0">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-family:var(--display);font-size:20px;font-weight:700;color:white;margin-bottom:4px">
+          ⚡ RealityCheck
+        </div>
+        <div style="font-family:var(--mono);font-size:11px">System Documentation v1.0</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;text-align:right">
+        <div>Truth is on-chain · Immutable · Forever</div>
+        <div style="margin-top:4px">Built on Polygon · Deployed: Amoy testnet</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
