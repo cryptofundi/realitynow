@@ -265,6 +265,48 @@ function freshnessLabel(minutesAgo) {
   return `${h}h ago`;
 }
 
+// Actionable hook — tells user what to DO with the information
+function actionHook(state, category) {
+  const hooks = {
+    traffic: {
+      SLOW:     '🚨 Congested — expect 15–20 min delay',
+      BUSY:     '⚠ Heavy traffic — consider alternate route',
+      MODERATE: '🟡 Moving slowly — allow extra time',
+      EMPTY:    '✅ Clear roads — good time to go',
+    },
+    crowd: {
+      BUSY:     '🔴 Packed — expect a wait',
+      MODERATE: '🟡 Moderately busy — seating available',
+      EMPTY:    '✅ Quiet — walk right in',
+    },
+    parking: {
+      BUSY:     '🅿 Full — find alternative parking first',
+      MODERATE: '🟡 Filling up — hurry or look nearby',
+      EMPTY:    '✅ Spots available — go now',
+    },
+    queue: {
+      BUSY:     '🔴 Long queue — bring something to read',
+      MODERATE: '🟡 Moderate wait — 20–30 min',
+      EMPTY:    '✅ Short queue — good time to visit',
+      CLOSED:   '🚫 Closed — check before going',
+    },
+    mall: {
+      BUSY:     '🔴 Very crowded — peak hours',
+      MODERATE: '🟡 Busy but manageable',
+      EMPTY:    '✅ Quiet — relaxed shopping',
+      CLOSED:   '🚫 Closed',
+    },
+    weather: {
+      BUSY:     '🌧 Raining — carry umbrella',
+      MODERATE: '🌦 Light rain — intermittent',
+      EMPTY:    '☀ Clear weather',
+      SLOW:     '🌊 Flooding reported — avoid area',
+    },
+  };
+  const cat = hooks[category] || {};
+  return cat[state] || '';
+}
+
 function freshnessClass(minutesAgo) {
   if (minutesAgo <= 5)  return 'high';
   if (minutesAgo <= 20) return 'medium';
@@ -322,6 +364,12 @@ function renderFeedCard(post, index = 0) {
             ${freshnessLabel(mins)}
           </div>
         </div>
+        ${actionHook(post.state, post.category) ? `
+        <div style="font-size:var(--text-xs);font-weight:500;
+                    color:var(--color-text-primary);padding:4px 0 6px;
+                    border-bottom:1px solid var(--color-border)">
+          ${actionHook(post.state, post.category)}
+        </div>` : ''}
         <div class="feed-card-confidence">
           ${stateBadge(post.state)}
           <div class="conf-bar-wrap">
