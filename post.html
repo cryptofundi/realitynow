@@ -75,7 +75,7 @@
           <span class="location-pill-icon">📍</span>
           <div class="location-pill-text">
             <div class="location-pill-name" id="detected-location">Jubilee Hills, Ward No. 36</div>
-            <div class="location-pill-sub">Auto-detected via GPS · <span style="color:var(--color-brand-primary)">Full rewards eligible</span></div>
+            <div class="location-pill-sub">Auto-detected via GPS · <span style="color:var(--color-brand-primary)">Full credits eligible</span></div>
           </div>
           <span class="location-pill-edit" onclick="editLocation()">Edit</span>
         </div>
@@ -84,7 +84,7 @@
             No GPS? Enter pincode instead →
           </span>
           <span style="font-size:var(--text-xs);color:var(--color-brand-primary);cursor:pointer" onclick="showPincode()">
-            Use pincode (50% rewards)
+            Use pincode (50% credits)
           </span>
         </div>
         <!-- Pincode fallback (hidden by default) -->
@@ -148,12 +148,12 @@
         <div class="form-label">How your ₹5 is used</div>
         <div class="fee-breakdown">
           <div class="fee-row">
-            <span class="fee-label">Your reward (if validated ≥70%)</span>
-            <span class="fee-value earn">up to ₹3</span>
+            <span class="fee-label">Credits earned (if validated ≥70%)</span>
+            <span class="fee-value earn">up to +3 credits</span>
           </div>
           <div class="fee-row">
-            <span class="fee-label">Validator rewards</span>
-            <span class="fee-value">₹1</span>
+            <span class="fee-label">Validator credits pool</span>
+            <span class="fee-value">credits</span>
           </div>
           <div class="fee-row">
             <span class="fee-label">Platform</span>
@@ -161,7 +161,7 @@
           </div>
         </div>
         <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-2);line-height:var(--leading-relaxed)">
-          Net cost for an accurate post: ₹2.60. For an inaccurate post: ₹5. Accuracy pays.
+          ₹5 fee ensures post quality and prevents spam. Accurate posts earn credits back.
         </p>
       </div>
 
@@ -169,7 +169,7 @@
       <div id="crypto-note" style="display:none" class="card card-body-sm section-sm">
         <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:var(--leading-relaxed)">
           🔐 <strong>Wallet users get full validator rights</strong> — you can vote on other posts
-          and earn ₹0.33 per correct validation. Rewards sent directly to your wallet.
+          and +1 credit per correct validation. Rewards sent directly to your wallet.
         </p>
       </div>
 
@@ -221,8 +221,8 @@
             <span class="fee-value" id="tx-state">Congested</span>
           </div>
           <div class="fee-row">
-            <span class="fee-label">Potential reward</span>
-            <span class="fee-value earn">up to ₹3</span>
+            <span class="fee-label">Credits you'll earn</span>
+            <span class="fee-value earn">up to +3 credits</span>
           </div>
           <div class="fee-row">
             <span class="fee-label">Tx hash</span>
@@ -237,14 +237,14 @@
         </div>
       </div>
 
-      <!-- Earn while you wait CTA -->
+      <!-- Build your score while you wait CTA -->
       <div class="validate-card section-sm animate-fade-in stagger-4">
-        <div class="validate-card-title">Earn while you wait</div>
+        <div class="validate-card-title">Build your score while you wait</div>
         <div class="validate-card-sub">
-          3 posts near you need validation. Each correct vote earns ₹0.33. Takes 30 seconds.
+          3 posts near you need validation. Each correct vote earns +1 credit. Takes 30 seconds.
         </div>
         <a href="validate.html" class="btn btn-primary btn-full">
-          Validate nearby posts → earn ₹1
+          Validate nearby posts → earn +1 credit
         </a>
       </div>
 
@@ -505,7 +505,7 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · earn ₹0.33
+            ✓ Confirm · +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
@@ -529,12 +529,12 @@ function renderGapCard(location) {
         <div class="gap-card-title">No update — ${location.name}</div>
         <div class="gap-card-sub">
           Last report was ${location.staleMin} min ago.
-          Earn ₹${location.reward} to check and post.
+          Earn +${location.reward} credits to check and post.
         </div>
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn ₹${location.reward}
+          Post update · earn +${location.reward} credits
         </a>
       </div>
     </div>`;
@@ -542,7 +542,7 @@ function renderGapCard(location) {
 
 // ── Validation helpers ─────────────────────
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — earning ₹0.33');
+  showToast('✓ Confirmation submitted — +1 credit');
 }
 
 function handleDispute(postId) {
