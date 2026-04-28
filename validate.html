@@ -563,6 +563,48 @@ function handleDispute(postId) {
 
   let sessionVotes = 0;
 
+  // Confidence meter flash — shows user their impact on aggregate truth
+  function flashConfidenceMeter(type) {
+    // Find the expanded task card
+    const card = document.querySelector('.task-card.expanded');
+    if (!card) return;
+
+    // Create or update confidence flash element
+    let meter = card.querySelector('.confidence-flash');
+    if (!meter) {
+      meter = document.createElement('div');
+      meter.className = 'confidence-flash';
+      meter.style.cssText = `
+        margin-top:8px;padding:8px 12px;border-radius:6px;
+        font-size:12px;font-weight:500;text-align:center;
+        transition:all 0.3s ease;opacity:0;transform:translateY(4px)
+      `;
+      card.appendChild(meter);
+    }
+
+    if (type === 'confirm') {
+      meter.style.background = '#E1F5EE';
+      meter.style.color = '#085041';
+      meter.textContent = '✓ Your confirmation raised the confidence score';
+    } else {
+      meter.style.background = '#FCEBEB';
+      meter.style.color = '#A32D2D';
+      meter.textContent = '✗ Your dispute is factored into the accuracy score';
+    }
+
+    // Animate in
+    requestAnimationFrame(() => {
+      meter.style.opacity = '1';
+      meter.style.transform = 'translateY(0)';
+    });
+
+    // Fade out after 2s
+    setTimeout(() => {
+      meter.style.opacity = '0';
+      meter.style.transform = 'translateY(-4px)';
+    }, 2000);
+  }
+
   function updateMilestone() {
     sessionVotes++;
     const label = document.getElementById('milestone-label');
@@ -578,6 +620,7 @@ function handleDispute(postId) {
 
   function vote(taskId, type) {
     voted.add(taskId);
+    flashConfidenceMeter(type);
     updateMilestone();
     const btns = document.getElementById(`vote-btns-${taskId}`);
     if (btns) {
