@@ -227,7 +227,7 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · earn ₹0.33
+            ✓ Confirm · +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
@@ -251,12 +251,12 @@ function renderGapCard(location) {
         <div class="gap-card-title">No update — ${location.name}</div>
         <div class="gap-card-sub">
           Last report was ${location.staleMin} min ago.
-          Earn ₹${location.reward} to check and post.
+          Earn +${location.reward} credits to check and post.
         </div>
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn ₹${location.reward}
+          Post update · earn +${location.reward} credits
         </a>
       </div>
     </div>`;
@@ -264,7 +264,7 @@ function renderGapCard(location) {
 
 // ── Validation helpers ─────────────────────
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — earning ₹0.33');
+  showToast('✓ Confirmation submitted — +1 credit');
 }
 
 function handleDispute(postId) {
