@@ -43,15 +43,15 @@
           <div>
             <div style="font-size:var(--text-xs);color:var(--color-brand-primary);
                         font-weight:var(--weight-semibold);text-transform:uppercase;
-                        letter-spacing:0.06em;margin-bottom:var(--space-1)">Total earned</div>
+                        letter-spacing:0.06em;margin-bottom:var(--space-1)">Credits earned</div>
             <div style="font-size:var(--text-2xl);font-weight:var(--weight-semibold);
-                        color:var(--color-brand-primary)">₹42.80</div>
+                        color:var(--color-brand-primary)">42 credits</div>
             <div style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
-              ₹28.50 posts · ₹14.30 validations
+              28 post credits · 14 validation credits
             </div>
           </div>
-          <button class="btn btn-ghost btn-sm" onclick="claimRewards()">
-            Claim to wallet
+          <button class="btn btn-ghost btn-sm" onclick="showCreditsInfo()">
+            View credits
           </button>
         </div>
 
@@ -61,14 +61,14 @@
                                        border:1px solid #f5dfa0">
           <div style="font-size:var(--text-sm);font-weight:var(--weight-medium);
                       color:#92610A;margin-bottom:var(--space-1)">
-            💡 Connect a wallet to receive rewards
+            💡 Connect a wallet for advanced features
           </div>
           <div style="font-size:var(--text-xs);color:#B07B1A;margin-bottom:var(--space-2)">
-            Your ₹42.80 is held securely in the smart contract. Connect MetaMask to claim.
+            Your 42 credits is held securely in the smart contract. Connect MetaMask to claim.
           </div>
           <button class="btn btn-sm" onclick="connectWallet()"
                   style="background:#F5A623;color:white;border:none">
-            Connect wallet → claim ₹42.80
+            Connect wallet → claim 42 credits
           </button>
         </div>
       </div>
@@ -397,7 +397,7 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · earn ₹0.33
+            ✓ Confirm · +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
@@ -421,12 +421,12 @@ function renderGapCard(location) {
         <div class="gap-card-title">No update — ${location.name}</div>
         <div class="gap-card-sub">
           Last report was ${location.staleMin} min ago.
-          Earn ₹${location.reward} to check and post.
+          Earn +${location.reward} credits to check and post.
         </div>
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn ₹${location.reward}
+          Post update · earn +${location.reward} credits
         </a>
       </div>
     </div>`;
@@ -434,7 +434,7 @@ function renderGapCard(location) {
 
 // ── Validation helpers ─────────────────────
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — earning ₹0.33');
+  showToast('✓ Confirmation submitted — +1 credit');
 }
 
 function handleDispute(postId) {
@@ -445,19 +445,19 @@ function handleDispute(postId) {
 
 <script>
   const TIERS = [
-    { name: 'Newbie',      range: '0–5',   validate: false, weight: '1×',   reward: '1×',   current: false },
-    { name: 'Contributor', range: '5–20',  validate: true,  weight: '1.5×', reward: '1.1×', current: true  },
-    { name: 'Trusted',     range: '20–50', validate: true,  weight: '3×',   reward: '1.3×', current: false },
-    { name: 'Expert',      range: '50+',   validate: true,  weight: '6×',   reward: '1.5×', current: false },
+    { name: 'Newbie',      range: '0–5',   validate: false, weight: '1×',   credits: '1×',   current: false },
+    { name: 'Contributor', range: '5–20',  validate: true,  weight: '1.5×', credits: '1.1×', current: true  },
+    { name: 'Trusted',     range: '20–50', validate: true,  weight: '3×',   credits: '1.3×', current: false },
+    { name: 'Expert',      range: '50+',   validate: true,  weight: '6×',   credits: '1.5×', current: false },
   ];
 
   const ACTIVITY = [
-    { type: 'post',     icon: '📸', text: 'Posted: Jubilee Hills traffic — Slow',       time: '2h ago',  earn: '+₹2.40', ok: true  },
-    { type: 'validate', icon: '✓',  text: 'Validated: GVK Mall — Busy (correct)',        time: '3h ago',  earn: '+₹0.33', ok: true  },
-    { type: 'validate', icon: '✓',  text: 'Validated: Apollo Queue — Busy (correct)',    time: '5h ago',  earn: '+₹0.33', ok: true  },
-    { type: 'post',     icon: '📸', text: 'Posted: PVNR traffic — Moderate',             time: '1d ago',  earn: '+₹2.40', ok: true  },
-    { type: 'validate', icon: '✗',  text: 'Validated: Café — Empty (wrong)',             time: '1d ago',  earn: '₹0',     ok: false },
-    { type: 'post',     icon: '📸', text: 'Posted: Inorbit Parking — Full',              time: '2d ago',  earn: '+₹1.80', ok: true  },
+    { type: 'post',     icon: '📸', text: 'Posted: Jubilee Hills traffic — Slow',       time: '2h ago',  earn: '++2 credits', ok: true  },
+    { type: 'validate', icon: '✓',  text: 'Validated: GVK Mall — Busy (correct)',        time: '3h ago',  earn: '++1 credit', ok: true  },
+    { type: 'validate', icon: '✓',  text: 'Validated: Apollo Queue — Busy (correct)',    time: '5h ago',  earn: '++1 credit', ok: true  },
+    { type: 'post',     icon: '📸', text: 'Posted: PVNR traffic — Moderate',             time: '1d ago',  earn: '++2 credits', ok: true  },
+    { type: 'validate', icon: '✗',  text: 'Validated: Café — Empty (wrong)',             time: '1d ago',  earn: '0 credits',     ok: false },
+    { type: 'post',     icon: '📸', text: 'Posted: Inorbit Parking — Full',              time: '2d ago',  earn: '++2 credits', ok: true  },
   ];
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -494,7 +494,7 @@ function handleDispute(postId) {
             ${t.current ? '<span style="font-size:10px;color:var(--color-brand-primary)"> ← you</span>' : ''}
           </div>
           <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:2px">
-            Vote weight: ${t.weight} · Reward: ${t.reward} · Validate: ${t.validate ? '✓' : '✗'}
+            Vote weight: ${t.weight} · Credits: ${t.credits} · Validate: ${t.validate ? '✓' : '✗'}
           </div>
         </div>
         ${t.current ? `<span class="badge badge-verified">Current</span>` : ''}
@@ -524,8 +524,8 @@ function handleDispute(postId) {
       </div>`).join('');
   }
 
-  function claimRewards() {
-    showToast('🔐 Connect MetaMask to claim ₹42.80');
+  function showCreditsInfo() {
+    showToast('🔐 Connect MetaMask to claim 42 credits');
   }
 
   function connectWallet() {
