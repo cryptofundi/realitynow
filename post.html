@@ -102,7 +102,7 @@
       </div>
 
       <button class="btn btn-primary btn-full btn-lg" onclick="goToStep(2)" id="step1-next">
-        Continue → Pay ₹5
+        Continue → Earn rewards
       </button>
       <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-2)">
         Select category and state to continue
@@ -128,7 +128,7 @@
 
       <!-- Payment method -->
       <div class="form-group">
-        <div class="form-label">Pay ₹5 via</div>
+        <div class="form-label">Pay quality deposit (₹5) via</div>
         <div class="payment-grid">
           <div class="payment-option active" id="pay-upi" onclick="selectPayment('upi')">
             <div class="payment-option-icon">📱</div>
@@ -145,7 +145,7 @@
 
       <!-- How ₹5 is split -->
       <div class="form-group">
-        <div class="form-label">How your ₹5 is used</div>
+        <div class="form-label">How your ₹5 quality deposit works</div>
         <div class="fee-breakdown">
           <div class="fee-row">
             <span class="fee-label">Credits earned (if validated ≥70%)</span>
@@ -161,7 +161,7 @@
           </div>
         </div>
         <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-2);line-height:var(--leading-relaxed)">
-          ₹5 fee ensures post quality and prevents spam. Accurate posts earn credits back.
+          ₹5 quality deposit — accurate posts earn credits. Keeps the truth network spam-free.
         </p>
       </div>
 
@@ -187,7 +187,7 @@
         </div>
       </div>
       <button class="btn btn-primary btn-full btn-lg" onclick="submitPost()">
-        Pay ₹5 · Help 120+ people decide
+        Post & earn rewards · ₹5 quality deposit
       </button>
       <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-2);line-height:var(--leading-relaxed)">
         Post stored on Polygon · Cannot be deleted · Community validates truth
@@ -610,7 +610,7 @@ function handleDispute(postId) {
     document.getElementById(`step-${n}`).style.display = 'block';
 
     // Update step header
-    const titles = { 1:'Post reality', 2:'Pay ₹5', 3:'Posted!' };
+    const titles = { 1:'Post reality', 2:'Earn rewards', 3:'Posted!' };
     injectHeader({
       type: 'step',
       title: titles[n],
