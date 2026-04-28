@@ -21,7 +21,8 @@
 
       <!-- Current state hero -->
       <div style="text-align:center;padding:var(--space-6) 0 var(--space-4)" class="animate-fade-in">
-        <div id="state-hero" style="font-size:var(--text-3xl);font-weight:var(--weight-semibold);margin-bottom:var(--space-2)">
+        <div id="state-hero" style="font-size:var(--text-3xl);font-weight:var(--weight-semibold);
+             margin-bottom:var(--space-2);transition:all 0.4s ease" class="state-hero-glow">
           BUSY
         </div>
         <div style="font-size:var(--text-sm);color:var(--color-text-tertiary);margin-bottom:var(--space-2)">
@@ -114,7 +115,11 @@
           </button>
         </div>
         <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-3)">
-          All data from Polygon blockchain · Immutable · No server controls truth
+          <span style="opacity:0.5">🔗</span>
+          <a href="#" onclick="showToast('All truth is stored on Polygon blockchain — immutable, permanent, verifiable by anyone')"
+             style="color:var(--color-text-tertiary);text-decoration:none;border-bottom:1px dashed currentColor">
+            How is truth verified?
+          </a>
         </p>
       </div>
 
@@ -533,6 +538,30 @@ function handleDispute(postId) {
         </div>`;
     }).join('');
   }
+
+  // Apply confidence-linked glow to state hero
+  function applyConfidenceGlow(confidence) {
+    const hero = document.querySelector('.page-content-inner');
+    if (!hero) return;
+    hero.classList.remove('conf-high', 'conf-medium', 'conf-low');
+    if (confidence >= 75) {
+      hero.classList.add('conf-high');
+      // Show verified badge
+      const heroEl = document.getElementById('state-hero');
+      if (heroEl && !heroEl.querySelector('.verified-badge')) {
+        heroEl.innerHTML += '<span class="verified-badge">✓ Verified</span>';
+      }
+    } else if (confidence >= 50) {
+      hero.classList.add('conf-medium');
+    } else {
+      hero.classList.add('conf-low');
+    }
+  }
+
+  // Apply on load with current confidence
+  document.addEventListener('DOMContentLoaded', () => {
+    applyConfidenceGlow(87); // default mock value
+  });
 
   function switchCategory(cat, btn) {
     document.querySelectorAll('#cat-tabs .tab-btn').forEach(b => b.classList.remove('active'));
