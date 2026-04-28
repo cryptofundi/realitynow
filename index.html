@@ -49,8 +49,8 @@
           <div class="stat-label">Avg accuracy</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" style="color:var(--color-brand-accent)">₹234</div>
-          <div class="stat-label">Rewards today</div>
+          <div class="stat-value" style="color:var(--color-brand-accent)">47 helped</div>
+          <div class="stat-label">Active today</div>
         </div>
       </div>
 
@@ -333,7 +333,7 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · earn ₹0.33
+            ✓ Confirm · +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
@@ -351,8 +351,8 @@ function renderFeedCard(post, index = 0) {
 // ── Render gap card HTML ───────────────────
 function renderGapCard(location) {
   const scarcity = location.rewardLeft === 1
-    ? `<span style="color:var(--color-busy);font-weight:600">⚠ Only 1 reward left</span>`
-    : `<span style="color:var(--color-brand-accent)">${location.rewardLeft} rewards available</span>`;
+    ? `<span style="color:var(--color-busy);font-weight:600">⚠ Only 1 reward slot left</span>`
+    : `<span style="color:var(--color-brand-accent)">${location.rewardLeft} slots available</span>`;
   const social = location.checkers > 0
     ? `<span style="color:var(--color-text-tertiary)">👀 ${location.checkers} people checked recently</span>`
     : '';
@@ -370,7 +370,7 @@ function renderGapCard(location) {
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn ₹${location.reward}
+          Post update · earn +${location.reward} credits
         </a>
       </div>
     </div>`;
@@ -378,7 +378,7 @@ function renderGapCard(location) {
 
 // ── Validation helpers ─────────────────────
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — earning ₹0.33');
+  showToast('✓ Confirmation submitted — +1 credit');
 }
 
 function handleDispute(postId) {
@@ -469,7 +469,7 @@ function handleDispute(postId) {
     '<strong>12 people</strong> checking nearby right now',
     '<strong>Priya</strong> just posted in Jubilee Hills',
     '<strong>3 people</strong> validating near you',
-    '<strong>Rahul</strong> earned ₹2.40 just now',
+    '<strong>Rahul</strong> earned +2 credits just now',
     '<strong>18 people</strong> active in your area',
   ];
   let liveIdx = 0;
