@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Location Detail — RealityCheck</title>
+  <title>Location Detail — RealityNow</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -137,7 +137,7 @@
 <script>
 /* ── app.js inlined for GitHub Pages reliability ── */
 /* ============================================
-   RealityCheck — Shared JS Utilities
+   RealityNow — Shared JS Utilities
    ============================================ */
 
 // ── Header / Footer injection ──────────────
@@ -161,7 +161,7 @@ function injectHeader(config = {}) {
         <div class="site-header-brand">
           <div class="site-header-logo">⚡</div>
           <div>
-            <div class="site-header-name">RealityCheck</div>
+            <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
               📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
             </div>
@@ -238,7 +238,7 @@ function injectFooter() {
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div class="site-footer-brand">
-          <span style="font-size:16px">⚡</span> RealityCheck
+          <span style="font-size:16px">⚡</span> RealityNow
         </div>
         <div class="site-footer-links">
           <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
@@ -616,7 +616,7 @@ function handleDispute(postId) {
   }
 
   function shareLocation() {
-    const text = encodeURIComponent('🔴 GVK One Mall is BUSY right now (87% confidence) — checked on RealityCheck: https://cryptofundi.github.io/realitycheck/location.html');
+    const text = encodeURIComponent('🔴 GVK One Mall is BUSY right now (87% confidence) — checked on RealityNow: https://cryptofundi.github.io/realitynow/location.html');
     window.open(`https://wa.me/?text=${text}`, '_blank');
   }
 
