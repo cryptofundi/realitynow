@@ -1,5 +1,5 @@
 /* ============================================
-   RealityCheck — Shared JS Utilities
+   RealityNow — Shared JS Utilities
    ============================================ */
 
 // ── Header / Footer injection ──────────────
@@ -23,7 +23,7 @@ function injectHeader(config = {}) {
         <div class="site-header-brand">
           <div class="site-header-logo">⚡</div>
           <div>
-            <div class="site-header-name">RealityCheck</div>
+            <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
               📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
             </div>
@@ -99,7 +99,7 @@ function injectFooter() {
   const html = `
     <footer class="site-footer">
       <div class="site-footer-inner">
-        <div class="site-footer-brand">⚡ RealityCheck</div>
+        <div class="site-footer-brand">⚡ RealityNow</div>
         <div class="site-footer-links">
           <a href="about.html" class="site-footer-link">How it works</a>
           <a href="#" class="site-footer-link">Privacy</a>
