@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RealityCheck — What's happening near you</title>
+  <title>RealityNow — What's happening near you</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -101,7 +101,7 @@
 <script>
 /* ── app.js inlined for GitHub Pages reliability ── */
 /* ============================================
-   RealityCheck — Shared JS Utilities
+   RealityNow — Shared JS Utilities
    ============================================ */
 
 // ── Header / Footer injection ──────────────
@@ -125,7 +125,7 @@ function injectHeader(config = {}) {
         <div class="site-header-brand">
           <div class="site-header-logo">⚡</div>
           <div>
-            <div class="site-header-name">RealityCheck</div>
+            <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
               📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
             </div>
@@ -202,7 +202,7 @@ function injectFooter() {
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div class="site-footer-brand">
-          <span style="font-size:16px">⚡</span> RealityCheck
+          <span style="font-size:16px">⚡</span> RealityNow
         </div>
         <div class="site-footer-links">
           <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
@@ -281,21 +281,16 @@ function postStateBadge(state, validatorCount) {
     REMOVED:   { dot: '#E24B4A', label: 'Removed',   bg: '#FCEBEB', pulse: false },
   };
   const s = map[state] || map.NEW;
-  const pulseStyle = s.pulse
-    ? 'animation:pulseDot 1.5s ease-in-out infinite'
-    : '';
-  const sub = state === 'VERIFYING'
-    ? `${validatorCount}/3 confirmed`
-    : state === 'VERIFIED' ? '✓ Community confirmed'
-    : state === 'NEW' ? 'Be first to verify'
-    : '';
-  return `<span style="display:inline-flex;align-items:center;gap:5px;
-                        background:${s.bg};padding:2px 8px;border-radius:99px;
-                        font-size:10px;font-weight:500">
-    <span style="width:6px;height:6px;border-radius:50%;
-                 background:${s.dot};display:inline-block;${pulseStyle}"></span>
-    ${s.label}${sub ? ' · <span style='opacity:0.75'>' + sub + '</span>' : ''}
-  </span>`;
+  const anim = s.pulse ? 'animation:pulseDot 1.5s ease-in-out infinite;' : '';
+  let sub = '';
+  if (state === 'VERIFYING') sub = validatorCount + '/3 verified';
+  else if (state === 'VERIFIED') sub = '✓ Confirmed';
+  else if (state === 'NEW') sub = 'Be first';
+  const subHtml = sub ? ' <span style="opacity:0.7">' + sub + '</span>' : '';
+  return '<span style="display:inline-flex;align-items:center;gap:5px;background:' + s.bg + ';padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500">'
+    + '<span style="width:6px;height:6px;border-radius:50%;background:' + s.dot + ';display:inline-block;' + anim + '"></span>'
+    + s.label + subHtml
+    + '</span>';
 }
 
 // Visibility score — composite of confidence weight × freshness weight
