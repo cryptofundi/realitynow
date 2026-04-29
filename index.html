@@ -72,6 +72,9 @@
       </div><!-- /tabs-wrapper -->
 
       <!-- Feed -->
+      <!-- Local Help Nearby — self-serve requests and offers -->
+      <div id="local-help-slot" class="section-sm"></div>
+
       <div class="section-label animate-fade-in stagger-2">Nearby truth</div>
       <div class="stack stack-3" id="feed-slot"></div>
 
@@ -183,7 +186,7 @@ function injectBottomNav(activePage = 'feed') {
 
   const items = pages.map(p => {
     if (p.isFab) {
-      return `<a href="${p.href}" class="post-fab" title="Post reality">+</a>`;
+      return `<button class="post-fab" title="Post reality" onclick="showActionSheet()">+</button>`;
     }
     const active = p.id === activePage ? 'active' : '';
     return `
@@ -622,6 +625,244 @@ function handleDispute(postId) {
   });
   window.addEventListener('resize', updateTabArrows);
 </script>
+
+<!-- ── Action Sheet Modal ───────────────────── -->
+<div id="action-sheet-overlay" onclick="hideActionSheet()"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);
+            z-index:1000;animation:fadeIn 0.2s ease"></div>
+
+<div id="action-sheet" style="display:none;position:fixed;bottom:0;left:50%;
+     transform:translateX(-50%);width:min(100%,520px);
+     background:var(--color-surface);border-radius:20px 20px 0 0;
+     padding:12px 16px 32px;z-index:1001;animation:slideUp 0.25s ease">
+  <div style="width:36px;height:4px;background:var(--color-border);
+              border-radius:2px;margin:0 auto 20px"></div>
+  <div style="font-size:var(--text-xs);font-weight:600;letter-spacing:0.08em;
+              text-transform:uppercase;color:var(--color-text-tertiary);
+              margin-bottom:14px">What do you want to do?</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+    <a href="post.html" style="text-decoration:none" onclick="hideActionSheet()">
+      <div class="action-tile">
+        <div class="action-tile-icon">📸</div>
+        <div class="action-tile-label">Post Reality</div>
+        <div class="action-tile-sub">Report what you see</div>
+      </div>
+    </a>
+
+    <button onclick="showLocalHelpForm('request')" class="action-tile-btn">
+      <div class="action-tile">
+        <div class="action-tile-icon">🛠</div>
+        <div class="action-tile-label">Request Help</div>
+        <div class="action-tile-sub">Need cook, maid, driver…</div>
+      </div>
+    </button>
+
+    <button onclick="showLocalHelpForm('offer')" class="action-tile-btn">
+      <div class="action-tile">
+        <div class="action-tile-icon">🎁</div>
+        <div class="action-tile-label">Offer Something</div>
+        <div class="action-tile-sub">Free tea, discount, help</div>
+      </div>
+    </button>
+
+  </div>
+</div>
+
+<!-- ── Local Help Form Modal ────────────────── -->
+<div id="local-help-form" style="display:none;position:fixed;inset:0;
+     background:rgba(0,0,0,0.5);z-index:1100;align-items:flex-end;
+     justify-content:center">
+  <div style="background:var(--color-surface);width:min(100%,520px);
+              border-radius:20px 20px 0 0;padding:20px 20px 32px;
+              animation:slideUp 0.25s ease">
+    <div style="display:flex;justify-content:space-between;align-items:center;
+                margin-bottom:16px">
+      <div id="help-form-title" style="font-size:var(--text-lg);font-weight:600;
+                                        color:var(--color-text-primary)">
+        Request Help Nearby
+      </div>
+      <button onclick="hideLocalHelpForm()"
+              style="background:none;border:none;font-size:20px;
+                     color:var(--color-text-tertiary);cursor:pointer">✕</button>
+    </div>
+
+    <div id="help-form-cost" style="display:inline-flex;align-items:center;gap:6px;
+         background:var(--color-surface-subtle);padding:4px 10px;
+         border-radius:99px;font-size:var(--text-xs);
+         color:var(--color-text-secondary);margin-bottom:14px">
+      <span>🪙</span> Costs <strong id="credit-cost" style="color:var(--color-brand-primary)">3 credits</strong> · Balance: 42 credits
+    </div>
+
+    <textarea id="help-text" placeholder="Describe what you need or what you're offering…"
+              style="width:100%;min-height:80px;border:1px solid var(--color-border);
+                     border-radius:var(--radius-md);padding:10px 12px;
+                     font-size:var(--text-sm);font-family:inherit;
+                     color:var(--color-text-primary);background:var(--color-surface);
+                     resize:none;outline:none;box-sizing:border-box"
+              maxlength="120"></textarea>
+    <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);
+                margin-top:4px;margin-bottom:14px">
+      📍 Visible to users within 2km · Shows for 24 hours
+    </div>
+
+    <button onclick="submitLocalHelp()"
+            style="width:100%;padding:12px;background:var(--color-brand-primary);
+                   color:#fff;border:none;border-radius:var(--radius-md);
+                   font-size:var(--text-sm);font-weight:600;cursor:pointer">
+      Post · Spend <span id="submit-cost">3</span> credits
+    </button>
+  </div>
+</div>
+
+<style>
+.action-tile {
+  background: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.action-tile:hover, .action-tile:active {
+  background: var(--color-brand-light);
+  border-color: var(--color-brand-primary);
+}
+.action-tile-icon { font-size: 24px; margin-bottom: 6px; }
+.action-tile-label {
+  font-size: 12px; font-weight: 600;
+  color: var(--color-text-primary); margin-bottom: 2px;
+}
+.action-tile-sub {
+  font-size: 10px; color: var(--color-text-tertiary); line-height: 1.3;
+}
+.action-tile-btn {
+  background: none; border: none; padding: 0; cursor: pointer; width: 100%;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+</style>
+
+<script>
+// ── Action sheet controls ─────────────────────
+function showActionSheet() {
+  document.getElementById('action-sheet-overlay').style.display = 'block';
+  document.getElementById('action-sheet').style.display = 'block';
+}
+function hideActionSheet() {
+  document.getElementById('action-sheet-overlay').style.display = 'none';
+  document.getElementById('action-sheet').style.display = 'none';
+}
+
+// ── Local help form ───────────────────────────
+let currentHelpType = 'request';
+function showLocalHelpForm(type) {
+  hideActionSheet();
+  currentHelpType = type;
+  const cost = type === 'offer' ? 10 : 3;
+  document.getElementById('help-form-title').textContent =
+    type === 'request' ? 'Request Help Nearby' : 'Offer Something Nearby';
+  document.getElementById('credit-cost').textContent = cost + ' credits';
+  document.getElementById('submit-cost').textContent = cost;
+  document.getElementById('help-text').placeholder =
+    type === 'request'
+      ? 'e.g. Need a cook in Banjara Hills, morning 7-9am, daily...'
+      : 'e.g. Free tea for RealityNow users · Near bus stop, Jubilee Hills...';
+  const form = document.getElementById('local-help-form');
+  form.style.display = 'flex';
+}
+function hideLocalHelpForm() {
+  document.getElementById('local-help-form').style.display = 'none';
+  document.getElementById('help-text').value = '';
+}
+function submitLocalHelp() {
+  const text = document.getElementById('help-text').value.trim();
+  if (!text) { showToast('Please describe your ' + currentHelpType); return; }
+  const cost = currentHelpType === 'offer' ? 10 : 3;
+  hideLocalHelpForm();
+  showToast('Posted! ' + cost + ' credits spent · Visible for 24 hours nearby');
+  // Add to local help feed immediately
+  addToLocalHelpFeed(currentHelpType, text);
+}
+
+// ── Render local help feed ────────────────────
+const LOCAL_HELP_MOCK = [
+  { type: 'request', text: 'Need cook — morning 6-8am, Banjara Hills Rd 36',
+    age: '8m ago', responses: 3, credits: 3, score: 18.4 },
+  { type: 'offer',   text: '☕ Free chai for RealityNow users · Ravi Tea Stall, near bus stop',
+    age: '2h ago', responses: 12, credits: 10, score: 22.1 },
+  { type: 'request', text: 'Looking for driver — Mon-Sat mornings, Jubilee Hills to HITECH',
+    age: '1h ago', responses: 5, credits: 3, score: 14.7 },
+];
+
+function addToLocalHelpFeed(type, text) {
+  LOCAL_HELP_MOCK.unshift({ type, text, age: 'just now', responses: 0, credits: type==='offer'?10:3, score: 18.4 });
+  renderLocalHelp();
+}
+
+function renderLocalHelp() {
+  const slot = document.getElementById('local-help-slot');
+  if (!slot) return;
+
+  const items = LOCAL_HELP_MOCK.slice(0, 3).map(item => `
+    <div style="display:flex;gap:10px;padding:10px 0;
+                border-bottom:1px solid var(--color-border)">
+      <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;
+                  display:flex;align-items:center;justify-content:center;
+                  font-size:16px;
+                  background:${item.type==='offer'?'#E3F2EB':'#EEEDFE'}">
+        ${item.type === 'offer' ? '🎁' : '🛠'}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:var(--text-sm);color:var(--color-text-primary);
+                    margin-bottom:2px;line-height:1.4">${item.text}</div>
+        <div style="display:flex;align-items:center;gap:8px;
+                    font-size:var(--text-xs);color:var(--color-text-tertiary)">
+          <span>${item.age}</span>
+          <span>·</span>
+          <span style="color:var(--color-brand-primary)">
+            ⭐ ${item.score} trust
+          </span>
+          <span>·</span>
+          <span>${item.responses} responses</span>
+        </div>
+      </div>
+      <button onclick="showToast('Reply feature coming soon')"
+              style="background:none;border:1px solid var(--color-border);
+                     border-radius:var(--radius-sm);padding:4px 10px;
+                     font-size:var(--text-xs);color:var(--color-text-secondary);
+                     cursor:pointer;flex-shrink:0;align-self:center">
+        Reply
+      </button>
+    </div>
+  `).join('');
+
+  slot.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;
+                margin-bottom:8px">
+      <div class="section-label" style="margin-bottom:0">Local Help Nearby</div>
+      <button onclick="showActionSheet()"
+              style="background:none;border:none;font-size:var(--text-xs);
+                     color:var(--color-brand-primary);cursor:pointer;font-weight:500">
+        + Post
+      </button>
+    </div>
+    <div style="background:var(--color-surface);border:1px solid var(--color-border);
+                border-radius:var(--radius-lg);padding:0 12px">
+      ${items}
+    </div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', renderLocalHelp);
+</script>
+
 <style>
 @keyframes pulseDot {
   0%,100% { opacity:1; transform:scale(1); }
