@@ -265,6 +265,52 @@ function freshnessLabel(minutesAgo) {
   return `${h}h ago`;
 }
 
+// ── Post validation state ─────────────────────────────────────
+function postValidationState(validatorCount, confidence, minutesAgo, disputed) {
+  if (disputed >= 2) return 'REMOVED';
+  if (validatorCount >= 3 && confidence >= 70) return 'VERIFIED';
+  if (validatorCount >= 1) return 'VERIFYING';
+  return 'NEW';
+}
+
+function postStateBadge(state, validatorCount) {
+  const map = {
+    NEW:       { dot: '#F5C518', label: 'New',       bg: '#FEF9E7', pulse: true  },
+    VERIFYING: { dot: '#F5A050', label: 'Verifying', bg: '#FEF0E6', pulse: false },
+    VERIFIED:  { dot: '#1D9E75', label: 'Verified',  bg: '#E3F2EB', pulse: false },
+    REMOVED:   { dot: '#E24B4A', label: 'Removed',   bg: '#FCEBEB', pulse: false },
+  };
+  const s = map[state] || map.NEW;
+  const pulseStyle = s.pulse
+    ? 'animation:pulseDot 1.5s ease-in-out infinite'
+    : '';
+  const sub = state === 'VERIFYING'
+    ? `${validatorCount}/3 confirmed`
+    : state === 'VERIFIED' ? '✓ Community confirmed'
+    : state === 'NEW' ? 'Be first to verify'
+    : '';
+  return `<span style="display:inline-flex;align-items:center;gap:5px;
+                        background:${s.bg};padding:2px 8px;border-radius:99px;
+                        font-size:10px;font-weight:500">
+    <span style="width:6px;height:6px;border-radius:50%;
+                 background:${s.dot};display:inline-block;${pulseStyle}"></span>
+    ${s.label}${sub ? ' · <span style='opacity:0.75'>' + sub + '</span>' : ''}
+  </span>`;
+}
+
+// Visibility score — composite of confidence weight × freshness weight
+function visibilityScore(validatorCount, confidence, minutesAgo) {
+  const confWeight = validatorCount === 0 ? 0.6
+    : validatorCount <= 2 ? 0.75
+    : confidence >= 70 ? 1.0 : 0.2;
+  const freshWeight = minutesAgo <= 10 ? 1.0
+    : minutesAgo <= 20 ? 0.85
+    : minutesAgo <= 30 ? 0.65
+    : minutesAgo <= 60 ? 0.35
+    : 0.1;
+  return confWeight * freshWeight;
+}
+
 // Actionable hook — tells user what to DO with the information
 function actionHook(state, category) {
   const hooks = {
@@ -359,9 +405,15 @@ function renderFeedCard(post, index = 0) {
       <div class="feed-card-body">
         <div class="feed-card-meta">
           <div class="feed-card-location">${post.locationName}</div>
-          <div class="feed-card-time"
-               style="color:var(--color-conf-${freshCls})">
-            ${freshnessLabel(mins)}
+          <div style="display:flex;align-items:center;gap:6px">
+            <div class="feed-card-time"
+                 style="color:var(--color-conf-${freshCls})">
+              ${freshnessLabel(mins)}
+            </div>
+            ${postStateBadge(
+              postValidationState(post.validatorCount, post.confidence, mins, post.disputeCount || 0),
+              post.validatorCount
+            )}
           </div>
         </div>
         ${actionHook(post.state, post.category) ? `
@@ -442,31 +494,37 @@ function handleDispute(postId) {
       id: 1, locationName: 'Jubilee Hills Rd No. 36',
       state: 'SLOW', category: 'traffic', categoryIcon: '🚗',
       confidence: 82, minutesAgo: 2,
-      validatorCount: 3, blockchainHash: '0x4a2f…c8b1',
+      validatorCount: 3, disputeCount: 0, blockchainHash: '0x4a2f…c8b1',
     },
     {
       id: 2, locationName: 'Third Wave Coffee, Banjara Hills',
       state: 'EMPTY', category: 'crowd', categoryIcon: '☕',
       confidence: 67, minutesAgo: 5,
-      validatorCount: 2, blockchainHash: '0x91cc…f30d',
+      validatorCount: 2, disputeCount: 0, blockchainHash: '0x91cc…f30d',
     },
     {
       id: 3, locationName: 'Apollo Hospital Queue',
       state: 'BUSY', category: 'queue', categoryIcon: '🏥',
       confidence: 91, minutesAgo: 8,
-      validatorCount: 3, blockchainHash: '0x7d3a…b22c',
+      validatorCount: 3, disputeCount: 0, blockchainHash: '0x7d3a…b22c',
     },
     {
       id: 4, locationName: 'PVNR Expressway',
       state: 'MODERATE', category: 'traffic', categoryIcon: '🚗',
       confidence: 54, minutesAgo: 12,
-      validatorCount: 1, blockchainHash: '0x22fe…9a01',
+      validatorCount: 1, disputeCount: 0, blockchainHash: '0x22fe…9a01',
     },
     {
       id: 5, locationName: 'Inorbit Mall Parking',
       state: 'BUSY', category: 'parking', categoryIcon: '🅿',
       confidence: 78, minutesAgo: 6,
-      validatorCount: 3, blockchainHash: '0x55bd…e71f',
+      validatorCount: 3, disputeCount: 0, blockchainHash: '0x55bd…e71f',
+    },
+    {
+      id: 6, locationName: 'Taj Banjara Hotel Entrance',
+      state: 'BUSY', category: 'crowd', categoryIcon: '☕',
+      confidence: 0, minutesAgo: 1,
+      validatorCount: 0, disputeCount: 0, blockchainHash: '0xf1a3…22d8',
     },
   ];
 
