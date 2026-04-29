@@ -42,6 +42,10 @@
           </div>
         </div>
         <div id="state-badge-hero"></div>
+        <!-- Validation state pill — shows under main status -->
+        <div id="validation-state-pill" style="margin-top:var(--space-2)">
+          <!-- injected by JS based on validator count -->
+        </div>
       </div>
 
       <!-- Unverified notice (shown when <2 validators) -->
@@ -539,6 +543,47 @@ function handleDispute(postId) {
     }).join('');
   }
 
+  // ── Validation state pill ───────────────────────────────────
+  function renderValidationPill(validatorCount, disputeCount, confidence) {
+    const pill = document.getElementById('validation-state-pill');
+    if (!pill) return;
+
+    // Fast rejection check
+    if (disputeCount >= 2) {
+      pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;
+        background:#FCEBEB;color:#A32D2D;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
+        ⚠ Flagged by community — treat with caution
+      </span>`;
+      return;
+    }
+
+    if (validatorCount === 0) {
+      pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
+        background:#FEF9E7;color:#92610A;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
+        <span style="width:7px;height:7px;border-radius:50%;background:#F5C518;
+                     animation:pulseDot2 1.5s ease-in-out infinite;display:inline-block"></span>
+        New · Be first to verify — earn +2 credits
+      </span>`;
+    } else if (validatorCount < 3) {
+      pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
+        background:#FEF0E6;color:#8B4513;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
+        <span style="width:7px;height:7px;border-radius:50%;background:#F5A050;display:inline-block"></span>
+        ${validatorCount}/3 verified · ${3 - validatorCount} more needed
+      </span>`;
+    } else if (confidence >= 70) {
+      pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
+        background:#E3F2EB;color:#085041;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
+        <span style="width:7px;height:7px;border-radius:50%;background:#1D9E75;display:inline-block"></span>
+        ✓ Community verified · ${validatorCount} validators · ${confidence}% confidence
+      </span>`;
+    } else {
+      pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
+        background:#F1EFE8;color:#444;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
+        Inconclusive · low agreement
+      </span>`;
+    }
+  }
+
   // Apply confidence-linked glow to state hero
   function applyConfidenceGlow(confidence) {
     const hero = document.querySelector('.page-content-inner');
@@ -560,7 +605,8 @@ function handleDispute(postId) {
 
   // Apply on load with current confidence
   document.addEventListener('DOMContentLoaded', () => {
-    applyConfidenceGlow(87); // default mock value
+    applyConfidenceGlow(87);
+    renderValidationPill(3, 0, 87); // mock: 3 validators, 0 disputes, 87% confidence
   });
 
   function switchCategory(cat, btn) {
