@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile — RealityCheck</title>
+  <title>Profile — RealityNow</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -55,22 +55,6 @@
           </button>
         </div>
 
-        <!-- Wallet claim notice (UPI users) -->
-        <div id="claim-notice" style="margin-top:var(--space-3);padding:var(--space-3);
-                                       background:#FEF8ED;border-radius:var(--radius-md);
-                                       border:1px solid #f5dfa0">
-          <div style="font-size:var(--text-sm);font-weight:var(--weight-medium);
-                      color:#92610A;margin-bottom:var(--space-1)">
-            💡 Connect a wallet to unlock advanced features & future rewards
-          </div>
-          <div style="font-size:var(--text-xs);color:#B07B1A;margin-bottom:var(--space-2)">
-            Your 42 credits is held securely in the smart contract. Connect MetaMask to claim.
-          </div>
-          <button class="btn btn-sm" onclick="connectWallet()"
-                  style="background:#F5A623;color:white;border:none">
-            Connect wallet → claim 42 credits
-          </button>
-        </div>
       </div>
 
       <!-- Impact card -->
@@ -182,7 +166,7 @@
 <script>
 /* ── app.js inlined for GitHub Pages reliability ── */
 /* ============================================
-   RealityCheck — Shared JS Utilities
+   RealityNow — Shared JS Utilities
    ============================================ */
 
 // ── Header / Footer injection ──────────────
@@ -206,7 +190,7 @@ function injectHeader(config = {}) {
         <div class="site-header-brand">
           <div class="site-header-logo">⚡</div>
           <div>
-            <div class="site-header-name">RealityCheck</div>
+            <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
               📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
             </div>
@@ -283,7 +267,7 @@ function injectFooter() {
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div class="site-footer-brand">
-          <span style="font-size:16px">⚡</span> RealityCheck
+          <span style="font-size:16px">⚡</span> RealityNow
         </div>
         <div class="site-footer-links">
           <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
@@ -542,12 +526,10 @@ function handleDispute(postId) {
   }
 
   function showCreditsInfo() {
-    showToast('🔐 Connect MetaMask to claim 42 credits');
+    showToast('Credits are earned by accurate posts and validations');
   }
 
-  function connectWallet() {
-    showToast('🔐 MetaMask connection coming soon');
-  }
+
 </script>
 </body>
 </html>
