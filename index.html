@@ -371,15 +371,7 @@ function showToast(message, duration = 2500) {
   toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
-// ── Location prompt ────────────────────────
-function promptLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      pos => showToast('📍 Location updated'),
-      ()  => showToast('📍 Using saved location')
-    );
-  }
-}
+// promptLocation() and initLocation() defined in app.js
 
 // ── Render feed card HTML ──────────────────
 function renderFeedCard(post, index = 0) {
@@ -538,6 +530,9 @@ function handleDispute(postId) {
     injectFooter();
     renderGapCards();
     renderFeed(MOCK_POSTS);
+    // Auto-detect location on load — no tap needed
+    // Shows cached immediately, updates silently in background
+    initLocation();
   });
 
   function renderGapCards() {
