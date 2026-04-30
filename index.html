@@ -475,12 +475,7 @@ function updateLocationLabel(label, geohash) {
 
 // Show pincode input when GPS is not available
 function showPincodePrompt() {
-  const pin = prompt(
-    'Enable location for the best experience.
-
-' +
-    'Or enter your area pincode to see nearby truth:'
-  );
+  const pin = prompt('Enter your area pincode (6 digits):');
   if (pin && /^\d{6}$/.test(pin.trim())) {
     lookupPincode(pin.trim());
   } else if (pin) {
