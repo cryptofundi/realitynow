@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post Reality — RealityNow</title>
+  <title>Post Reality  -  RealityNow</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -26,8 +26,8 @@
         <div class="upload-area" onclick="triggerUpload()" id="upload-area">
           <div class="upload-area-icon">📸</div>
           <div class="upload-area-title">Tap to open camera</div>
-          <div class="upload-area-sub">Photo of the situation — road, crowd, queue etc.</div>
-          <div class="upload-area-warning">⚠ Photograph the issue only — not people</div>
+          <div class="upload-area-sub">Photo of the situation  -  road, crowd, queue etc.</div>
+          <div class="upload-area-warning">⚠ Photograph the issue only  -  not people</div>
         </div>
         <input type="file" id="file-input" accept="image/*" capture="environment"
                style="display:none" onchange="handleUpload(this)" />
@@ -98,7 +98,7 @@
       <div class="form-group">
         <div class="form-label">Description <span style="color:var(--color-text-tertiary);font-weight:400">(optional)</span></div>
         <textarea class="form-textarea" id="description"
-                  placeholder="Add more detail — e.g. 'backed up from the junction, about 15 min delay'"></textarea>
+                  placeholder="Add more detail  -  e.g. 'backed up from the junction, about 15 min delay'"></textarea>
       </div>
 
       <button class="btn btn-primary btn-full btn-lg" onclick="goToStep(2)" id="step1-next">
@@ -161,14 +161,14 @@
           </div>
         </div>
         <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-2);line-height:var(--leading-relaxed)">
-          ₹5 quality deposit — accurate posts earn credits. Keeps the truth network spam-free.
+          ₹5 quality deposit  -  accurate posts earn credits. Keeps the truth network spam-free.
         </p>
       </div>
 
       <!-- Crypto note (hidden by default) -->
       <div id="crypto-note" style="display:none" class="card card-body-sm section-sm">
         <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:var(--leading-relaxed)">
-          🔐 <strong>Wallet users get full validator rights</strong> — you can vote on other posts
+          🔐 <strong>Wallet users get full validator rights</strong>  -  you can vote on other posts
           and +1 credit per correct validation. Rewards sent directly to your wallet.
         </p>
       </div>
@@ -271,12 +271,12 @@
 </div>
 
 <script>
-/* ── app.js inlined for GitHub Pages reliability ── */
+/*    app.js inlined for GitHub Pages reliability    */
 /* ============================================
-   RealityNow — Shared JS Utilities
+   RealityNow  -  Shared JS Utilities
    ============================================ */
 
-// ── Header / Footer injection ──────────────
+//    Header / Footer injection               
 // Call on each page to inject shared components.
 function injectHeader(config = {}) {
   const {
@@ -295,19 +295,19 @@ function injectHeader(config = {}) {
     html = `
       <header class="site-header">
         <div class="site-header-brand">
-          <div class="site-header-logo">⚡</div>
+          <div class="site-header-logo"> </div>
           <div>
             <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
-              📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
+                <span id="location-text">Banjara Hills, Hyderabad</span> >
             </div>
           </div>
         </div>
         <div class="site-header-actions">
           ${showNotif ? `<button class="btn btn-icon btn-secondary" style="position:relative" onclick="window.location='validate.html'">
-            🔔<span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
+             <span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
           </button>` : ''}
-          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile">👤</a>
+          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile"> </a>
         </div>
       </header>`;
   }
@@ -315,7 +315,7 @@ function injectHeader(config = {}) {
   if (type === 'page') {
     html = `
       <header class="page-header">
-        <a href="${backHref}" class="page-header-back" title="Back">←</a>
+        <a href="${backHref}" class="page-header-back" title="Back"><-</a>
         <div class="page-header-content">
           <div class="page-header-title">${title}</div>
           ${subtitle ? `<div class="page-header-sub">${subtitle}</div>` : ''}
@@ -328,7 +328,7 @@ function injectHeader(config = {}) {
     html = `
       <header class="step-header">
         <div class="step-header-top">
-          <a href="${backHref}" class="page-header-back" title="Back">←</a>
+          <a href="${backHref}" class="page-header-back" title="Back"><-</a>
           <div class="step-header-title">${title}</div>
           <span style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
             ${step} / ${totalSteps}
@@ -346,11 +346,11 @@ function injectHeader(config = {}) {
 
 function injectBottomNav(activePage = 'feed') {
   const pages = [
-    { id: 'feed',     href: 'index.html',    icon: '🏠', label: 'Feed' },
-    { id: 'validate', href: 'validate.html', icon: '✅', label: 'Validate' },
+    { id: 'feed',     href: 'index.html',    icon: ' ', label: 'Feed' },
+    { id: 'validate', href: 'validate.html', icon: ' ', label: 'Validate' },
     { id: 'post',     href: 'post.html',     icon: '+',  label: '', isFab: true },
-    { id: 'location', href: 'location.html', icon: '📍', label: 'Places' },
-    { id: 'profile',  href: 'profile.html',  icon: '👤', label: 'Profile' },
+    { id: 'location', href: 'location.html', icon: ' ', label: 'Places' },
+    { id: 'profile',  href: 'profile.html',  icon: ' ', label: 'Profile' },
   ];
 
   const items = pages.map(p => {
@@ -374,16 +374,16 @@ function injectFooter() {
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div class="site-footer-brand">
-          <span style="font-size:16px">⚡</span> RealityNow
+          <span style="font-size:16px"> </span> RealityNow
         </div>
         <div class="site-footer-links">
-          <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy — coming soon')">Privacy</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Terms — coming soon')">Terms</a>
+          <a href="#" class="site-footer-link" onclick="showToast('How it works  -  coming soon')">How it works</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy  -  coming soon')">Privacy</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Terms  -  coming soon')">Terms</a>
           <a href="https://polygon.technology" target="_blank" class="site-footer-link">Polygon</a>
         </div>
         <div class="site-footer-copy">
-          Truth is on-chain · Immutable · Forever<br>
+          Truth is on-chain  .  Immutable  .  Forever<br>
           Ward data sourced from official government portals
         </div>
       </div>
@@ -392,7 +392,7 @@ function injectFooter() {
   if (el) el.innerHTML = html;
 }
 
-// ── Confidence helpers ─────────────────────
+//    Confidence helpers                      
 function confClass(pct) {
   if (pct >= 75) return 'high';
   if (pct >= 50) return 'medium';
@@ -405,7 +405,7 @@ function confLabel(pct) {
   return 'Low confidence';
 }
 
-// ── State helpers ──────────────────────────
+//    State helpers                           
 function stateBadge(state) {
   const map = {
     BUSY:     { cls: 'badge-busy',     label: 'Busy' },
@@ -429,7 +429,7 @@ function stateColor(state) {
   return map[state] || map.EMPTY;
 }
 
-// ── Freshness label ────────────────────────
+//    Freshness label                         
 function freshnessLabel(minutesAgo) {
   if (minutesAgo < 1)  return 'just now';
   if (minutesAgo < 60) return `${minutesAgo}m ago`;
@@ -443,7 +443,7 @@ function freshnessClass(minutesAgo) {
   return 'low';
 }
 
-// ── Toast ──────────────────────────────────
+//    Toast                                   
 function showToast(message, duration = 2500) {
   let toast = document.querySelector('.toast');
   if (!toast) {
@@ -457,14 +457,14 @@ function showToast(message, duration = 2500) {
   toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
-// ── Location system ───────────────────────
+//    Location system                        
 // Handles GPS detection, reverse geocoding,
 // localStorage caching, and pincode fallback.
 
 const LOCATION_CACHE_KEY = 'rn_location';
 const LOCATION_CACHE_TTL  = 10 * 60 * 1000; // 10 minutes in ms
 
-// Main entry point — called on page load automatically
+// Main entry point  -  called on page load automatically
 // and when user taps the location label.
 function initLocation() {
   // 1. Show cached location immediately (instant UX)
@@ -475,7 +475,7 @@ function initLocation() {
 
   // 2. Request fresh GPS in background
   if (!navigator.geolocation) {
-    // Browser does not support geolocation — show pincode prompt
+    // Browser does not support geolocation  -  show pincode prompt
     if (!cached) showPincodePrompt();
     return;
   }
@@ -488,7 +488,7 @@ function initLocation() {
     err => {
       // GPS denied or failed
       if (!cached) {
-        // No cache either — ask for pincode
+        // No cache either  -  ask for pincode
         showPincodePrompt();
       }
       // If we have cache, just keep showing it silently
@@ -503,12 +503,12 @@ function initLocation() {
 
 // Called when user taps location label to refresh
 function promptLocation() {
-  showToast('📍 Detecting your location…');
+  showToast('  Detecting your location...');
   initLocation();
 }
 
-// Reverse geocode lat/long → neighbourhood name
-// Uses Nominatim (OpenStreetMap) — free, no API key needed.
+// Reverse geocode lat/long -> neighbourhood name
+// Uses Nominatim (OpenStreetMap)  -  free, no API key needed.
 // Falls back gracefully if network fails.
 function reverseGeocode(lat, lng) {
   const url = 'https://nominatim.openstreetmap.org/reverse'
@@ -545,7 +545,7 @@ function reverseGeocode(lat, lng) {
       updateLocationLabel(label, geohash);
     })
     .catch(() => {
-      // Network error — keep showing cached or fallback
+      // Network error  -  keep showing cached or fallback
       const cached = loadCachedLocation();
       if (!cached) updateLocationLabel('Your Location', '');
     });
@@ -561,12 +561,7 @@ function updateLocationLabel(label, geohash) {
 
 // Show pincode input when GPS is not available
 function showPincodePrompt() {
-  const pin = prompt(
-    'Enable location for the best experience.
-
-' +
-    'Or enter your area pincode to see nearby truth:'
-  );
+  const pin = prompt('Enter your area pincode (6 digits):');
   if (pin && /^\d{6}$/.test(pin.trim())) {
     lookupPincode(pin.trim());
   } else if (pin) {
@@ -574,9 +569,9 @@ function showPincodePrompt() {
   }
 }
 
-// Pincode → lat/long → geohash via Nominatim
+// Pincode -> lat/long -> geohash via Nominatim
 function lookupPincode(pin) {
-  showToast('📍 Finding your area…');
+  showToast('  Finding your area...');
   const url = 'https://nominatim.openstreetmap.org/search'
     + '?format=json'
     + '&postalcode=' + pin
@@ -588,16 +583,16 @@ function lookupPincode(pin) {
     .then(r => r.json())
     .then(results => {
       if (!results.length) {
-        showToast('Pincode not found — try again');
+        showToast('Pincode not found  -  try again');
         return;
       }
       const r = results[0];
       reverseGeocode(parseFloat(r.lat), parseFloat(r.lon));
     })
-    .catch(() => showToast('Could not look up pincode — check connection'));
+    .catch(() => showToast('Could not look up pincode  -  check connection'));
 }
 
-// ── localStorage cache helpers ─────────────
+//    localStorage cache helpers              
 function saveCachedLocation(data) {
   try {
     localStorage.setItem(LOCATION_CACHE_KEY, JSON.stringify({
@@ -621,7 +616,7 @@ function loadCachedLocation() {
   } catch(e) { return null; }
 }
 
-// ── Geohash encoder (lightweight, no library) ──
+//    Geohash encoder (lightweight, no library)   
 // Encodes lat/lng to a geohash string of given precision.
 function latLngToGeohash(lat, lng, precision) {
   const BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
@@ -648,7 +643,7 @@ function latLngToGeohash(lat, lng, precision) {
   return geohash;
 }
 
-// ── Render feed card HTML ──────────────────
+//    Render feed card HTML                   
 function renderFeedCard(post, index = 0) {
   const conf = post.confidence;
   const cls  = confClass(conf);
@@ -686,28 +681,28 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · +1 credit
+            OK Confirm  .  +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleDispute(${post.id})">
-            ✗ Dispute
+            X Dispute
           </button>
         </div>
         <div class="feed-card-footnote">
-          ${post.validatorCount} of 3 confirmed · ${post.blockchainHash}
+          ${post.validatorCount} of 3 confirmed  .  ${post.blockchainHash}
         </div>
       </div>
     </article>`;
 }
 
-// ── Render gap card HTML ───────────────────
+//    Render gap card HTML                    
 function renderGapCard(location) {
   return `
     <div class="gap-card animate-fade-in section-sm">
-      <div class="gap-card-icon">⏱</div>
+      <div class="gap-card-icon"> </div>
       <div class="gap-card-content">
-        <div class="gap-card-title">No update — ${location.name}</div>
+        <div class="gap-card-title">No update  -  ${location.name}</div>
         <div class="gap-card-sub">
           Last report was ${location.staleMin} min ago.
           Earn +${location.reward} credits to check and post.
@@ -715,19 +710,19 @@ function renderGapCard(location) {
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn +${location.reward} credits
+          Post update  .  earn +${location.reward} credits
         </a>
       </div>
     </div>`;
 }
 
-// ── Validation helpers ─────────────────────
+//    Validation helpers                      
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — +1 credit');
+  showToast('OK Confirmation submitted  -  +1 credit');
 }
 
 function handleDispute(postId) {
-  showToast('✗ Dispute submitted');
+  showToast('X Dispute submitted');
 }
 
 </script>
@@ -820,7 +815,7 @@ function handleDispute(postId) {
   function submitPost() {
     // Simulate submission
     const btn = document.querySelector('#step-2 .btn-primary');
-    btn.textContent = 'Submitting to blockchain…';
+    btn.textContent = 'Submitting to blockchain...';
     btn.style.opacity = '0.7';
     btn.disabled = true;
 
@@ -842,11 +837,11 @@ function handleDispute(postId) {
     area.style.background = 'var(--color-brand-light)';
     area.style.borderColor = 'var(--color-brand-primary)';
     area.innerHTML = `
-      <div class="upload-area-icon">✅</div>
+      <div class="upload-area-icon"> </div>
       <div class="upload-area-title">Photo added</div>
       <div class="upload-area-sub">${input.files[0].name}</div>
-      <div class="upload-area-warning">Uploading to IPFS…</div>`;
-    showToast('📸 Photo added — uploading to IPFS');
+      <div class="upload-area-warning">Uploading to IPFS...</div>`;
+    showToast('  Photo added  -  uploading to IPFS');
   }
 
   function showPincode() {
@@ -854,11 +849,11 @@ function handleDispute(postId) {
   }
 
   function editLocation() {
-    showToast('📍 Location editing coming soon');
+    showToast('  Location editing coming soon');
   }
 
   function sharePost() {
-    const text = encodeURIComponent('🚗 Just posted a traffic update on RealityNow — check what\'s happening near you: https://realitynow.app');
+    const text = encodeURIComponent('  Just posted a traffic update on RealityNow  -  check what\'s happening near you: https://realitynow.app');
     window.open(`https://wa.me/?text=${text}`, '_blank');
   }
 
