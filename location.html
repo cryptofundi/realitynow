@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Location Detail — RealityNow</title>
+  <title>Location Detail  -  RealityNow</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div id="state-badge-hero"></div>
-        <!-- Validation state pill — shows under main status -->
+        <!-- Validation state pill  -  shows under main status -->
         <div id="validation-state-pill" style="margin-top:var(--space-2)">
           <!-- injected by JS based on validator count -->
         </div>
@@ -50,7 +50,7 @@
 
       <!-- Unverified notice (shown when <2 validators) -->
       <div id="unverified-notice" class="unverified-notice section-sm" style="display:none">
-        ⚠ Unverified — only 1 report so far.
+        ⚠ Unverified  -  only 1 report so far.
         <strong style="color:var(--color-brand-primary);cursor:pointer" onclick="window.location='validate.html'">
           Be the first to confirm →
         </strong>
@@ -106,11 +106,11 @@
         <div style="display:grid;gap:var(--space-2)">
           <a href="validate.html" class="btn btn-confirm btn-full"
              style="justify-content:flex-start;gap:var(--space-2)">
-            ✓ Validate latest report — +1 credit
+            ✓ Validate latest report  -  +1 credit
           </a>
           <a href="post.html?location=GVK+One+Mall" class="btn btn-primary btn-full"
              style="justify-content:flex-start;gap:var(--space-2)">
-            📸 Post a fresh update — earn up to +3 credits
+            📸 Post a fresh update  -  earn up to +3 credits
           </a>
           <button class="btn btn-secondary btn-full"
                   style="justify-content:flex-start;gap:var(--space-2)"
@@ -120,7 +120,7 @@
         </div>
         <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;margin-top:var(--space-3)">
           <span style="opacity:0.5">🔗</span>
-          <a href="#" onclick="showToast('All truth is stored on Polygon blockchain — immutable, permanent, verifiable by anyone')"
+          <a href="#" onclick="showToast('All truth is stored on Polygon blockchain  -  immutable, permanent, verifiable by anyone')"
              style="color:var(--color-text-tertiary);text-decoration:none;border-bottom:1px dashed currentColor">
             How is truth verified?
           </a>
@@ -135,12 +135,12 @@
 </div>
 
 <script>
-/* ── app.js inlined for GitHub Pages reliability ── */
+/*    app.js inlined for GitHub Pages reliability    */
 /* ============================================
-   RealityNow — Shared JS Utilities
+   RealityNow  -  Shared JS Utilities
    ============================================ */
 
-// ── Header / Footer injection ──────────────
+//    Header / Footer injection               
 // Call on each page to inject shared components.
 function injectHeader(config = {}) {
   const {
@@ -159,19 +159,19 @@ function injectHeader(config = {}) {
     html = `
       <header class="site-header">
         <div class="site-header-brand">
-          <div class="site-header-logo">⚡</div>
+          <div class="site-header-logo"> </div>
           <div>
             <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
-              📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
+                <span id="location-text">Banjara Hills, Hyderabad</span> >
             </div>
           </div>
         </div>
         <div class="site-header-actions">
           ${showNotif ? `<button class="btn btn-icon btn-secondary" style="position:relative" onclick="window.location='validate.html'">
-            🔔<span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
+             <span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
           </button>` : ''}
-          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile">👤</a>
+          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile"> </a>
         </div>
       </header>`;
   }
@@ -179,7 +179,7 @@ function injectHeader(config = {}) {
   if (type === 'page') {
     html = `
       <header class="page-header">
-        <a href="${backHref}" class="page-header-back" title="Back">←</a>
+        <a href="${backHref}" class="page-header-back" title="Back"><-</a>
         <div class="page-header-content">
           <div class="page-header-title">${title}</div>
           ${subtitle ? `<div class="page-header-sub">${subtitle}</div>` : ''}
@@ -192,7 +192,7 @@ function injectHeader(config = {}) {
     html = `
       <header class="step-header">
         <div class="step-header-top">
-          <a href="${backHref}" class="page-header-back" title="Back">←</a>
+          <a href="${backHref}" class="page-header-back" title="Back"><-</a>
           <div class="step-header-title">${title}</div>
           <span style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
             ${step} / ${totalSteps}
@@ -210,11 +210,11 @@ function injectHeader(config = {}) {
 
 function injectBottomNav(activePage = 'feed') {
   const pages = [
-    { id: 'feed',     href: 'index.html',    icon: '🏠', label: 'Feed' },
-    { id: 'validate', href: 'validate.html', icon: '✅', label: 'Validate' },
+    { id: 'feed',     href: 'index.html',    icon: ' ', label: 'Feed' },
+    { id: 'validate', href: 'validate.html', icon: ' ', label: 'Validate' },
     { id: 'post',     href: 'post.html',     icon: '+',  label: '', isFab: true },
-    { id: 'location', href: 'location.html', icon: '📍', label: 'Places' },
-    { id: 'profile',  href: 'profile.html',  icon: '👤', label: 'Profile' },
+    { id: 'location', href: 'location.html', icon: ' ', label: 'Places' },
+    { id: 'profile',  href: 'profile.html',  icon: ' ', label: 'Profile' },
   ];
 
   const items = pages.map(p => {
@@ -238,16 +238,16 @@ function injectFooter() {
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div class="site-footer-brand">
-          <span style="font-size:16px">⚡</span> RealityNow
+          <span style="font-size:16px"> </span> RealityNow
         </div>
         <div class="site-footer-links">
-          <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy — coming soon')">Privacy</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Terms — coming soon')">Terms</a>
+          <a href="#" class="site-footer-link" onclick="showToast('How it works  -  coming soon')">How it works</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy  -  coming soon')">Privacy</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Terms  -  coming soon')">Terms</a>
           <a href="https://polygon.technology" target="_blank" class="site-footer-link">Polygon</a>
         </div>
         <div class="site-footer-copy">
-          Truth is on-chain · Immutable · Forever<br>
+          Truth is on-chain  .  Immutable  .  Forever<br>
           Ward data sourced from official government portals
         </div>
       </div>
@@ -256,7 +256,7 @@ function injectFooter() {
   if (el) el.innerHTML = html;
 }
 
-// ── Confidence helpers ─────────────────────
+//    Confidence helpers                      
 function confClass(pct) {
   if (pct >= 75) return 'high';
   if (pct >= 50) return 'medium';
@@ -269,7 +269,7 @@ function confLabel(pct) {
   return 'Low confidence';
 }
 
-// ── State helpers ──────────────────────────
+//    State helpers                           
 function stateBadge(state) {
   const map = {
     BUSY:     { cls: 'badge-busy',     label: 'Busy' },
@@ -293,7 +293,7 @@ function stateColor(state) {
   return map[state] || map.EMPTY;
 }
 
-// ── Freshness label ────────────────────────
+//    Freshness label                         
 function freshnessLabel(minutesAgo) {
   if (minutesAgo < 1)  return 'just now';
   if (minutesAgo < 60) return `${minutesAgo}m ago`;
@@ -307,7 +307,7 @@ function freshnessClass(minutesAgo) {
   return 'low';
 }
 
-// ── Toast ──────────────────────────────────
+//    Toast                                   
 function showToast(message, duration = 2500) {
   let toast = document.querySelector('.toast');
   if (!toast) {
@@ -321,14 +321,14 @@ function showToast(message, duration = 2500) {
   toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
-// ── Location system ───────────────────────
+//    Location system                        
 // Handles GPS detection, reverse geocoding,
 // localStorage caching, and pincode fallback.
 
 const LOCATION_CACHE_KEY = 'rn_location';
 const LOCATION_CACHE_TTL  = 10 * 60 * 1000; // 10 minutes in ms
 
-// Main entry point — called on page load automatically
+// Main entry point  -  called on page load automatically
 // and when user taps the location label.
 function initLocation() {
   // 1. Show cached location immediately (instant UX)
@@ -339,7 +339,7 @@ function initLocation() {
 
   // 2. Request fresh GPS in background
   if (!navigator.geolocation) {
-    // Browser does not support geolocation — show pincode prompt
+    // Browser does not support geolocation  -  show pincode prompt
     if (!cached) showPincodePrompt();
     return;
   }
@@ -352,7 +352,7 @@ function initLocation() {
     err => {
       // GPS denied or failed
       if (!cached) {
-        // No cache either — ask for pincode
+        // No cache either  -  ask for pincode
         showPincodePrompt();
       }
       // If we have cache, just keep showing it silently
@@ -367,12 +367,12 @@ function initLocation() {
 
 // Called when user taps location label to refresh
 function promptLocation() {
-  showToast('📍 Detecting your location…');
+  showToast('  Detecting your location...');
   initLocation();
 }
 
-// Reverse geocode lat/long → neighbourhood name
-// Uses Nominatim (OpenStreetMap) — free, no API key needed.
+// Reverse geocode lat/long -> neighbourhood name
+// Uses Nominatim (OpenStreetMap)  -  free, no API key needed.
 // Falls back gracefully if network fails.
 function reverseGeocode(lat, lng) {
   const url = 'https://nominatim.openstreetmap.org/reverse'
@@ -409,7 +409,7 @@ function reverseGeocode(lat, lng) {
       updateLocationLabel(label, geohash);
     })
     .catch(() => {
-      // Network error — keep showing cached or fallback
+      // Network error  -  keep showing cached or fallback
       const cached = loadCachedLocation();
       if (!cached) updateLocationLabel('Your Location', '');
     });
@@ -425,12 +425,7 @@ function updateLocationLabel(label, geohash) {
 
 // Show pincode input when GPS is not available
 function showPincodePrompt() {
-  const pin = prompt(
-    'Enable location for the best experience.
-
-' +
-    'Or enter your area pincode to see nearby truth:'
-  );
+  const pin = prompt('Enter your area pincode (6 digits):');
   if (pin && /^\d{6}$/.test(pin.trim())) {
     lookupPincode(pin.trim());
   } else if (pin) {
@@ -438,9 +433,9 @@ function showPincodePrompt() {
   }
 }
 
-// Pincode → lat/long → geohash via Nominatim
+// Pincode -> lat/long -> geohash via Nominatim
 function lookupPincode(pin) {
-  showToast('📍 Finding your area…');
+  showToast('  Finding your area...');
   const url = 'https://nominatim.openstreetmap.org/search'
     + '?format=json'
     + '&postalcode=' + pin
@@ -452,16 +447,16 @@ function lookupPincode(pin) {
     .then(r => r.json())
     .then(results => {
       if (!results.length) {
-        showToast('Pincode not found — try again');
+        showToast('Pincode not found  -  try again');
         return;
       }
       const r = results[0];
       reverseGeocode(parseFloat(r.lat), parseFloat(r.lon));
     })
-    .catch(() => showToast('Could not look up pincode — check connection'));
+    .catch(() => showToast('Could not look up pincode  -  check connection'));
 }
 
-// ── localStorage cache helpers ─────────────
+//    localStorage cache helpers              
 function saveCachedLocation(data) {
   try {
     localStorage.setItem(LOCATION_CACHE_KEY, JSON.stringify({
@@ -485,7 +480,7 @@ function loadCachedLocation() {
   } catch(e) { return null; }
 }
 
-// ── Geohash encoder (lightweight, no library) ──
+//    Geohash encoder (lightweight, no library)   
 // Encodes lat/lng to a geohash string of given precision.
 function latLngToGeohash(lat, lng, precision) {
   const BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
@@ -512,7 +507,7 @@ function latLngToGeohash(lat, lng, precision) {
   return geohash;
 }
 
-// ── Render feed card HTML ──────────────────
+//    Render feed card HTML                   
 function renderFeedCard(post, index = 0) {
   const conf = post.confidence;
   const cls  = confClass(conf);
@@ -550,28 +545,28 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · +1 credit
+            OK Confirm  .  +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleDispute(${post.id})">
-            ✗ Dispute
+            X Dispute
           </button>
         </div>
         <div class="feed-card-footnote">
-          ${post.validatorCount} of 3 confirmed · ${post.blockchainHash}
+          ${post.validatorCount} of 3 confirmed  .  ${post.blockchainHash}
         </div>
       </div>
     </article>`;
 }
 
-// ── Render gap card HTML ───────────────────
+//    Render gap card HTML                    
 function renderGapCard(location) {
   return `
     <div class="gap-card animate-fade-in section-sm">
-      <div class="gap-card-icon">⏱</div>
+      <div class="gap-card-icon"> </div>
       <div class="gap-card-content">
-        <div class="gap-card-title">No update — ${location.name}</div>
+        <div class="gap-card-title">No update  -  ${location.name}</div>
         <div class="gap-card-sub">
           Last report was ${location.staleMin} min ago.
           Earn +${location.reward} credits to check and post.
@@ -579,19 +574,19 @@ function renderGapCard(location) {
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn +${location.reward} credits
+          Post update  .  earn +${location.reward} credits
         </a>
       </div>
     </div>`;
 }
 
-// ── Validation helpers ─────────────────────
+//    Validation helpers                      
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — +1 credit');
+  showToast('OK Confirmation submitted  -  +1 credit');
 }
 
 function handleDispute(postId) {
-  showToast('✗ Dispute submitted');
+  showToast('X Dispute submitted');
 }
 
 </script>
@@ -619,17 +614,17 @@ function handleDispute(postId) {
     {
       id: 101, state: 'BUSY', category: 'Crowd',
       desc: 'Very crowded near food court. Long wait for tables.',
-      minutesAgo: 4, hash: '0x4a2f…c8b1', validators: 3, minNeeded: 3,
+      minutesAgo: 4, hash: '0x4a2f...c8b1', validators: 3, minNeeded: 3,
     },
     {
       id: 102, state: 'BUSY', category: 'Crowd',
-      desc: 'Crowded near H&M — weekend rush.',
-      minutesAgo: 7, hash: '0x91cc…f30d', validators: 2, minNeeded: 3,
+      desc: 'Crowded near H&M  -  weekend rush.',
+      minutesAgo: 7, hash: '0x91cc...f30d', validators: 2, minNeeded: 3,
     },
     {
       id: 103, state: 'BUSY', category: 'Parking',
       desc: 'B3 level full. B2 has some space.',
-      minutesAgo: 9, hash: '0x77ab…12e9', validators: 3, minNeeded: 3,
+      minutesAgo: 9, hash: '0x77ab...12e9', validators: 3, minNeeded: 3,
     },
   ];
 
@@ -715,8 +710,8 @@ function handleDispute(postId) {
               </div>
               ${pending ? `
                 <div style="display:flex;gap:var(--space-1)">
-                  <button class="btn btn-sm btn-confirm" onclick="handleConfirm(${r.id})">✓</button>
-                  <button class="btn btn-sm btn-danger" onclick="handleDispute(${r.id})">✗</button>
+                  <button class="btn btn-sm btn-confirm" onclick="handleConfirm(${r.id})">OK</button>
+                  <button class="btn btn-sm btn-danger" onclick="handleDispute(${r.id})">X</button>
                 </div>` : ''}
             </div>
           </div>
@@ -724,7 +719,7 @@ function handleDispute(postId) {
     }).join('');
   }
 
-  // ── Validation state pill ───────────────────────────────────
+  //    Validation state pill                                    
   function renderValidationPill(validatorCount, disputeCount, confidence) {
     const pill = document.getElementById('validation-state-pill');
     if (!pill) return;
@@ -733,7 +728,7 @@ function handleDispute(postId) {
     if (disputeCount >= 2) {
       pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:5px;
         background:#FCEBEB;color:#A32D2D;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
-        ⚠ Flagged by community — treat with caution
+          Flagged by community  -  treat with caution
       </span>`;
       return;
     }
@@ -743,24 +738,24 @@ function handleDispute(postId) {
         background:#FEF9E7;color:#92610A;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
         <span style="width:7px;height:7px;border-radius:50%;background:#F5C518;
                      animation:pulseDot2 1.5s ease-in-out infinite;display:inline-block"></span>
-        New · Be first to verify — earn +2 credits
+        New  .  Be first to verify  -  earn +2 credits
       </span>`;
     } else if (validatorCount < 3) {
       pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
         background:#FEF0E6;color:#8B4513;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
         <span style="width:7px;height:7px;border-radius:50%;background:#F5A050;display:inline-block"></span>
-        ${validatorCount}/3 verified · ${3 - validatorCount} more needed
+        ${validatorCount}/3 verified  .  ${3 - validatorCount} more needed
       </span>`;
     } else if (confidence >= 70) {
       pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
         background:#E3F2EB;color:#085041;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
         <span style="width:7px;height:7px;border-radius:50%;background:#1D9E75;display:inline-block"></span>
-        ✓ Community verified · ${validatorCount} validators · ${confidence}% confidence
+        OK Community verified  .  ${validatorCount} validators  .  ${confidence}% confidence
       </span>`;
     } else {
       pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
         background:#F1EFE8;color:#444;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
-        Inconclusive · low agreement
+        Inconclusive  .  low agreement
       </span>`;
     }
   }
@@ -775,7 +770,7 @@ function handleDispute(postId) {
       // Show verified badge
       const heroEl = document.getElementById('state-hero');
       if (heroEl && !heroEl.querySelector('.verified-badge')) {
-        heroEl.innerHTML += '<span class="verified-badge">✓ Verified</span>';
+        heroEl.innerHTML += '<span class="verified-badge">OK Verified</span>';
       }
     } else if (confidence >= 50) {
       hero.classList.add('conf-medium');
@@ -797,7 +792,7 @@ function handleDispute(postId) {
   }
 
   function shareLocation() {
-    const text = encodeURIComponent('🔴 GVK One Mall is BUSY right now (87% confidence) — checked on RealityNow: https://cryptofundi.github.io/realitynow/location.html');
+    const text = encodeURIComponent('  GVK One Mall is BUSY right now (87% confidence)  -  checked on RealityNow: https://cryptofundi.github.io/realitynow/location.html');
     window.open(`https://wa.me/?text=${text}`, '_blank');
   }
 
