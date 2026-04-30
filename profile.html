@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile — RealityNow</title>
+  <title>Profile  -  RealityNow</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -95,7 +95,7 @@
         <div class="card">
           <div id="tier-list"></div>
         </div>
-        <!-- Progress to next tier — gamified path -->
+        <!-- Progress to next tier  -  gamified path -->
         <div id="tier-progress-card" style="margin-top:var(--space-3);padding:var(--space-3) var(--space-4);
                     background:linear-gradient(135deg,var(--color-surface-subtle),var(--color-surface));
                     border:1px solid var(--color-border);border-radius:var(--radius-md)">
@@ -164,12 +164,12 @@
 </div>
 
 <script>
-/* ── app.js inlined for GitHub Pages reliability ── */
+/*    app.js inlined for GitHub Pages reliability    */
 /* ============================================
-   RealityNow — Shared JS Utilities
+   RealityNow  -  Shared JS Utilities
    ============================================ */
 
-// ── Header / Footer injection ──────────────
+//    Header / Footer injection               
 // Call on each page to inject shared components.
 function injectHeader(config = {}) {
   const {
@@ -188,19 +188,19 @@ function injectHeader(config = {}) {
     html = `
       <header class="site-header">
         <div class="site-header-brand">
-          <div class="site-header-logo">⚡</div>
+          <div class="site-header-logo"> </div>
           <div>
             <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
-              📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
+                <span id="location-text">Banjara Hills, Hyderabad</span> >
             </div>
           </div>
         </div>
         <div class="site-header-actions">
           ${showNotif ? `<button class="btn btn-icon btn-secondary" style="position:relative" onclick="window.location='validate.html'">
-            🔔<span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
+             <span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
           </button>` : ''}
-          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile">👤</a>
+          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile"> </a>
         </div>
       </header>`;
   }
@@ -208,7 +208,7 @@ function injectHeader(config = {}) {
   if (type === 'page') {
     html = `
       <header class="page-header">
-        <a href="${backHref}" class="page-header-back" title="Back">←</a>
+        <a href="${backHref}" class="page-header-back" title="Back"><-</a>
         <div class="page-header-content">
           <div class="page-header-title">${title}</div>
           ${subtitle ? `<div class="page-header-sub">${subtitle}</div>` : ''}
@@ -221,7 +221,7 @@ function injectHeader(config = {}) {
     html = `
       <header class="step-header">
         <div class="step-header-top">
-          <a href="${backHref}" class="page-header-back" title="Back">←</a>
+          <a href="${backHref}" class="page-header-back" title="Back"><-</a>
           <div class="step-header-title">${title}</div>
           <span style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
             ${step} / ${totalSteps}
@@ -239,11 +239,11 @@ function injectHeader(config = {}) {
 
 function injectBottomNav(activePage = 'feed') {
   const pages = [
-    { id: 'feed',     href: 'index.html',    icon: '🏠', label: 'Feed' },
-    { id: 'validate', href: 'validate.html', icon: '✅', label: 'Validate' },
+    { id: 'feed',     href: 'index.html',    icon: ' ', label: 'Feed' },
+    { id: 'validate', href: 'validate.html', icon: ' ', label: 'Validate' },
     { id: 'post',     href: 'post.html',     icon: '+',  label: '', isFab: true },
-    { id: 'location', href: 'location.html', icon: '📍', label: 'Places' },
-    { id: 'profile',  href: 'profile.html',  icon: '👤', label: 'Profile' },
+    { id: 'location', href: 'location.html', icon: ' ', label: 'Places' },
+    { id: 'profile',  href: 'profile.html',  icon: ' ', label: 'Profile' },
   ];
 
   const items = pages.map(p => {
@@ -267,16 +267,16 @@ function injectFooter() {
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div class="site-footer-brand">
-          <span style="font-size:16px">⚡</span> RealityNow
+          <span style="font-size:16px"> </span> RealityNow
         </div>
         <div class="site-footer-links">
-          <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy — coming soon')">Privacy</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Terms — coming soon')">Terms</a>
+          <a href="#" class="site-footer-link" onclick="showToast('How it works  -  coming soon')">How it works</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy  -  coming soon')">Privacy</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Terms  -  coming soon')">Terms</a>
           <a href="https://polygon.technology" target="_blank" class="site-footer-link">Polygon</a>
         </div>
         <div class="site-footer-copy">
-          Truth is on-chain · Immutable · Forever<br>
+          Truth is on-chain  .  Immutable  .  Forever<br>
           Ward data sourced from official government portals
         </div>
       </div>
@@ -285,7 +285,7 @@ function injectFooter() {
   if (el) el.innerHTML = html;
 }
 
-// ── Confidence helpers ─────────────────────
+//    Confidence helpers                      
 function confClass(pct) {
   if (pct >= 75) return 'high';
   if (pct >= 50) return 'medium';
@@ -298,7 +298,7 @@ function confLabel(pct) {
   return 'Low confidence';
 }
 
-// ── State helpers ──────────────────────────
+//    State helpers                           
 function stateBadge(state) {
   const map = {
     BUSY:     { cls: 'badge-busy',     label: 'Busy' },
@@ -322,7 +322,7 @@ function stateColor(state) {
   return map[state] || map.EMPTY;
 }
 
-// ── Freshness label ────────────────────────
+//    Freshness label                         
 function freshnessLabel(minutesAgo) {
   if (minutesAgo < 1)  return 'just now';
   if (minutesAgo < 60) return `${minutesAgo}m ago`;
@@ -336,7 +336,7 @@ function freshnessClass(minutesAgo) {
   return 'low';
 }
 
-// ── Toast ──────────────────────────────────
+//    Toast                                   
 function showToast(message, duration = 2500) {
   let toast = document.querySelector('.toast');
   if (!toast) {
@@ -350,14 +350,14 @@ function showToast(message, duration = 2500) {
   toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
 }
 
-// ── Location system ───────────────────────
+//    Location system                        
 // Handles GPS detection, reverse geocoding,
 // localStorage caching, and pincode fallback.
 
 const LOCATION_CACHE_KEY = 'rn_location';
 const LOCATION_CACHE_TTL  = 10 * 60 * 1000; // 10 minutes in ms
 
-// Main entry point — called on page load automatically
+// Main entry point  -  called on page load automatically
 // and when user taps the location label.
 function initLocation() {
   // 1. Show cached location immediately (instant UX)
@@ -368,7 +368,7 @@ function initLocation() {
 
   // 2. Request fresh GPS in background
   if (!navigator.geolocation) {
-    // Browser does not support geolocation — show pincode prompt
+    // Browser does not support geolocation  -  show pincode prompt
     if (!cached) showPincodePrompt();
     return;
   }
@@ -381,7 +381,7 @@ function initLocation() {
     err => {
       // GPS denied or failed
       if (!cached) {
-        // No cache either — ask for pincode
+        // No cache either  -  ask for pincode
         showPincodePrompt();
       }
       // If we have cache, just keep showing it silently
@@ -396,12 +396,12 @@ function initLocation() {
 
 // Called when user taps location label to refresh
 function promptLocation() {
-  showToast('📍 Detecting your location…');
+  showToast('  Detecting your location...');
   initLocation();
 }
 
-// Reverse geocode lat/long → neighbourhood name
-// Uses Nominatim (OpenStreetMap) — free, no API key needed.
+// Reverse geocode lat/long -> neighbourhood name
+// Uses Nominatim (OpenStreetMap)  -  free, no API key needed.
 // Falls back gracefully if network fails.
 function reverseGeocode(lat, lng) {
   const url = 'https://nominatim.openstreetmap.org/reverse'
@@ -438,7 +438,7 @@ function reverseGeocode(lat, lng) {
       updateLocationLabel(label, geohash);
     })
     .catch(() => {
-      // Network error — keep showing cached or fallback
+      // Network error  -  keep showing cached or fallback
       const cached = loadCachedLocation();
       if (!cached) updateLocationLabel('Your Location', '');
     });
@@ -454,12 +454,7 @@ function updateLocationLabel(label, geohash) {
 
 // Show pincode input when GPS is not available
 function showPincodePrompt() {
-  const pin = prompt(
-    'Enable location for the best experience.
-
-' +
-    'Or enter your area pincode to see nearby truth:'
-  );
+  const pin = prompt('Enter your area pincode (6 digits):');
   if (pin && /^\d{6}$/.test(pin.trim())) {
     lookupPincode(pin.trim());
   } else if (pin) {
@@ -467,9 +462,9 @@ function showPincodePrompt() {
   }
 }
 
-// Pincode → lat/long → geohash via Nominatim
+// Pincode -> lat/long -> geohash via Nominatim
 function lookupPincode(pin) {
-  showToast('📍 Finding your area…');
+  showToast('  Finding your area...');
   const url = 'https://nominatim.openstreetmap.org/search'
     + '?format=json'
     + '&postalcode=' + pin
@@ -481,16 +476,16 @@ function lookupPincode(pin) {
     .then(r => r.json())
     .then(results => {
       if (!results.length) {
-        showToast('Pincode not found — try again');
+        showToast('Pincode not found  -  try again');
         return;
       }
       const r = results[0];
       reverseGeocode(parseFloat(r.lat), parseFloat(r.lon));
     })
-    .catch(() => showToast('Could not look up pincode — check connection'));
+    .catch(() => showToast('Could not look up pincode  -  check connection'));
 }
 
-// ── localStorage cache helpers ─────────────
+//    localStorage cache helpers              
 function saveCachedLocation(data) {
   try {
     localStorage.setItem(LOCATION_CACHE_KEY, JSON.stringify({
@@ -514,7 +509,7 @@ function loadCachedLocation() {
   } catch(e) { return null; }
 }
 
-// ── Geohash encoder (lightweight, no library) ──
+//    Geohash encoder (lightweight, no library)   
 // Encodes lat/lng to a geohash string of given precision.
 function latLngToGeohash(lat, lng, precision) {
   const BASE32 = '0123456789bcdefghjkmnpqrstuvwxyz';
@@ -541,7 +536,7 @@ function latLngToGeohash(lat, lng, precision) {
   return geohash;
 }
 
-// ── Render feed card HTML ──────────────────
+//    Render feed card HTML                   
 function renderFeedCard(post, index = 0) {
   const conf = post.confidence;
   const cls  = confClass(conf);
@@ -579,28 +574,28 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · +1 credit
+            OK Confirm  .  +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleDispute(${post.id})">
-            ✗ Dispute
+            X Dispute
           </button>
         </div>
         <div class="feed-card-footnote">
-          ${post.validatorCount} of 3 confirmed · ${post.blockchainHash}
+          ${post.validatorCount} of 3 confirmed  .  ${post.blockchainHash}
         </div>
       </div>
     </article>`;
 }
 
-// ── Render gap card HTML ───────────────────
+//    Render gap card HTML                    
 function renderGapCard(location) {
   return `
     <div class="gap-card animate-fade-in section-sm">
-      <div class="gap-card-icon">⏱</div>
+      <div class="gap-card-icon"> </div>
       <div class="gap-card-content">
-        <div class="gap-card-title">No update — ${location.name}</div>
+        <div class="gap-card-title">No update  -  ${location.name}</div>
         <div class="gap-card-sub">
           Last report was ${location.staleMin} min ago.
           Earn +${location.reward} credits to check and post.
@@ -608,38 +603,38 @@ function renderGapCard(location) {
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn +${location.reward} credits
+          Post update  .  earn +${location.reward} credits
         </a>
       </div>
     </div>`;
 }
 
-// ── Validation helpers ─────────────────────
+//    Validation helpers                      
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — +1 credit');
+  showToast('OK Confirmation submitted  -  +1 credit');
 }
 
 function handleDispute(postId) {
-  showToast('✗ Dispute submitted');
+  showToast('X Dispute submitted');
 }
 
 </script>
 
 <script>
   const TIERS = [
-    { name: 'Newbie',      range: '0–5',   validate: false, weight: '1×',   credits: '1×',   current: false },
-    { name: 'Contributor', range: '5–20',  validate: true,  weight: '1.5×', credits: '1.1×', current: true  },
-    { name: 'Trusted',     range: '20–50', validate: true,  weight: '3×',   credits: '1.3×', current: false },
-    { name: 'Expert',      range: '50+',   validate: true,  weight: '6×',   credits: '1.5×', current: false },
+    { name: 'Newbie',      range: '0-5',   validate: false, weight: '1x',   credits: '1x',   current: false },
+    { name: 'Contributor', range: '5-20',  validate: true,  weight: '1.5x', credits: '1.1x', current: true  },
+    { name: 'Trusted',     range: '20-50', validate: true,  weight: '3x',   credits: '1.3x', current: false },
+    { name: 'Expert',      range: '50+',   validate: true,  weight: '6x',   credits: '1.5x', current: false },
   ];
 
   const ACTIVITY = [
-    { type: 'post',     icon: '📸', text: 'Posted: Jubilee Hills traffic — Slow',       time: '2h ago',  earn: '++2 credits', ok: true  },
-    { type: 'validate', icon: '✓',  text: 'Validated: GVK Mall — Busy (correct)',        time: '3h ago',  earn: '++1 credit', ok: true  },
-    { type: 'validate', icon: '✓',  text: 'Validated: Apollo Queue — Busy (correct)',    time: '5h ago',  earn: '++1 credit', ok: true  },
-    { type: 'post',     icon: '📸', text: 'Posted: PVNR traffic — Moderate',             time: '1d ago',  earn: '++2 credits', ok: true  },
-    { type: 'validate', icon: '✗',  text: 'Validated: Café — Empty (wrong)',             time: '1d ago',  earn: '0 credits',     ok: false },
-    { type: 'post',     icon: '📸', text: 'Posted: Inorbit Parking — Full',              time: '2d ago',  earn: '++2 credits', ok: true  },
+    { type: 'post',     icon: ' ', text: 'Posted: Jubilee Hills traffic  -  Slow',       time: '2h ago',  earn: '++2 credits', ok: true  },
+    { type: 'validate', icon: 'OK',  text: 'Validated: GVK Mall  -  Busy (correct)',        time: '3h ago',  earn: '++1 credit', ok: true  },
+    { type: 'validate', icon: 'OK',  text: 'Validated: Apollo Queue  -  Busy (correct)',    time: '5h ago',  earn: '++1 credit', ok: true  },
+    { type: 'post',     icon: ' ', text: 'Posted: PVNR traffic  -  Moderate',             time: '1d ago',  earn: '++2 credits', ok: true  },
+    { type: 'validate', icon: 'X',  text: 'Validated: Cafe  -  Empty (wrong)',             time: '1d ago',  earn: '0 credits',     ok: false },
+    { type: 'post',     icon: ' ', text: 'Posted: Inorbit Parking  -  Full',              time: '2d ago',  earn: '++2 credits', ok: true  },
   ];
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -673,10 +668,10 @@ function handleDispute(postId) {
           <div style="font-size:var(--text-sm);font-weight:var(--weight-semibold);
                       color:${t.current ? 'var(--color-brand-dark)' : 'var(--color-text-primary)'}">
             ${t.name} (${t.range})
-            ${t.current ? '<span style="font-size:10px;color:var(--color-brand-primary)"> ← you</span>' : ''}
+            ${t.current ? '<span style="font-size:10px;color:var(--color-brand-primary)"> <- you</span>' : ''}
           </div>
           <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:2px">
-            Vote weight: ${t.weight} · Credits: ${t.credits} · Validate: ${t.validate ? '✓' : '✗'}
+            Vote weight: ${t.weight}  .  Credits: ${t.credits}  .  Validate: ${t.validate ? 'OK' : 'X'}
           </div>
         </div>
         ${t.current ? `<span class="badge badge-verified">Current</span>` : ''}
