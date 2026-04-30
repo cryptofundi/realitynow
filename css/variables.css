@@ -8,10 +8,10 @@
 
 :root {
 
-  /* -- Brand colours --------------------------------- */
-  --color-brand-primary:    #4F46E5;   /* indigo blue -- main CTA */
-  --color-brand-dark:       #3730A3;
-  --color-brand-light:      #EEF2FF;
+  /* ── Brand colours ──────────────────────── */
+  --color-brand-primary:    #0D9373;   /* teal green — main CTA */
+  --color-brand-dark:       #0A6E57;
+  --color-brand-light:      #E0F5EF;
   --color-brand-accent:     #F5A623;   /* amber — earning / reward */
 
   /* ── Semantic colours ───────────────────── */
@@ -19,8 +19,8 @@
   --color-busy-bg:          #FEF0EF;
   --color-moderate:         #F5A623;
   --color-moderate-bg:      #FEF8ED;
-  --color-empty:            #4F46E5;
-  --color-empty-bg:         #EEF2FF;
+  --color-empty:            #0D9373;
+  --color-empty-bg:         #E0F5EF;
   --color-slow:             #5B7FE8;
   --color-slow-bg:          #EEF2FE;
   --color-closed:           #888;
@@ -41,7 +41,7 @@
   --color-text-inverse:     #FFFFFF;
 
   /* ── Confidence / score colours ─────────── */
-  --color-conf-high:        #4F46E5;
+  --color-conf-high:        #0D9373;
   --color-conf-med:         #F5A623;
   --color-conf-low:         #E8453C;
 
