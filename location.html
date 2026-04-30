@@ -159,19 +159,19 @@ function injectHeader(config = {}) {
     html = `
       <header class="site-header">
         <div class="site-header-brand">
-          <div class="site-header-logo"> </div>
+          <div class="site-header-logo">&#9889;</div>
           <div>
             <div class="site-header-name">RealityNow</div>
-            <div class="site-header-location" id="location-label" onclick="promptLocation()">
+            <div class="site-header-location" id="location-label" onclick="openLocationSearch()">
                 <span id="location-text">Banjara Hills, Hyderabad</span> >
             </div>
           </div>
         </div>
         <div class="site-header-actions">
-          ${showNotif ? `<button class="btn btn-icon btn-secondary" style="position:relative" onclick="window.location='validate.html'">
+          ${showNotif ? `<button class="btn btn-icon btn-secondary" style="position:relative" onclick="window.location='validate.html'">&#128276;
              <span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
           </button>` : ''}
-          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile"> </a>
+          <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile">&#128100;</a>
         </div>
       </header>`;
   }
@@ -210,11 +210,11 @@ function injectHeader(config = {}) {
 
 function injectBottomNav(activePage = 'feed') {
   const pages = [
-    { id: 'feed',     href: 'index.html',    icon: ' ', label: 'Feed' },
-    { id: 'validate', href: 'validate.html', icon: ' ', label: 'Validate' },
+    { id: 'feed',     href: 'index.html',    icon: '&#127968;', label: 'Feed' },
+    { id: 'validate', href: 'validate.html', icon: '&#9989;', label: 'Validate' },
     { id: 'post',     href: 'post.html',     icon: '+',  label: '', isFab: true },
-    { id: 'location', href: 'location.html', icon: ' ', label: 'Places' },
-    { id: 'profile',  href: 'profile.html',  icon: ' ', label: 'Profile' },
+    { id: 'location', href: 'location.html', icon: '&#128205;', label: 'Places' },
+    { id: 'profile',  href: 'profile.html',  icon: '&#128100;', label: 'Profile' },
   ];
 
   const items = pages.map(p => {
@@ -813,5 +813,131 @@ function handleDispute(postId) {
   50%      { opacity:0.4; transform:scale(0.7); }
 }
 </style>
+
+
+
+<div id="loc-search-overlay" onclick="closeLocationSearch()"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000"></div>
+<div id="loc-search-panel" style="display:none;position:fixed;top:0;left:50%;
+     transform:translateX(-50%);width:min(100%,520px);
+     background:var(--color-surface);border-radius:0 0 16px 16px;
+     padding:16px;z-index:2001;box-shadow:0 4px 24px rgba(0,0,0,0.15)">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <button onclick="closeLocationSearch()"
+            style="background:none;border:none;font-size:20px;cursor:pointer;padding:0">
+      &#8592;
+    </button>
+    <div style="font-size:var(--text-sm);font-weight:600">Search location</div>
+  </div>
+  <input id="loc-search-input" type="text"
+         placeholder="e.g. Madhapur, Jubilee Hills, Kondapur..."
+         style="width:100%;padding:10px 14px;border:1px solid var(--color-border);
+                border-radius:var(--radius-md);font-size:var(--text-sm);
+                font-family:inherit;outline:none;box-sizing:border-box"
+         oninput="onLocSearchInput(this.value)"
+         onkeydown="if(event.key==='Enter')doLocSearch(this.value)">
+  <div id="loc-search-results" style="margin-top:8px"></div>
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--color-border)">
+    <button onclick="useCurrentGPS()"
+            style="width:100%;padding:10px;background:none;
+                   border:1px solid var(--color-brand-primary);
+                   border-radius:var(--radius-md);color:var(--color-brand-primary);
+                   font-size:var(--text-sm);font-weight:500;cursor:pointer">
+      &#128205; Use my current location
+    </button>
+  </div>
+</div>
+<script>
+var locTimer = null;
+var locResults = [];
+
+function openLocationSearch() {
+  document.getElementById("loc-search-overlay").style.display = "block";
+  document.getElementById("loc-search-panel").style.display = "block";
+  setTimeout(function() { document.getElementById("loc-search-input").focus(); }, 100);
+}
+function closeLocationSearch() {
+  document.getElementById("loc-search-overlay").style.display = "none";
+  document.getElementById("loc-search-panel").style.display = "none";
+  document.getElementById("loc-search-input").value = "";
+  document.getElementById("loc-search-results").innerHTML = "";
+  locResults = [];
+}
+function useCurrentGPS() {
+  closeLocationSearch();
+  showToast("Detecting your location...");
+  try { localStorage.removeItem("rn_location"); } catch(e) {}
+  initLocation();
+}
+function onLocSearchInput(val) {
+  clearTimeout(locTimer);
+  if (val.length < 3) {
+    document.getElementById("loc-search-results").innerHTML = "";
+    return;
+  }
+  locTimer = setTimeout(function() { doLocSearch(val); }, 400);
+}
+function doLocSearch(query) {
+  if (!query || query.length < 3) return;
+  var url = "https://nominatim.openstreetmap.org/search"
+    + "?format=json&q=" + encodeURIComponent(query + ", Hyderabad, India")
+    + "&limit=5&addressdetails=1&accept-language=en";
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      locResults = data;
+      var el = document.getElementById("loc-search-results");
+      if (!data.length) {
+        el.innerHTML = "<div style='padding:8px 0;font-size:12px;color:#888'>No results. Try a different name.</div>";
+        return;
+      }
+      var items = [];
+      for (var i = 0; i < data.length; i++) {
+        var addr = data[i].address || {};
+        var area = addr.suburb || addr.neighbourhood || addr.city_district || addr.town || data[i].display_name.split(",")[0];
+        var city = addr.city || "Hyderabad";
+        var label = area + ", " + city;
+        var div = document.createElement("div");
+        div.textContent = label;
+        div.dataset.idx = i;
+        div.style.cssText = "padding:10px 12px;border-bottom:1px solid #eee;cursor:pointer;font-size:13px";
+        div.onclick = function() { pickResult(parseInt(this.dataset.idx)); };
+        items.push(div.outerHTML);
+      }
+      el.innerHTML = items.join("");
+      // Re-attach click handlers since outerHTML loses them
+      var divs = el.querySelectorAll("div");
+      for (var j = 0; j < divs.length; j++) {
+        (function(idx) {
+          divs[idx].onclick = function() { pickResult(idx); };
+        })(j);
+      }
+    })
+    .catch(function() {
+      document.getElementById("loc-search-results").innerHTML =
+        "<div style='padding:8px 0;font-size:12px;color:#888'>Search failed. Check connection.</div>";
+    });
+}
+function pickResult(idx) {
+  var r = locResults[idx];
+  if (!r) return;
+  var addr = r.address || {};
+  var area = addr.suburb || addr.neighbourhood || addr.city_district || addr.town || r.display_name.split(",")[0];
+  var city = addr.city || "Hyderabad";
+  var label = area + ", " + city;
+  var lat = parseFloat(r.lat);
+  var lng = parseFloat(r.lon);
+  var gh = latLngToGeohash(lat, lng, 5);
+  try {
+    localStorage.setItem("rn_location", JSON.stringify({
+      label: label, lat: lat, lng: lng, geohash: gh, savedAt: Date.now()
+    }));
+  } catch(e) {}
+  updateLocationLabel(label, gh);
+  showToast("Showing " + area);
+  closeLocationSearch();
+}
+</script>
+
 </body>
 </html>
