@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RealityNow — What's happening near you</title>
+  <title>RealityNow - What's happening near you</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -22,7 +22,7 @@
   <main class="page-content">
     <div class="page-content-inner">
 
-      <!-- Live activity bar — urgency layer -->
+      <!-- Live activity bar  -  urgency layer -->
       <div id="live-bar" class="animate-fade-in" style="
         display:flex;align-items:center;justify-content:space-between;
         background:linear-gradient(135deg,#E8F8F3,#F0FBF7);
@@ -72,7 +72,7 @@
       </div><!-- /tabs-wrapper -->
 
       <!-- Feed -->
-      <!-- Local Help Nearby — self-serve requests and offers -->
+      <!-- Local Help Nearby  -  self-serve requests and offers -->
       <div id="local-help-slot" class="section-sm"></div>
 
       <div class="section-label animate-fade-in stagger-2">Nearby truth</div>
@@ -104,7 +104,7 @@
 <script>
 /* ── app.js inlined for GitHub Pages reliability ── */
 /* ============================================
-   RealityNow — Shared JS Utilities
+   RealityNow  -  Shared JS Utilities
    ============================================ */
 
 // ── Header / Footer injection ──────────────
@@ -130,7 +130,7 @@ function injectHeader(config = {}) {
           <div>
             <div class="site-header-name">RealityNow</div>
             <div class="site-header-location" id="location-label" onclick="promptLocation()">
-              📍 <span id="location-text">Banjara Hills, Hyderabad</span> ›
+              📍 <span id="location-text">Banjara Hills, Hyderabad</span> >
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ function injectHeader(config = {}) {
   if (type === 'page') {
     html = `
       <header class="page-header">
-        <a href="${backHref}" class="page-header-back" title="Back">←</a>
+        <a href="${backHref}" class="page-header-back" title="Back"><-</a>
         <div class="page-header-content">
           <div class="page-header-title">${title}</div>
           ${subtitle ? `<div class="page-header-sub">${subtitle}</div>` : ''}
@@ -159,7 +159,7 @@ function injectHeader(config = {}) {
     html = `
       <header class="step-header">
         <div class="step-header-top">
-          <a href="${backHref}" class="page-header-back" title="Back">←</a>
+          <a href="${backHref}" class="page-header-back" title="Back"><-</a>
           <div class="step-header-title">${title}</div>
           <span style="font-size:var(--text-xs);color:var(--color-text-tertiary)">
             ${step} / ${totalSteps}
@@ -208,13 +208,13 @@ function injectFooter() {
           <span style="font-size:16px">⚡</span> RealityNow
         </div>
         <div class="site-footer-links">
-          <a href="#" class="site-footer-link" onclick="showToast('How it works — coming soon')">How it works</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy — coming soon')">Privacy</a>
-          <a href="#" class="site-footer-link" onclick="showToast('Terms — coming soon')">Terms</a>
+          <a href="#" class="site-footer-link" onclick="showToast('How it works - coming soon')">How it works</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Privacy policy - coming soon')">Privacy</a>
+          <a href="#" class="site-footer-link" onclick="showToast('Terms - coming soon')">Terms</a>
           <a href="https://polygon.technology" target="_blank" class="site-footer-link">Polygon</a>
         </div>
         <div class="site-footer-copy">
-          Truth is on-chain · Immutable · Forever<br>
+          Truth is on-chain  .  Immutable  .  Forever<br>
           Ward data sourced from official government portals
         </div>
       </div>
@@ -287,7 +287,7 @@ function postStateBadge(state, validatorCount) {
   const anim = s.pulse ? 'animation:pulseDot 1.5s ease-in-out infinite;' : '';
   let sub = '';
   if (state === 'VERIFYING') sub = validatorCount + '/3 verified';
-  else if (state === 'VERIFIED') sub = '✓ Confirmed';
+  else if (state === 'VERIFIED') sub = 'OK Confirmed';
   else if (state === 'NEW') sub = 'Be first';
   const subHtml = sub ? ' <span style="opacity:0.7">' + sub + '</span>' : '';
   return '<span style="display:inline-flex;align-items:center;gap:5px;background:' + s.bg + ';padding:2px 8px;border-radius:99px;font-size:10px;font-weight:500">'
@@ -296,7 +296,7 @@ function postStateBadge(state, validatorCount) {
     + '</span>';
 }
 
-// Visibility score — composite of confidence weight × freshness weight
+// Visibility score  -  composite of confidence weight x freshness weight
 function visibilityScore(validatorCount, confidence, minutesAgo) {
   const confWeight = validatorCount === 0 ? 0.6
     : validatorCount <= 2 ? 0.75
@@ -309,42 +309,42 @@ function visibilityScore(validatorCount, confidence, minutesAgo) {
   return confWeight * freshWeight;
 }
 
-// Actionable hook — tells user what to DO with the information
+// Actionable hook  -  tells user what to DO with the information
 function actionHook(state, category) {
   const hooks = {
     traffic: {
-      SLOW:     '🚨 Congested — expect 15–20 min delay',
-      BUSY:     '⚠ Heavy traffic — consider alternate route',
-      MODERATE: '🟡 Moving slowly — allow extra time',
-      EMPTY:    '✅ Clear roads — good time to go',
+      SLOW:     '🚨 Congested - expect 15-20 min delay',
+      BUSY:     '⚠ Heavy traffic - consider alternate route',
+      MODERATE: '🟡 Moving slowly - allow extra time',
+      EMPTY:    '✅ Clear roads  -  good time to go',
     },
     crowd: {
-      BUSY:     '🔴 Packed — expect a wait',
-      MODERATE: '🟡 Moderately busy — seating available',
-      EMPTY:    '✅ Quiet — walk right in',
+      BUSY:     '🔴 Packed  -  expect a wait',
+      MODERATE: '🟡 Moderately busy  -  seating available',
+      EMPTY:    '✅ Quiet  -  walk right in',
     },
     parking: {
-      BUSY:     '🅿 Full — find alternative parking first',
-      MODERATE: '🟡 Filling up — hurry or look nearby',
-      EMPTY:    '✅ Spots available — go now',
+      BUSY:     '🅿 Full  -  find alternative parking first',
+      MODERATE: '🟡 Filling up  -  hurry or look nearby',
+      EMPTY:    '✅ Spots available  -  go now',
     },
     queue: {
-      BUSY:     '🔴 Long queue — bring something to read',
-      MODERATE: '🟡 Moderate wait — 20–30 min',
-      EMPTY:    '✅ Short queue — good time to visit',
-      CLOSED:   '🚫 Closed — check before going',
+      BUSY:     '🔴 Long queue  -  bring something to read',
+      MODERATE: '🟡 Moderate wait  -  20-30 min',
+      EMPTY:    '✅ Short queue  -  good time to visit',
+      CLOSED:   '🚫 Closed  -  check before going',
     },
     mall: {
-      BUSY:     '🔴 Very crowded — peak hours',
+      BUSY:     '🔴 Very crowded  -  peak hours',
       MODERATE: '🟡 Busy but manageable',
-      EMPTY:    '✅ Quiet — relaxed shopping',
+      EMPTY:    '✅ Quiet  -  relaxed shopping',
       CLOSED:   '🚫 Closed',
     },
     weather: {
-      BUSY:     '🌧 Raining — carry umbrella',
-      MODERATE: '🌦 Light rain — intermittent',
+      BUSY:     '🌧 Raining  -  carry umbrella',
+      MODERATE: '🌦 Light rain  -  intermittent',
       EMPTY:    '☀ Clear weather',
-      SLOW:     '🌊 Flooding reported — avoid area',
+      SLOW:     '🌊 Flooding reported  -  avoid area',
     },
   };
   const cat = hooks[category] || {};
@@ -378,7 +378,7 @@ function showToast(message, duration = 2500) {
 const LOCATION_CACHE_KEY = 'rn_location';
 const LOCATION_CACHE_TTL  = 10 * 60 * 1000; // 10 minutes in ms
 
-// Main entry point — called on page load automatically
+// Main entry point  -  called on page load automatically
 // and when user taps the location label.
 function initLocation() {
   // 1. Show cached location immediately (instant UX)
@@ -389,7 +389,7 @@ function initLocation() {
 
   // 2. Request fresh GPS in background
   if (!navigator.geolocation) {
-    // Browser does not support geolocation — show pincode prompt
+    // Browser does not support geolocation  -  show pincode prompt
     if (!cached) showPincodePrompt();
     return;
   }
@@ -402,7 +402,7 @@ function initLocation() {
     err => {
       // GPS denied or failed
       if (!cached) {
-        // No cache either — ask for pincode
+        // No cache either  -  ask for pincode
         showPincodePrompt();
       }
       // If we have cache, just keep showing it silently
@@ -417,12 +417,12 @@ function initLocation() {
 
 // Called when user taps location label to refresh
 function promptLocation() {
-  showToast('📍 Detecting your location…');
+  showToast('📍 Detecting your location...');
   initLocation();
 }
 
-// Reverse geocode lat/long → neighbourhood name
-// Uses Nominatim (OpenStreetMap) — free, no API key needed.
+// Reverse geocode lat/long -> neighbourhood name
+// Uses Nominatim (OpenStreetMap)  -  free, no API key needed.
 // Falls back gracefully if network fails.
 function reverseGeocode(lat, lng) {
   const url = 'https://nominatim.openstreetmap.org/reverse'
@@ -459,7 +459,7 @@ function reverseGeocode(lat, lng) {
       updateLocationLabel(label, geohash);
     })
     .catch(() => {
-      // Network error — keep showing cached or fallback
+      // Network error  -  keep showing cached or fallback
       const cached = loadCachedLocation();
       if (!cached) updateLocationLabel('Your Location', '');
     });
@@ -488,9 +488,9 @@ function showPincodePrompt() {
   }
 }
 
-// Pincode → lat/long → geohash via Nominatim
+// Pincode -> lat/long -> geohash via Nominatim
 function lookupPincode(pin) {
-  showToast('📍 Finding your area…');
+  showToast('📍 Finding your area...');
   const url = 'https://nominatim.openstreetmap.org/search'
     + '?format=json'
     + '&postalcode=' + pin
@@ -502,13 +502,13 @@ function lookupPincode(pin) {
     .then(r => r.json())
     .then(results => {
       if (!results.length) {
-        showToast('Pincode not found — try again');
+        showToast('Pincode not found  -  try again');
         return;
       }
       const r = results[0];
       reverseGeocode(parseFloat(r.lat), parseFloat(r.lon));
     })
-    .catch(() => showToast('Could not look up pincode — check connection'));
+    .catch(() => showToast('Could not look up pincode  -  check connection'));
 }
 
 // ── localStorage cache helpers ─────────────
@@ -612,16 +612,16 @@ function renderFeedCard(post, index = 0) {
           <button class="btn btn-confirm btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleConfirm(${post.id})">
-            ✓ Confirm · +1 credit
+            OK Confirm  .  +1 credit
           </button>
           <button class="btn btn-danger btn-sm"
                   style="flex:1"
                   onclick="event.stopPropagation();handleDispute(${post.id})">
-            ✗ Dispute
+            X Dispute
           </button>
         </div>
         <div class="feed-card-footnote">
-          ${post.validatorCount} of 3 confirmed · ${post.blockchainHash}
+          ${post.validatorCount} of 3 confirmed  .  ${post.blockchainHash}
         </div>
       </div>
     </article>`;
@@ -639,7 +639,7 @@ function renderGapCard(location) {
     <div class="gap-card animate-fade-in section-sm">
       <div class="gap-card-icon">⏱</div>
       <div class="gap-card-content">
-        <div class="gap-card-title">No update — ${location.name}</div>
+        <div class="gap-card-title">No update  -  ${location.name}</div>
         <div class="gap-card-sub" style="margin-bottom:var(--space-2)">
           Last report was ${location.staleMin} min ago.
         </div>
@@ -649,7 +649,7 @@ function renderGapCard(location) {
         <a href="post.html?location=${encodeURIComponent(location.name)}"
            class="btn btn-sm"
            style="background:var(--color-brand-accent);color:#fff;border:none">
-          Post update · earn +${location.reward} credits
+          Post update  .  earn +${location.reward} credits
         </a>
       </div>
     </div>`;
@@ -657,11 +657,11 @@ function renderGapCard(location) {
 
 // ── Validation helpers ─────────────────────
 function handleConfirm(postId) {
-  showToast('✓ Confirmation submitted — +1 credit');
+  showToast('Confirmation submitted - +1 credit');
 }
 
 function handleDispute(postId) {
-  showToast('✗ Dispute submitted');
+  showToast('X Dispute submitted');
 }
 
 </script>
@@ -673,37 +673,37 @@ function handleDispute(postId) {
       id: 1, locationName: 'Jubilee Hills Rd No. 36',
       state: 'SLOW', category: 'traffic', categoryIcon: '🚗',
       confidence: 82, minutesAgo: 2,
-      validatorCount: 3, disputeCount: 0, blockchainHash: '0x4a2f…c8b1',
+      validatorCount: 3, disputeCount: 0, blockchainHash: '0x4a2f...c8b1',
     },
     {
       id: 2, locationName: 'Third Wave Coffee, Banjara Hills',
       state: 'EMPTY', category: 'crowd', categoryIcon: '☕',
       confidence: 67, minutesAgo: 5,
-      validatorCount: 2, disputeCount: 0, blockchainHash: '0x91cc…f30d',
+      validatorCount: 2, disputeCount: 0, blockchainHash: '0x91cc...f30d',
     },
     {
       id: 3, locationName: 'Apollo Hospital Queue',
       state: 'BUSY', category: 'queue', categoryIcon: '🏥',
       confidence: 91, minutesAgo: 8,
-      validatorCount: 3, disputeCount: 0, blockchainHash: '0x7d3a…b22c',
+      validatorCount: 3, disputeCount: 0, blockchainHash: '0x7d3a...b22c',
     },
     {
       id: 4, locationName: 'PVNR Expressway',
       state: 'MODERATE', category: 'traffic', categoryIcon: '🚗',
       confidence: 54, minutesAgo: 12,
-      validatorCount: 1, disputeCount: 0, blockchainHash: '0x22fe…9a01',
+      validatorCount: 1, disputeCount: 0, blockchainHash: '0x22fe...9a01',
     },
     {
       id: 5, locationName: 'Inorbit Mall Parking',
       state: 'BUSY', category: 'parking', categoryIcon: '🅿',
       confidence: 78, minutesAgo: 6,
-      validatorCount: 3, disputeCount: 0, blockchainHash: '0x55bd…e71f',
+      validatorCount: 3, disputeCount: 0, blockchainHash: '0x55bd...e71f',
     },
     {
       id: 6, locationName: 'Taj Banjara Hotel Entrance',
       state: 'BUSY', category: 'crowd', categoryIcon: '☕',
       confidence: 0, minutesAgo: 1,
-      validatorCount: 0, disputeCount: 0, blockchainHash: '0xf1a3…22d8',
+      validatorCount: 0, disputeCount: 0, blockchainHash: '0xf1a3...22d8',
     },
   ];
 
@@ -719,7 +719,7 @@ function handleDispute(postId) {
     injectFooter();
     renderGapCards();
     renderFeed(MOCK_POSTS);
-    // Auto-detect location on load — no tap needed
+    // Auto-detect location on load  -  no tap needed
     // Shows cached immediately, updates silently in background
     initLocation();
   });
@@ -752,7 +752,7 @@ function handleDispute(postId) {
     renderFeed(filtered);
   }
 
-  // ── Live feel — ticker + pulse ────────────
+  // ── Live feel  -  ticker + pulse ────────────
   const liveMessages = [
     '<strong>12 people</strong> checking nearby right now',
     '<strong>Priya</strong> just posted in Jubilee Hills',
@@ -957,7 +957,7 @@ function showLocalHelpForm(type) {
   document.getElementById('help-text').placeholder =
     type === 'request'
       ? 'e.g. Need a cook in Banjara Hills, morning 7-9am, daily...'
-      : 'e.g. Free tea for RealityNow users · Near bus stop, Jubilee Hills...';
+      : 'e.g. Free tea for RealityNow users  .  Near bus stop, Jubilee Hills...';
   const form = document.getElementById('local-help-form');
   form.style.display = 'flex';
 }
@@ -970,18 +970,18 @@ function submitLocalHelp() {
   if (!text) { showToast('Please describe your ' + currentHelpType); return; }
   const cost = currentHelpType === 'offer' ? 10 : 3;
   hideLocalHelpForm();
-  showToast('Posted! ' + cost + ' credits spent · Visible for 24 hours nearby');
+  showToast('Posted! ' + cost + ' credits spent  .  Visible for 24 hours nearby');
   // Add to local help feed immediately
   addToLocalHelpFeed(currentHelpType, text);
 }
 
 // ── Render local help feed ────────────────────
 const LOCAL_HELP_MOCK = [
-  { type: 'request', text: 'Need cook — morning 6-8am, Banjara Hills Rd 36',
+  { type: 'request', text: 'Need cook  -  morning 6-8am, Banjara Hills Rd 36',
     age: '8m ago', responses: 3, credits: 3, score: 18.4 },
-  { type: 'offer',   text: '☕ Free chai for RealityNow users · Ravi Tea Stall, near bus stop',
+  { type: 'offer',   text: '☕ Free chai for RealityNow users  .  Ravi Tea Stall, near bus stop',
     age: '2h ago', responses: 12, credits: 10, score: 22.1 },
-  { type: 'request', text: 'Looking for driver — Mon-Sat mornings, Jubilee Hills to HITECH',
+  { type: 'request', text: 'Looking for driver  -  Mon-Sat mornings, Jubilee Hills to HITECH',
     age: '1h ago', responses: 5, credits: 3, score: 14.7 },
 ];
 
@@ -1009,11 +1009,11 @@ function renderLocalHelp() {
         <div style="display:flex;align-items:center;gap:8px;
                     font-size:var(--text-xs);color:var(--color-text-tertiary)">
           <span>${item.age}</span>
-          <span>·</span>
+          <span> . </span>
           <span style="color:var(--color-brand-primary)">
             ⭐ ${item.score} trust
           </span>
-          <span>·</span>
+          <span> . </span>
           <span>${item.responses} responses</span>
         </div>
       </div>
