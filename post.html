@@ -74,7 +74,7 @@
         <div class="location-pill">
           <span class="location-pill-icon">📍</span>
           <div class="location-pill-text">
-            <div class="location-pill-name" id="detected-location">Jubilee Hills, Ward No. 36</div>
+            <div class="location-pill-name" id="detected-location">Detecting location...</div>
             <div class="location-pill-sub">Auto-detected via GPS · <span style="color:var(--color-brand-primary)">Full credits eligible</span></div>
           </div>
           <span class="location-pill-edit" onclick="editLocation()">Edit</span>
@@ -122,7 +122,7 @@
           <span class="badge badge-verified">GPS verified</span>
         </div>
         <div style="font-size:var(--text-sm);color:var(--color-text-secondary)" id="summary-location">
-          Jubilee Hills, Ward No. 36
+          <span id="step2-location">Your location</span>
         </div>
       </div>
 
@@ -214,7 +214,7 @@
         <div class="fee-breakdown">
           <div class="fee-row">
             <span class="fee-label">Location</span>
-            <span class="fee-value" id="tx-location">Jubilee Hills Rd 36</span>
+            <span class="fee-value" id="tx-location">Your area</span>
           </div>
           <div class="fee-row">
             <span class="fee-label">State posted</span>
@@ -744,10 +744,36 @@ function handleDispute(postId) {
     injectBottomNav('post');
     injectFooter();
 
-    // Pre-fill from URL params
-    const params = new URLSearchParams(window.location.search);
-    const loc = params.get('location');
-    if (loc) document.getElementById('detected-location').textContent = loc;
+    // Pre-fill location from URL param or localStorage cache
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var urlLoc = params.get('location');
+      if (urlLoc) {
+        // Location passed via URL - use it
+        var pill = document.getElementById('detected-location');
+        if (pill) pill.textContent = urlLoc;
+        var step2 = document.getElementById('step2-location');
+        if (step2) step2.textContent = urlLoc;
+        var tx = document.getElementById('tx-location');
+        if (tx) tx.textContent = urlLoc.split(',')[0];
+      } else {
+        // Read from localStorage (set by initLocation)
+        try {
+          var cached = localStorage.getItem('rn_location');
+          if (cached) {
+            var data = JSON.parse(cached);
+            var label = data.label || 'Your location';
+            var area = label.split(',')[0];
+            var pill2 = document.getElementById('detected-location');
+            if (pill2) pill2.textContent = label;
+            var step2b = document.getElementById('step2-location');
+            if (step2b) step2b.textContent = label;
+            var tx2 = document.getElementById('tx-location');
+            if (tx2) tx2.textContent = area;
+          }
+        } catch(e) {}
+      }
+    })();
   });
 
   function selectCategory(btn) {
