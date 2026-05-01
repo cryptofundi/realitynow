@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Become a City Launch Partner - RealityNow</title>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+.clp-header {
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-dark));
+  color: #fff;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+.clp-header-top {
+  display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);
+}
+.clp-header-back {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer; color: #fff; text-decoration: none;
+  border: none;
+}
+.clp-header-logo {
+  font-size: var(--text-sm); font-weight: var(--weight-semibold); opacity: 0.9;
+}
+.clp-header-title {
+  font-size: var(--text-xl); font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2); letter-spacing: -0.01em;
+}
+.clp-header-sub {
+  font-size: var(--text-sm); opacity: 0.85; line-height: var(--leading-relaxed);
+}
+.clp-earn-row {
+  display: flex; gap: var(--space-2); margin-top: var(--space-4); flex-wrap: wrap;
+}
+.clp-earn-chip {
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+}
+.section { padding: var(--space-4); }
+.section-title {
+  font-size: var(--text-sm); font-weight: var(--weight-semibold);
+  color: var(--color-text-primary); margin-bottom: var(--space-3);
+}
+.form-group { margin-bottom: var(--space-3); }
+.form-label {
+  font-size: var(--text-xs); font-weight: var(--weight-medium);
+  color: var(--color-text-secondary); margin-bottom: var(--space-1); display: block;
+}
+.form-input {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-family: inherit;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  outline: none; box-sizing: border-box;
+  transition: border-color var(--transition-fast);
+}
+.form-input:focus { border-color: var(--color-brand-primary); }
+.form-select {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-family: inherit;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  outline: none; box-sizing: border-box;
+  appearance: none; cursor: pointer;
+}
+.milestone-card {
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  display: flex; gap: var(--space-3); align-items: flex-start;
+}
+.milestone-badge {
+  width: 40px; height: 40px;
+  background: var(--color-brand-light);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-brand-primary);
+  flex-shrink: 0;
+}
+.milestone-info {}
+.milestone-title {
+  font-size: var(--text-sm); font-weight: var(--weight-semibold);
+  color: var(--color-text-primary); margin-bottom: 2px;
+}
+.milestone-desc {
+  font-size: var(--text-xs); color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+.milestone-reward {
+  font-size: var(--text-xs); font-weight: var(--weight-semibold);
+  color: var(--color-brand-primary); margin-top: 3px;
+}
+.step-card {
+  display: flex; gap: var(--space-3); align-items: flex-start;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.step-card:last-child { border-bottom: none; }
+.step-dot {
+  width: 24px; height: 24px;
+  background: var(--color-brand-primary);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: var(--weight-semibold);
+  color: #fff; flex-shrink: 0; margin-top: 2px;
+}
+.step-text {}
+.step-title { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-primary); }
+.step-desc { font-size: var(--text-xs); color: var(--color-text-secondary); line-height: var(--leading-relaxed); }
+.divider { height: 8px; background: var(--color-surface-subtle); }
+.callout {
+  background: var(--color-brand-light);
+  border-left: 3px solid var(--color-brand-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs); color: var(--color-brand-dark);
+  line-height: var(--leading-relaxed); margin: var(--space-2) 0;
+}
+.callout.warn { background: #FEF8ED; border-color: var(--color-brand-accent); color: #7A4F0A; }
+.info-table { width: 100%; border-collapse: collapse; }
+.info-table td { padding: var(--space-2); border-bottom: 1px solid var(--color-border); font-size: var(--text-xs); }
+.info-table tr:last-child td { border-bottom: none; }
+.info-table td:first-child { font-weight: 500; color: var(--color-text-primary); width: 45%; }
+.info-table td:last-child { color: var(--color-text-secondary); }
+.tab-row {
+  display: flex; background: var(--color-surface-subtle);
+  border-radius: var(--radius-md); padding: 3px; margin-bottom: var(--space-3);
+}
+.tab-btn {
+  flex: 1; padding: 7px 0; border: none; background: none;
+  font-size: var(--text-xs); font-weight: var(--weight-medium);
+  color: var(--color-text-tertiary); border-radius: var(--radius-sm);
+  cursor: pointer; transition: all var(--transition-fast);
+}
+.tab-btn.active {
+  background: var(--color-surface);
+  color: var(--color-brand-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.submit-bar {
+  position: sticky; bottom: 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-4);
+}
+</style>
+</head>
+<body>
+<div class="page-shell">
+
+  <!-- Header -->
+  <div class="clp-header">
+    <div class="clp-header-top">
+      <a href="not-launched.html" class="clp-header-back">&#8592;</a>
+      <div class="clp-header-logo">&#9889; RealityNow</div>
+    </div>
+    <div class="clp-header-title">Become a City Launch Partner</div>
+    <div class="clp-header-sub">
+      Launch RealityNow in your neighbourhood. Earn milestone rewards for
+      onboarding real, active users.
+    </div>
+    <div class="clp-earn-row">
+      <span class="clp-earn-chip">&#8377;1,000 at 50 users</span>
+      <span class="clp-earn-chip">&#8377;2,500 at 100 users</span>
+      <span class="clp-earn-chip">&#8377;5,000 on retention</span>
+    </div>
+  </div>
+
+  <div class="page-content" style="padding-bottom:80px">
+
+    <!-- Tabs -->
+    <div class="section" style="padding-bottom:0">
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="switchTab('apply',this)">Apply Now</button>
+        <button class="tab-btn" onclick="switchTab('what',this)">What is a CLP?</button>
+        <button class="tab-btn" onclick="switchTab('how',this)">How it works</button>
+      </div>
+    </div>
+
+    <!-- TAB 1: Apply form -->
+    <div id="tab-apply" class="tab-panel active">
+      <div class="section">
+        <div class="section-title">Your details</div>
+
+        <div class="form-group">
+          <label class="form-label">Full name</label>
+          <input type="text" class="form-input" id="clp-name" placeholder="e.g. Ravi Kumar">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phone number</label>
+          <input type="tel" class="form-input" id="clp-phone" placeholder="10-digit mobile number">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your area / neighbourhood</label>
+          <input type="text" class="form-input" id="clp-area" placeholder="e.g. Kondapur, Kukatpally, Ameerpet">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pincode</label>
+          <input type="text" class="form-input" id="clp-pin" placeholder="6-digit pincode" maxlength="6">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your occupation</label>
+          <select class="form-select" id="clp-occupation">
+            <option value="">Select your occupation</option>
+            <option>Student</option>
+            <option>Delivery rider (Swiggy / Zomato / Dunzo)</option>
+            <option>Cab / Auto driver</option>
+            <option>Courier / Logistics</option>
+            <option>Shop owner / Small business</option>
+            <option>Office professional</option>
+            <option>Homemaker</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Why do you want to become a CLP?</label>
+          <textarea class="form-input" id="clp-why" rows="3"
+                    placeholder="Tell us briefly why you want to launch RealityNow in your area..."
+                    style="resize:none"></textarea>
+        </div>
+
+        <div class="callout">
+          <strong>Note:</strong> You will be onboarded as an Independent Contractor.
+          Payouts are milestone-based, not per post. TDS of 10% applies if total
+          earnings exceed Rs.30,000 in a financial year.
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: What is a CLP -->
+    <div id="tab-what" class="tab-panel">
+      <div class="section">
+        <div class="section-title">What is a City Launch Partner?</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                  line-height:var(--leading-relaxed);margin-bottom:var(--space-4)">
+          A City Launch Partner (CLP) is an independent local growth operator who
+          seeds the first community of active RealityNow users in a specific neighbourhood.
+          You are not posting data yourself - you are building the network of real people
+          who will post and validate for years to come.
+        </p>
+
+        <div class="section-title">What you do as a CLP</div>
+        <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);padding:var(--space-3);margin-bottom:var(--space-4)">
+          <div class="step-card">
+            <div class="step-dot">1</div>
+            <div class="step-text">
+              <div class="step-title">Educate people in your area</div>
+              <div class="step-desc">Show neighbours, students, shopkeepers how the app works. Explain what RealityNow is and why it is useful for daily decisions.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-dot">2</div>
+            <div class="step-text">
+              <div class="step-title">Get them to make one real post</div>
+              <div class="step-desc">Help each person post their first reality update. This unlocks their Validator status and makes them a genuine active user (VAU).</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-dot">3</div>
+            <div class="step-text">
+              <div class="step-title">Ensure they validate 5 times</div>
+              <div class="step-desc">A fully qualified VAU has verified their phone, made 1 valid post, and submitted 5 validations. Guide them to reach this milestone.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-dot">4</div>
+            <div class="step-text">
+              <div class="step-title">Build density in one area first</div>
+              <div class="step-desc">Do not spread thin across a whole city. Pick one high-traffic zone - a college, a tech park, a market - and build deep density there first.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">What you do NOT do</div>
+        <div style="background:#FEF0EF;border-radius:var(--radius-md);padding:var(--space-3);margin-bottom:var(--space-4)">
+          <div style="font-size:var(--text-xs);color:#A32D2D;line-height:1.8">
+            X Post fake or duplicate updates yourself<br>
+            X Pay people per post - this creates spam<br>
+            X Onboard users who are not real people in your area<br>
+            X Claim credit for organic signups not from your referral<br>
+            X Share your referral code with people outside your zone
+          </div>
+        </div>
+
+        <div class="section-title">CLP payout structure</div>
+        <div class="milestone-card">
+          <div class="milestone-badge">L1</div>
+          <div class="milestone-info">
+            <div class="milestone-title">Level 1 - 50 Verified Active Users</div>
+            <div class="milestone-desc">50 people in your area have verified phone + made 1 valid post + completed 5 validations.</div>
+            <div class="milestone-reward">&#8377;1,000 one-time payout</div>
+          </div>
+        </div>
+        <div class="milestone-card">
+          <div class="milestone-badge">L2</div>
+          <div class="milestone-info">
+            <div class="milestone-title">Level 2 - 100 VAUs + 500 total validations</div>
+            <div class="milestone-desc">100 active users AND a combined 500 validations from your cohort, proving the truth layer is working.</div>
+            <div class="milestone-reward">&#8377;2,500 one-time payout</div>
+          </div>
+        </div>
+        <div class="milestone-card">
+          <div class="milestone-badge">L3</div>
+          <div class="milestone-info">
+            <div class="milestone-title">Level 3 - 2-week retention above 30%</div>
+            <div class="milestone-desc">More than 30% of your users are still active 2 weeks after signing up. This proves the app is genuinely useful - not just installed and forgotten.</div>
+            <div class="milestone-reward">&#8377;5,000 one-time payout</div>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <strong>Inactivity rule:</strong> If no new VAU comes from your referral code
+          for 60 days, your code is deactivated. To reactivate, bring 5 new VAUs within
+          7 days. This ensures only active CLPs get credit.
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: How it works -->
+    <div id="tab-how" class="tab-panel">
+      <div class="section">
+        <div class="section-title">What is a Verified Active User (VAU)?</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                  line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+          A VAU is a user who has done all four of these things:
+        </p>
+        <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                    padding:var(--space-3);margin-bottom:var(--space-4)">
+          <table class="info-table">
+            <tr><td>Phone verified via OTP</td><td>Proves they are a real person with a real number</td></tr>
+            <tr><td>Made 1 valid post</td><td>Post confirmed as accurate by community - not just posted</td></tr>
+            <tr><td>Completed 5 validations</td><td>Actively participated in confirming others' posts</td></tr>
+            <tr><td>At least 1 correct validation</td><td>Proved they are validating thoughtfully, not randomly</td></tr>
+          </table>
+        </div>
+
+        <div class="section-title">Why is this definition hard to fake?</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                  line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+          Making a "valid post" requires other real validators to confirm it.
+          Validators must be physically nearby to get full weight.
+          You cannot create 50 fake accounts and call them VAUs - the validation
+          system requires real people to be in real locations.
+        </p>
+
+        <div class="section-title">Tracking your progress</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                  line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+          Every user you onboard via your referral code is tracked in the system.
+          You will receive a monthly report showing:
+        </p>
+        <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                    padding:var(--space-3);margin-bottom:var(--space-4)">
+          <table class="info-table">
+            <tr><td>Users referred</td><td>Total who used your code</td></tr>
+            <tr><td>Users who posted</td><td>Made at least 1 post</td></tr>
+            <tr><td>Verified Active Users</td><td>Fully qualified VAUs</td></tr>
+            <tr><td>Milestone status</td><td>Which level you have reached</td></tr>
+            <tr><td>Total paid</td><td>Cumulative payout so far</td></tr>
+          </table>
+        </div>
+
+        <div class="section-title">Territory and exclusivity</div>
+        <div class="callout">
+          You get <strong>6-month territorial exclusivity</strong> for your area.
+          Only your referral code is promoted in that zone for the first 6 months.
+          If you hit Level 1, your exclusivity renews automatically.
+          This is a non-cash incentive worth more than the milestone payouts in most cases.
+        </div>
+
+        <div class="section-title">Legal structure</div>
+        <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                    padding:var(--space-3)">
+          <table class="info-table">
+            <tr><td>Agreement type</td><td>Independent Contractor Agreement</td></tr>
+            <tr><td>Payment recording</td><td>Marketing / Business Development expense</td></tr>
+            <tr><td>TDS</td><td>10% deducted if earnings exceed Rs.30,000 in one financial year</td></tr>
+            <tr><td>Payment method</td><td>Bank transfer or UPI</td></tr>
+            <tr><td>Payment timing</td><td>Within 7 days of milestone verification</td></tr>
+            <tr><td>Max CLPs per area</td><td>2 at launch. Expanded as density grows.</td></tr>
+          </table>
+        </div>
+
+        <div style="height:var(--space-4)"></div>
+
+        <div class="section-title">Best CLP profiles</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                  line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+          The most successful CLPs tend to be people who are already embedded in a community:
+        </p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+          <div style="display:flex;gap:var(--space-3);align-items:flex-start;
+                      padding:var(--space-2) 0;border-bottom:1px solid var(--color-border)">
+            <span style="font-size:20px">&#127891;</span>
+            <div style="font-size:var(--text-xs);color:var(--color-text-secondary);line-height:1.5">
+              <strong style="color:var(--color-text-primary)">College students</strong> -
+              Can seed activity in a university campus quickly through WhatsApp groups and hostel networks.
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-3);align-items:flex-start;
+                      padding:var(--space-2) 0;border-bottom:1px solid var(--color-border)">
+            <span style="font-size:20px">&#127968;</span>
+            <div style="font-size:var(--text-xs);color:var(--color-text-secondary);line-height:1.5">
+              <strong style="color:var(--color-text-primary)">Local shop owners</strong> -
+              Know everyone in their lane. Can introduce RealityNow to customers daily.
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-3);align-items:flex-start;
+                      padding:var(--space-2) 0;border-bottom:1px solid var(--color-border)">
+            <span style="font-size:20px">&#128665;</span>
+            <div style="font-size:var(--text-xs);color:var(--color-text-secondary);line-height:1.5">
+              <strong style="color:var(--color-text-primary)">Delivery riders</strong> -
+              Cover wide areas daily. Can validate themselves and bring fellow riders onboard.
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-3);align-items:flex-start;padding:var(--space-2) 0">
+            <span style="font-size:20px">&#128101;</span>
+            <div style="font-size:var(--text-xs);color:var(--color-text-secondary);line-height:1.5">
+              <strong style="color:var(--color-text-primary)">Apartment/gated community residents</strong> -
+              Can introduce RealityNow via existing community WhatsApp groups instantly.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Submit bar -->
+  <div class="submit-bar" id="submit-bar">
+    <button onclick="submitApplication()"
+            style="width:100%;padding:var(--space-3);background:var(--color-brand-primary);
+                   color:#fff;border:none;border-radius:var(--radius-md);
+                   font-size:var(--text-base);font-weight:var(--weight-semibold);cursor:pointer">
+      Submit Application
+    </button>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll(".tab-panel").forEach(function(p){ p.classList.remove("active"); });
+  document.querySelectorAll(".tab-btn").forEach(function(b){ b.classList.remove("active"); });
+  document.getElementById("tab-"+id).classList.add("active");
+  btn.classList.add("active");
+  // Only show submit bar on apply tab
+  document.getElementById("submit-bar").style.display = id==="apply" ? "block" : "none";
+}
+
+function submitApplication() {
+  var name = document.getElementById("clp-name").value.trim();
+  var phone = document.getElementById("clp-phone").value.trim();
+  var area = document.getElementById("clp-area").value.trim();
+  var pin = document.getElementById("clp-pin").value.trim();
+  var occ = document.getElementById("clp-occupation").value;
+
+  if (!name) { alert("Please enter your name"); return; }
+  if (!phone || phone.length < 10) { alert("Please enter a valid phone number"); return; }
+  if (!area) { alert("Please enter your area name"); return; }
+  if (!pin || pin.length !== 6) { alert("Please enter a valid 6-digit pincode"); return; }
+  if (!occ) { alert("Please select your occupation"); return; }
+
+  // Show success state
+  document.querySelector(".submit-bar button").textContent = "Application submitted!";
+  document.querySelector(".submit-bar button").style.background = "#0A6E57";
+  document.querySelector(".submit-bar button").disabled = true;
+
+  // Show confirmation message
+  setTimeout(function() {
+    var section = document.getElementById("tab-apply").querySelector(".section");
+    var msg = document.createElement("div");
+    msg.style.cssText = "background:#E0F5EF;border:1px solid #0D9373;border-radius:12px;"
+      + "padding:16px;margin-bottom:16px;text-align:center";
+    msg.innerHTML = "<div style='font-size:24px;margin-bottom:8px'>&#10003;</div>"
+      + "<div style='font-size:15px;font-weight:600;color:#0A6E57;margin-bottom:4px'>"
+      + "Application received!</div>"
+      + "<div style='font-size:12px;color:#0D9373;line-height:1.6'>"
+      + "We will call " + phone + " within 24 hours to verify and onboard you. "
+      + "Your referral code for " + area + " will be ready shortly.</div>";
+    section.insertBefore(msg, section.firstChild);
+    section.scrollIntoView({ behavior: "smooth" });
+  }, 500);
+}
+</script>
+</body>
+</html>
