@@ -219,7 +219,7 @@ function injectBottomNav(activePage = 'feed') {
 
   const items = pages.map(p => {
     if (p.isFab) {
-      return `<a href="${p.href}" class="post-fab" title="Post reality">+</a>`;
+      return `<button class="post-fab" title="Post reality" onclick="showActionSheet()">+</button>`;
     }
     const active = p.id === activePage ? 'active' : '';
     return `
@@ -748,8 +748,8 @@ function handleDispute(postId) {
       </span>`;
     } else if (confidence >= 70) {
       pill.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;
-        background:#E3F2EB;color:#085041;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
-        <span style="width:7px;height:7px;border-radius:50%;background:#1D9E75;display:inline-block"></span>
+        background:#E3F2EB;color:#312E81;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:500">
+        <span style="width:7px;height:7px;border-radius:50%;background:#4338CA;display:inline-block"></span>
         OK Community verified  .  ${validatorCount} validators  .  ${confidence}% confidence
       </span>`;
     } else {
