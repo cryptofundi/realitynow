@@ -971,76 +971,202 @@ function submitLocalHelp() {
   addToLocalHelpFeed(currentHelpType, text);
 }
 
-//    Render local help feed                     
-const LOCAL_HELP_MOCK = [
-  { type: 'request', text: 'Need cook  -  morning 6-8am, Banjara Hills Rd 36',
-    age: '8m ago', responses: 3, credits: 3, score: 18.4 },
-  { type: 'offer',   text: '  Free chai for RealityNow users  .  Ravi Tea Stall, near bus stop',
-    age: '2h ago', responses: 12, credits: 10, score: 22.1 },
-  { type: 'request', text: 'Looking for driver  -  Mon-Sat mornings, Jubilee Hills to HITECH',
-    age: '1h ago', responses: 5, credits: 3, score: 14.7 },
+// Local help data store (in-memory for MVP, PostgreSQL in production)
+var LOCAL_HELP_POSTS = [
+  {
+    id: 1,
+    type: "request",
+    text: "Need cook - morning 6-8am, Banjara Hills Rd 36",
+    age: "8m ago", score: 18.4,
+    replies: [
+      { name: "Sunita M.", score: 22.1, age: "5m ago",
+        text: "I cook in the mornings. Available from 6am. Please call 98765XXXXX or WhatsApp me." },
+      { name: "Priya K.", score: 14.3, age: "3m ago",
+        text: "My maid does cooking too - very reliable. Contact her: 87654XXXXX" }
+    ]
+  },
+  {
+    id: 2,
+    type: "offer",
+    text: "Free chai for RealityNow users - Ravi Tea Stall, near bus stop",
+    age: "2h ago", score: 22.1,
+    replies: [
+      { name: "Rahul D.", score: 18.9, age: "1h ago",
+        text: "Came and got my chai! Great stall, very genuine offer." }
+    ]
+  },
+  {
+    id: 3,
+    type: "request",
+    text: "Looking for driver - Mon-Sat mornings, Jubilee Hills to HITECH",
+    age: "1h ago", score: 14.7,
+    replies: [
+      { name: "Suresh A.", score: 16.2, age: "45m ago",
+        text: "I drive this exact route daily. Available 7:30-9am. Call 76543XXXXX to discuss rate." },
+      { name: "Ravi B.", score: 19.8, age: "30m ago",
+        text: "Auto available for this route. Fixed rate Rs.80/day. 9876XXXXXX" },
+      { name: "Kumar C.", score: 11.4, age: "20m ago",
+        text: "Cab available. AC. Rs.120/day. Message 8765XXXXXX" }
+    ]
+  }
 ];
 
+// Track which post is open (reply thread expanded)
+var openPostId = null;
+
 function addToLocalHelpFeed(type, text) {
-  LOCAL_HELP_MOCK.unshift({ type, text, age: 'just now', responses: 0, credits: type==='offer'?10:3, score: 18.4 });
+  var newId = Date.now();
+  LOCAL_HELP_POSTS.unshift({
+    id: newId, type: type, text: text,
+    age: "just now", score: 18.4, replies: []
+  });
+  renderLocalHelp();
+}
+
+function toggleReplies(postId) {
+  openPostId = openPostId === postId ? null : postId;
+  renderLocalHelp();
+  // Scroll to the open post after render
+  if (openPostId) {
+    setTimeout(function() {
+      var el = document.getElementById("post-" + postId);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
+}
+
+function submitReply(postId) {
+  var input = document.getElementById("reply-input-" + postId);
+  if (!input) return;
+  var text = input.value.trim();
+  if (!text) { showToast("Please write your reply"); return; }
+
+  // Find the post and add reply
+  for (var i = 0; i < LOCAL_HELP_POSTS.length; i++) {
+    if (LOCAL_HELP_POSTS[i].id === postId) {
+      LOCAL_HELP_POSTS[i].replies.push({
+        name: "You",
+        score: 18.4,
+        age: "just now",
+        text: text
+      });
+      break;
+    }
+  }
+  input.value = "";
+  showToast("Reply posted");
   renderLocalHelp();
 }
 
 function renderLocalHelp() {
-  const slot = document.getElementById('local-help-slot');
+  var slot = document.getElementById("local-help-slot");
   if (!slot) return;
 
-  const items = LOCAL_HELP_MOCK.slice(0, 3).map(item => `
-    <div style="display:flex;gap:10px;padding:10px 0;
-                border-bottom:1px solid var(--color-border)">
-      <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;
-                  display:flex;align-items:center;justify-content:center;
-                  font-size:16px;
-                  background:${item.type==='offer'?'#E3F2EB':'#EEEDFE'}">
-        ${item.type === 'offer' ? ' ' : ' '}
-      </div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:var(--text-sm);color:var(--color-text-primary);
-                    margin-bottom:2px;line-height:1.4">${item.text}</div>
-        <div style="display:flex;align-items:center;gap:8px;
-                    font-size:var(--text-xs);color:var(--color-text-tertiary)">
-          <span>${item.age}</span>
-          <span> . </span>
-          <span style="color:var(--color-brand-primary)">
-              ${item.score} trust
-          </span>
-          <span> . </span>
-          <span>${item.responses} responses</span>
-        </div>
-      </div>
-      <button onclick="showToast('Reply feature coming soon')"
-              style="background:none;border:1px solid var(--color-border);
-                     border-radius:var(--radius-sm);padding:4px 10px;
-                     font-size:var(--text-xs);color:var(--color-text-secondary);
-                     cursor:pointer;flex-shrink:0;align-self:center">
-        Reply
-      </button>
-    </div>
-  `).join('');
+  var items = LOCAL_HELP_POSTS.slice(0, 4).map(function(post) {
+    var isOpen = openPostId === post.id;
+    var replyCount = post.replies.length;
+    var replyLabel = replyCount === 0 ? "Reply"
+      : replyCount === 1 ? "1 reply"
+      : replyCount + " replies";
 
-  slot.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;
-                margin-bottom:8px">
-      <div class="section-label" style="margin-bottom:0">Local Help Nearby</div>
-      <button onclick="showActionSheet()"
-              style="background:none;border:none;font-size:var(--text-xs);
-                     color:var(--color-brand-primary);cursor:pointer;font-weight:500">
-        + Post
-      </button>
-    </div>
-    <div style="background:var(--color-surface);border:1px solid var(--color-border);
-                border-radius:var(--radius-lg);padding:0 12px">
-      ${items}
-    </div>
-  `;
+    // Build replies HTML
+    var repliesHtml = "";
+    if (isOpen) {
+      var replyItems = post.replies.map(function(r) {
+        return "<div style='display:flex;gap:8px;padding:8px 0;"
+          + "border-bottom:1px dashed var(--color-border)'>"
+          + "<div style='width:28px;height:28px;border-radius:50%;"
+          + "background:var(--color-surface-subtle);flex-shrink:0;"
+          + "display:flex;align-items:center;justify-content:center;"
+          + "font-size:12px;font-weight:600;color:var(--color-text-secondary)'>"
+          + r.name.charAt(0)
+          + "</div>"
+          + "<div style='flex:1'>"
+          + "<div style='display:flex;align-items:center;gap:6px;margin-bottom:3px'>"
+          + "<span style='font-size:12px;font-weight:600;color:var(--color-text-primary)'>"
+          + r.name + "</span>"
+          + "<span style='font-size:10px;color:var(--color-brand-primary)'>"
+          + r.score + " trust</span>"
+          + "<span style='font-size:10px;color:var(--color-text-tertiary)'>"
+          + r.age + "</span>"
+          + "</div>"
+          + "<div style='font-size:12px;color:var(--color-text-secondary);line-height:1.5'>"
+          + r.text + "</div>"
+          + "</div></div>";
+      }).join("");
+
+      repliesHtml = "<div style='background:var(--color-surface-subtle);"
+        + "border-radius:0 0 8px 8px;padding:0 10px;margin:0 -12px'>"
+        + (replyItems || "<div style='padding:10px 0;font-size:12px;"
+          + "color:var(--color-text-tertiary);text-align:center'>"
+          + "No replies yet. Be first to respond.</div>")
+        + "<div style='padding:10px 0;border-top:1px solid var(--color-border)'>"
+        + "<div style='font-size:11px;color:var(--color-text-tertiary);"
+        + "margin-bottom:6px'>Your reply (include your contact if applicable)</div>"
+        + "<div style='display:flex;gap:6px'>"
+        + "<input id='reply-input-" + post.id + "' type='text'"
+        + " placeholder='e.g. I can help, call 98765XXXXX...'"
+        + " style='flex:1;padding:8px 10px;border:1px solid var(--color-border);"
+        + "border-radius:var(--radius-sm);font-size:12px;"
+        + "font-family:inherit;outline:none'>"
+        + "<button onclick='submitReply(" + post.id + ")'"
+        + " style='padding:8px 12px;background:var(--color-brand-primary);"
+        + "color:#fff;border:none;border-radius:var(--radius-sm);"
+        + "font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap'>"
+        + "Post</button>"
+        + "</div>"
+        + "<div style='font-size:10px;color:var(--color-text-tertiary);margin-top:4px'>"
+        + "&#128205; Visible to nearby users only . Trust score shown on your reply"
+        + "</div>"
+        + "</div></div>";
+    }
+
+    var typeIcon = post.type === "offer" ? "&#127873;" : "&#128296;";
+    var typeBg = post.type === "offer" ? "#E3F2EB" : "#EEEDFE";
+
+    return "<div id='post-" + post.id + "' style='border-bottom:1px solid var(--color-border)'>"
+      + "<div style='display:flex;gap:10px;padding:10px 0'>"
+      + "<div style='width:32px;height:32px;border-radius:8px;flex-shrink:0;"
+      + "display:flex;align-items:center;justify-content:center;"
+      + "font-size:16px;background:" + typeBg + "'>"
+      + typeIcon + "</div>"
+      + "<div style='flex:1;min-width:0'>"
+      + "<div style='font-size:var(--text-sm);color:var(--color-text-primary);"
+      + "margin-bottom:2px;line-height:1.4'>" + post.text + "</div>"
+      + "<div style='display:flex;align-items:center;gap:8px;"
+      + "font-size:var(--text-xs);color:var(--color-text-tertiary)'>"
+      + "<span>" + post.age + "</span>"
+      + "<span style='color:var(--color-brand-primary)'>" + post.score + " trust</span>"
+      + "</div>"
+      + "</div>"
+      + "<button onclick='toggleReplies(" + post.id + ")'"
+      + " style='background:" + (isOpen ? "var(--color-brand-light)" : "none") + ";"
+      + "border:1px solid " + (isOpen ? "var(--color-brand-primary)" : "var(--color-border)") + ";"
+      + "border-radius:var(--radius-sm);padding:4px 10px;"
+      + "font-size:var(--text-xs);"
+      + "color:" + (isOpen ? "var(--color-brand-primary)" : "var(--color-text-secondary)") + ";"
+      + "cursor:pointer;flex-shrink:0;align-self:center;white-space:nowrap'>"
+      + replyLabel
+      + "</button>"
+      + "</div>"
+      + repliesHtml
+      + "</div>";
+  }).join("");
+
+  slot.innerHTML = "<div style='display:flex;justify-content:space-between;align-items:center;"
+    + "margin-bottom:8px'>"
+    + "<div class='section-label' style='margin-bottom:0'>Local Help Nearby</div>"
+    + "<button onclick='showActionSheet()'"
+    + " style='background:none;border:none;font-size:var(--text-xs);"
+    + "color:var(--color-brand-primary);cursor:pointer;font-weight:500'>"
+    + "+ Post</button></div>"
+    + "<div style='background:var(--color-surface);border:1px solid var(--color-border);"
+    + "border-radius:var(--radius-lg);padding:0 12px'>"
+    + items
+    + "</div>";
 }
 
-document.addEventListener('DOMContentLoaded', renderLocalHelp);
+document.addEventListener("DOMContentLoaded", renderLocalHelp);
 </script>
 
 <style>
