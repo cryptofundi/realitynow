@@ -138,6 +138,7 @@ function injectHeader(config = {}) {
           ${showNotif ? `<button class="btn btn-icon btn-secondary" style="position:relative" onclick="window.location='validate.html'">&#128276;
              <span class="notif-dot" style="position:absolute;top:6px;right:6px"></span>
           </button>` : ''}
+          <a href="help.html" class="btn btn-icon btn-secondary" title="Help">&#63;</a>
           <a href="profile.html" class="btn btn-icon btn-secondary" title="Profile">&#128100;</a>
         </div>
       </header>`;
@@ -280,7 +281,7 @@ function postStateBadge(state, validatorCount) {
   const map = {
     NEW:       { dot: '#F5C518', label: 'New',       bg: '#FEF9E7', pulse: true  },
     VERIFYING: { dot: '#F5A050', label: 'Verifying', bg: '#FEF0E6', pulse: false },
-    VERIFIED:  { dot: '#1D9E75', label: 'Verified',  bg: '#E3F2EB', pulse: false },
+    VERIFIED:  { dot: '#4338CA', label: 'Verified',  bg: '#E3F2EB', pulse: false },
     REMOVED:   { dot: '#E24B4A', label: 'Removed',   bg: '#FCEBEB', pulse: false },
   };
   const s = map[state] || map.NEW;
