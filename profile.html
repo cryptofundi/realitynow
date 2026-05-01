@@ -248,7 +248,7 @@ function injectBottomNav(activePage = 'feed') {
 
   const items = pages.map(p => {
     if (p.isFab) {
-      return `<a href="${p.href}" class="post-fab" title="Post reality">+</a>`;
+      return `<button class="post-fab" title="Post reality" onclick="showActionSheet()">+</button>`;
     }
     const active = p.id === activePage ? 'active' : '';
     return `
