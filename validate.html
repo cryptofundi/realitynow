@@ -189,7 +189,7 @@ function injectBottomNav(activePage = 'feed') {
 
   const items = pages.map(p => {
     if (p.isFab) {
-      return `<a href="${p.href}" class="post-fab" title="Post reality">+</a>`;
+      return `<button class="post-fab" title="Post reality" onclick="showActionSheet()">+</button>`;
     }
     const active = p.id === activePage ? 'active' : '';
     return `
@@ -760,7 +760,7 @@ function handleDispute(postId) {
 
     if (type === 'confirm') {
       meter.style.background = '#E1F5EE';
-      meter.style.color = '#085041';
+      meter.style.color = '#312E81';
       meter.textContent = 'OK Your confirmation raised the confidence score';
     } else {
       meter.style.background = '#FCEBEB';
