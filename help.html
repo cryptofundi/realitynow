@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How it works - RealityNow</title>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+/* Help page specific styles */
+.help-hero {
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-dark));
+  color: #fff;
+  padding: var(--space-8) var(--space-4) var(--space-6);
+  text-align: center;
+}
+.help-hero-icon {
+  width: 56px; height: 56px;
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  margin: 0 auto var(--space-3);
+}
+.help-hero-title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+.help-hero-sub {
+  font-size: var(--text-sm);
+  opacity: 0.85;
+  line-height: var(--leading-relaxed);
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* Topic nav pills */
+.topic-nav {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  scrollbar-width: none;
+}
+.topic-nav::-webkit-scrollbar { display: none; }
+.topic-pill {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.topic-pill.active, .topic-pill:hover {
+  background: var(--color-brand-light);
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-primary);
+}
+
+/* Section card */
+.help-section {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+.help-section-title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.help-section-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Step flow */
+.step-flow { display: flex; flex-direction: column; gap: var(--space-3); }
+.step-item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--color-brand-primary);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-content {}
+.step-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+.step-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* Role card */
+.role-card {
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+.role-header {
+  display: flex; align-items: center; gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.role-badge {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+}
+.role-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* Credits table */
+.credits-table { width: 100%; border-collapse: collapse; margin: var(--space-3) 0; }
+.credits-table th {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-tertiary);
+  text-align: left;
+  padding: var(--space-2) var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.credits-table td {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.credits-table tr:last-child td { border-bottom: none; }
+.credits-table td:first-child { color: var(--color-text-primary); font-weight: var(--weight-medium); }
+.credit-val {
+  font-weight: var(--weight-semibold);
+  font-size: 13px;
+}
+.credit-earn { color: #0D9373; }
+.credit-spend { color: #E8453C; }
+
+/* Tier cards */
+.tier-row {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.tier-row:last-child { border-bottom: none; }
+.tier-badge {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.tier-info { flex: 1; }
+.tier-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+.tier-range {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+.tier-perks {
+  font-size: 10px;
+  color: var(--color-brand-primary);
+  font-weight: var(--weight-medium);
+}
+
+/* FAQ accordion */
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+.faq-q {
+  padding: var(--space-3) 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+.faq-q-icon {
+  color: var(--color-text-tertiary);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+.faq-item.open .faq-q-icon { transform: rotate(45deg); }
+.faq-a {
+  display: none;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  padding-bottom: var(--space-3);
+}
+.faq-item.open .faq-a { display: block; }
+
+/* Callout */
+.help-callout {
+  background: var(--color-brand-light);
+  border-left: 3px solid var(--color-brand-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-brand-dark);
+  line-height: var(--leading-relaxed);
+  margin: var(--space-2) 0;
+}
+.help-callout.warn {
+  background: #FEF8ED;
+  border-color: var(--color-brand-accent);
+  color: #7A4F0A;
+}
+.help-callout.info {
+  background: #EEF2FF;
+  border-color: #4F46E5;
+  color: #3730A3;
+}
+
+/* Blockchain badge */
+.chain-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #0F172A;
+  color: #4ADE80;
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+<div class="page-shell">
+  <div id="header-slot"></div>
+
+  <div class="page-content">
+
+    <!-- Hero -->
+    <div class="help-hero">
+      <div class="help-hero-icon">&#10067;</div>
+      <div class="help-hero-title">How RealityNow works</div>
+      <div class="help-hero-sub">
+        Everything you need to know about posting, validating, credits, and the trust system
+      </div>
+    </div>
+
+    <!-- Topic nav -->
+    <div class="topic-nav" id="topic-nav">
+      <div class="topic-pill active" onclick="scrollTo('what')">What is this?</div>
+      <div class="topic-pill" onclick="scrollTo('roles')">Roles</div>
+      <div class="topic-pill" onclick="scrollTo('credits')">Credits</div>
+      <div class="topic-pill" onclick="scrollTo('validator')">Become Validator</div>
+      <div class="topic-pill" onclick="scrollTo('reputation')">Reputation</div>
+      <div class="topic-pill" onclick="scrollTo('blockchain')">Blockchain</div>
+      <div class="topic-pill" onclick="scrollTo('faq')">FAQ</div>
+    </div>
+
+    <!-- SECTION 1: What is RealityNow -->
+    <div class="help-section" id="what">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#E0F5EF">&#127758;</div>
+        What is RealityNow?
+      </div>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+        RealityNow is a real-time truth network. Real people report what is actually happening at
+        locations near them right now - traffic jams, crowded malls, long queues, full parking lots.
+        Other people nearby verify those reports. The result is reliable, live information you can
+        actually trust - posted by your neighbours, confirmed by the community.
+      </p>
+      <div class="help-callout">
+        Think of it like asking your neighbour "Is the GVK Mall parking full right now?" -
+        except thousands of neighbours are answering, all at once, all the time.
+      </div>
+      <div style="margin-top:var(--space-3)">
+        <div style="font-size:var(--text-xs);font-weight:var(--weight-semibold);
+                    color:var(--color-text-tertiary);text-transform:uppercase;
+                    letter-spacing:0.05em;margin-bottom:var(--space-2)">6 categories covered</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2)">
+          <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                      padding:var(--space-2) var(--space-3);font-size:var(--text-xs)">
+            &#128663; <strong>Traffic</strong> - road congestion
+          </div>
+          <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                      padding:var(--space-2) var(--space-3);font-size:var(--text-xs)">
+            &#9749; <strong>Crowd</strong> - cafes, restaurants
+          </div>
+          <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                      padding:var(--space-2) var(--space-3);font-size:var(--text-xs)">
+            &#127970; <strong>Queue</strong> - hospitals, banks
+          </div>
+          <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                      padding:var(--space-2) var(--space-3);font-size:var(--text-xs)">
+            &#128722; <strong>Mall</strong> - shopping centres
+          </div>
+          <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                      padding:var(--space-2) var(--space-3);font-size:var(--text-xs)">
+            &#127783; <strong>Weather</strong> - rain, flooding
+          </div>
+          <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);
+                      padding:var(--space-2) var(--space-3);font-size:var(--text-xs)">
+            &#128338; <strong>Parking</strong> - available spots
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: The 3-step loop -->
+    <div class="help-section">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#FEF8ED">&#8635;</div>
+        How it works in 3 steps
+      </div>
+      <div class="step-flow">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Someone posts a reality update</div>
+            <div class="step-desc">
+              A user is stuck in traffic on PVNR Expressway. They open RealityNow,
+              select Traffic, take a photo, pay Rs.5, and post. The report appears
+              on the feed within seconds with a "New" badge.
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">The community verifies it</div>
+            <div class="step-desc">
+              Nearby users see the post and tap Confirm or Dispute.
+              At least 3 people must confirm before it becomes "Verified".
+              Votes are hidden from each other to prevent bias.
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Truth is locked on the blockchain</div>
+            <div class="step-desc">
+              Once verified, the report is stored permanently on Polygon blockchain.
+              Nobody can delete it. Anyone who opens the app in that area sees
+              accurate, community-confirmed information.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: Roles -->
+    <div class="help-section" id="roles">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#EEF2FF">&#128101;</div>
+        The three roles
+      </div>
+
+      <div class="role-card">
+        <div class="role-header">
+          <span style="font-size:22px">&#128247;</span>
+          <div>
+            <div style="font-size:var(--text-sm);font-weight:var(--weight-semibold)">Poster</div>
+            <span class="role-badge" style="background:#E0F5EF;color:#0A6E57">Everyone starts here</span>
+          </div>
+        </div>
+        <div class="role-desc">
+          A Poster reports what they see at a location. Anyone can post.
+          You pay Rs.5 as a quality deposit - this prevents spam and fake reports.
+          If your post is confirmed by the community as accurate, you earn credits back.
+          If it is rejected, you lose the Rs.5 - this keeps the truth network clean.
+        </div>
+        <div class="help-callout" style="margin-top:var(--space-2)">
+          <strong>Why Rs.5?</strong> Free posting leads to spam.
+          The Rs.5 deposit makes people think twice before posting
+          something false. Accurate posters earn it back as credits.
+        </div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-header">
+          <span style="font-size:22px">&#9989;</span>
+          <div>
+            <div style="font-size:var(--text-sm);font-weight:var(--weight-semibold)">Validator</div>
+            <span class="role-badge" style="background:#EEF2FF;color:#3730A3">Unlocked after 1 valid post</span>
+          </div>
+        </div>
+        <div class="role-desc">
+          A Validator confirms or disputes other people's posts. You look at
+          the photo and GPS location and tap Confirm or Dispute. The community's
+          combined votes determine whether a post becomes "Verified Truth".
+          Validators earn +1 credit for each correct vote.
+        </div>
+        <div class="help-callout warn" style="margin-top:var(--space-2)">
+          <strong>Important:</strong> You cannot validate your own posts.
+          And votes are kept hidden until the window closes so nobody
+          just copies what others voted.
+        </div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-header">
+          <span style="font-size:22px">&#11088;</span>
+          <div>
+            <div style="font-size:var(--text-sm);font-weight:var(--weight-semibold)">Trusted User</div>
+            <span class="role-badge" style="background:#FEF8ED;color:#7A4F0A">Earned by reputation score 20+</span>
+          </div>
+        </div>
+        <div class="role-desc">
+          Trusted Users have proven their accuracy over time. Their validation
+          votes carry 3x more weight than a new user. They get a visible
+          trust badge in the feed. They are the backbone of the truth network.
+          You become Trusted automatically when your reputation score reaches 20.
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: How to become a Validator -->
+    <div class="help-section" id="validator">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#E0F5EF">&#128270;</div>
+        How to become a Validator
+      </div>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+        You only need to do <strong style="color:var(--color-text-primary)">one thing</strong>:
+        make one post that gets confirmed as valid by the community.
+        That's it. After your first valid post, the Validate tab unlocks automatically.
+      </p>
+      <div class="step-flow">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Post your first reality update</div>
+            <div class="step-desc">Tap the + button. Report something real you can see right now - traffic, crowd, parking. Pay Rs.5.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Wait for community confirmation</div>
+            <div class="step-desc">3 nearby users confirm your post. You earn +2 credits and your reputation score increases.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Validator access unlocked</div>
+            <div class="step-desc">The Validate tab is now active. Start confirming or disputing posts to earn +1 credit per correct vote.</div>
+          </div>
+        </div>
+      </div>
+      <div class="help-callout info" style="margin-top:var(--space-3)">
+        <strong>Tip for students and delivery riders:</strong> The best way to get your first
+        valid post is to report something obvious - a traffic jam you are sitting in,
+        a crowded bus stop, a full parking lot. Take a clear photo. The community will
+        confirm it quickly and you become a Validator immediately.
+      </div>
+    </div>
+
+    <!-- SECTION 5: Credits -->
+    <div class="help-section" id="credits">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#FEF8ED">&#129689;</div>
+        Credits - how they work
+      </div>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+        Credits are RealityNow's reward system. They have no cash value and cannot be
+        transferred or sold. You earn them by contributing accurate information,
+        and spend them to get more visibility and useful features on the platform.
+      </p>
+
+      <div style="font-size:var(--text-xs);font-weight:var(--weight-semibold);
+                  color:var(--color-text-tertiary);text-transform:uppercase;
+                  letter-spacing:0.05em;margin-bottom:var(--space-2)">Earning credits</div>
+      <table class="credits-table">
+        <tr>
+          <th>What you do</th>
+          <th>Credits earned</th>
+        </tr>
+        <tr>
+          <td>Your post gets confirmed as Valid</td>
+          <td><span class="credit-val credit-earn">+2 credits</span></td>
+        </tr>
+        <tr>
+          <td>Post in a stale area (no update for 20+ min)</td>
+          <td><span class="credit-val credit-earn">+3 credits</span></td>
+        </tr>
+        <tr>
+          <td>Correct validation vote</td>
+          <td><span class="credit-val credit-earn">+1 credit</span></td>
+        </tr>
+        <tr>
+          <td>Ground witness bonus (you are physically nearby)</td>
+          <td><span class="credit-val credit-earn">+0.5 credits</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--color-text-tertiary);font-style:italic">
+            Daily maximum (all sources combined)
+          </td>
+          <td><span style="font-weight:600;color:#E8453C">Max 10/day</span></td>
+        </tr>
+      </table>
+
+      <div style="font-size:var(--text-xs);font-weight:var(--weight-semibold);
+                  color:var(--color-text-tertiary);text-transform:uppercase;
+                  letter-spacing:0.05em;margin:var(--space-3) 0 var(--space-2)">
+        Spending credits
+      </div>
+      <table class="credits-table">
+        <tr>
+          <th>Feature</th>
+          <th>Cost</th>
+        </tr>
+        <tr>
+          <td>Boost your post to the top of the feed</td>
+          <td><span class="credit-val credit-spend">5 credits</span></td>
+        </tr>
+        <tr>
+          <td>Highlight your post (stands out visually)</td>
+          <td><span class="credit-val credit-spend">3 credits</span></td>
+        </tr>
+        <tr>
+          <td>Post a help request nearby (need cook, maid, driver)</td>
+          <td><span class="credit-val credit-spend">3 credits</span></td>
+        </tr>
+        <tr>
+          <td>Offer something nearby (free tea, discount, service)</td>
+          <td><span class="credit-val credit-spend">10 credits</span></td>
+        </tr>
+        <tr>
+          <td>Location alert - get notified when a saved place updates</td>
+          <td><span class="credit-val credit-spend">1 credit/month</span></td>
+        </tr>
+        <tr>
+          <td>Business promotion (2km radius, 24 hours)</td>
+          <td><span class="credit-val credit-spend">50 credits</span></td>
+        </tr>
+      </table>
+
+      <div class="help-callout" style="margin-top:var(--space-3)">
+        <strong>Example for a delivery rider:</strong> You validate 10 posts during
+        your morning shift (max daily cap). That earns 10 credits. After 5 days you
+        have 50 credits. Spend them to promote your freelance delivery availability
+        to 500+ nearby users - "Available for last-mile delivery, Rs.50/trip,
+        Banjara Hills area." That is free hyperlocal marketing.
+      </div>
+      <div class="help-callout warn" style="margin-top:var(--space-2)">
+        <strong>Credits rules:</strong> Cannot be transferred to another user.
+        Cannot be converted to cash. Cannot be sold. They exist only
+        to reward contribution and unlock platform features. This keeps the
+        system safe from regulatory issues.
+      </div>
+    </div>
+
+    <!-- SECTION 6: What if nobody validates -->
+    <div class="help-section">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#FEF0EF">&#10067;</div>
+        What if nobody validates my post?
+      </div>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+        Your post still shows in the feed - immediately and visibly - with a yellow
+        "New" badge. Here is exactly what happens over time:
+      </p>
+      <table class="credits-table">
+        <tr>
+          <th>Time after posting</th>
+          <th>What happens</th>
+        </tr>
+        <tr>
+          <td>0-10 minutes</td>
+          <td>Post shows at top of feed with pulsing yellow "New" badge. System sends validation nudge to nearby users offering +2 credits to be first to verify.</td>
+        </tr>
+        <tr>
+          <td>10-30 minutes</td>
+          <td>Post slowly sinks in the feed ranking. Badge changes to orange "Verifying". Still visible but less prominent.</td>
+        </tr>
+        <tr>
+          <td>30-60 minutes</td>
+          <td>Post moves to Recent History section. Feed prioritises fresher content. Users can still find it but it no longer drives decisions.</td>
+        </tr>
+        <tr>
+          <td>Never reaches 3 validators</td>
+          <td>Outcome is "Inconclusive". Your Rs.5 is used by the platform. You earn 0 credits. Your reputation does not drop - you are not penalised for low validator density in your area.</td>
+        </tr>
+      </table>
+      <div class="help-callout">
+        <strong>The good news:</strong> An inconclusive outcome does not hurt you.
+        Your post was real - it just did not reach the minimum validator count.
+        This is a signal that your area needs more active validators.
+        A City Launch Partner in your area can solve this over time.
+      </div>
+    </div>
+
+    <!-- SECTION 7: Reputation -->
+    <div class="help-section" id="reputation">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#E0F5EF">&#11088;</div>
+        Reputation score and tiers
+      </div>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+        Your reputation score is a measure of how accurate and reliable you have been.
+        It is stored permanently on the blockchain and cannot be faked.
+        Higher score = more trust = more influence on truth outcomes.
+      </p>
+
+      <div style="font-size:var(--text-xs);font-weight:var(--weight-semibold);
+                  color:var(--color-text-tertiary);text-transform:uppercase;
+                  letter-spacing:0.05em;margin-bottom:var(--space-2)">
+        How your score changes
+      </div>
+      <table class="credits-table">
+        <tr><th>Action</th><th>Score change</th></tr>
+        <tr>
+          <td>Your post outcome: Valid</td>
+          <td><span class="credit-earn credit-val">+1.5</span></td>
+        </tr>
+        <tr>
+          <td>Your post outcome: Invalid</td>
+          <td><span class="credit-spend credit-val">-1.0</span></td>
+        </tr>
+        <tr>
+          <td>Your post outcome: Inconclusive</td>
+          <td><span style="font-weight:600;color:#888">0</span></td>
+        </tr>
+        <tr>
+          <td>Correct validation vote</td>
+          <td><span class="credit-earn credit-val">+0.3</span></td>
+        </tr>
+        <tr>
+          <td>Wrong validation vote</td>
+          <td><span class="credit-spend credit-val">-0.1</span></td>
+        </tr>
+        <tr>
+          <td>No activity for 7 days (decay)</td>
+          <td><span style="font-weight:600;color:#888">x0.95 (5% reduction)</span></td>
+        </tr>
+      </table>
+
+      <div style="font-size:var(--text-xs);font-weight:var(--weight-semibold);
+                  color:var(--color-text-tertiary);text-transform:uppercase;
+                  letter-spacing:0.05em;margin:var(--space-3) 0 var(--space-2)">
+        Reputation tiers
+      </div>
+      <div style="background:var(--color-surface-subtle);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3)">
+        <div class="tier-row">
+          <div class="tier-badge" style="background:#F3F3F3">&#9711;</div>
+          <div class="tier-info">
+            <div class="tier-name">Newbie (Score 0 - 4.9)</div>
+            <div class="tier-range">Just starting out</div>
+          </div>
+          <div class="tier-perks">1x vote weight</div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-badge" style="background:#E0F5EF">&#128994;</div>
+          <div class="tier-info">
+            <div class="tier-name">Contributor (Score 5 - 19.9)</div>
+            <div class="tier-range">Active and accurate</div>
+          </div>
+          <div class="tier-perks">1.5x vote weight</div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-badge" style="background:#EEF2FF">&#128309;</div>
+          <div class="tier-info">
+            <div class="tier-name">Trusted (Score 20 - 49.9)</div>
+            <div class="tier-range">Community pillar</div>
+          </div>
+          <div class="tier-perks">3x vote weight + badge</div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-badge" style="background:#FEF8ED">&#11088;</div>
+          <div class="tier-info">
+            <div class="tier-name">Expert (Score 50+)</div>
+            <div class="tier-range">Top contributor</div>
+          </div>
+          <div class="tier-perks">6x vote weight + Expert badge</div>
+        </div>
+      </div>
+
+      <div style="margin-top:var(--space-3)">
+        <div style="font-size:var(--text-sm);font-weight:var(--weight-semibold);
+                    color:var(--color-text-primary);margin-bottom:var(--space-2)">
+          What Trusted status actually gives you
+        </div>
+        <div class="step-flow">
+          <div class="step-item">
+            <div class="step-num" style="background:#F5A623">3x</div>
+            <div class="step-content">
+              <div class="step-title">Your vote counts 3 times more</div>
+              <div class="step-desc">When you confirm a post, it moves towards Verified much faster. Your single vote is worth 3 Newbie votes. This reflects your proven accuracy track record.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:#F5A623">1.3x</div>
+            <div class="step-content">
+              <div class="step-title">30% more credits per contribution</div>
+              <div class="step-desc">Every credit you earn is multiplied by 1.3. A valid post earns 2.6 credits instead of 2. Correct validation earns 1.3 instead of 1.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:#F5A623">T</div>
+            <div class="step-content">
+              <div class="step-title">Trusted badge on all your posts</div>
+              <div class="step-desc">Your posts and help requests show a blue Trusted badge. Other users are more likely to confirm your posts quickly because they know your history is accurate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:var(--space-4)">
+        <div style="font-size:var(--text-sm);font-weight:var(--weight-semibold);
+                    color:var(--color-text-primary);margin-bottom:var(--space-2)">
+          If your score dropped unfairly - how to recover
+        </div>
+        <p style="font-size:var(--text-xs);color:var(--color-text-secondary);
+                  line-height:var(--leading-relaxed);margin-bottom:var(--space-2)">
+          Sometimes a genuine post gets disputed incorrectly - the situation
+          changed between when you posted and when validators checked, or
+          a small group of biased users voted against it. This does happen.
+          Here is how to recover quickly:
+        </p>
+        <div class="step-flow">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Focus on validation, not posting</div>
+              <div class="step-desc">Correct validation votes give +0.3 score each. 10 correct validations = +3 score. This is the fastest way to recover.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Post only when very certain</div>
+              <div class="step-desc">Choose locations where the situation is obvious and undeniable - a clearly full parking lot, a very long visible queue. Photo quality matters. Clear photos get confirmed faster.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Use the Ground Witness bonus</div>
+              <div class="step-desc">Validate posts at locations where you are physically present. GPS confirms you are nearby. Ground witness votes carry more weight and earn +0.5 extra credits.</div>
+            </div>
+          </div>
+        </div>
+        <div class="help-callout warn">
+          The 7-day inactivity decay (5% reduction) is the main enemy of your score.
+          Even 5 minutes of validation per day prevents decay completely.
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: Blockchain -->
+    <div class="help-section" id="blockchain">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#0F172A">&#128279;</div>
+        What the blockchain means for you
+      </div>
+      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                line-height:var(--leading-relaxed);margin-bottom:var(--space-3)">
+        RealityNow runs on <span class="chain-badge">Polygon blockchain</span>
+        - a public, permanent ledger. Here is what that means in plain language:
+      </p>
+      <div class="step-flow">
+        <div class="step-item">
+          <div class="step-num" style="background:#0F172A">1</div>
+          <div class="step-content">
+            <div class="step-title">Every post is permanent</div>
+            <div class="step-desc">
+              The moment you post, it is written to the blockchain.
+              Nobody can delete it - not even the RealityNow team.
+              A post saying "GVK Mall parking was full at 3pm on 29 April 2026"
+              will exist on the blockchain forever.
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:#0F172A">2</div>
+          <div class="step-content">
+            <div class="step-title">Every validation is recorded</div>
+            <div class="step-desc">
+              Who confirmed, who disputed, when, and from where.
+              All on-chain. This makes the validation system tamper-proof.
+              No one can go back and change the votes.
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:#0F172A">3</div>
+          <div class="step-content">
+            <div class="step-title">Your reputation cannot be faked</div>
+            <div class="step-desc">
+              Your reputation score is stored on the blockchain, not in a database
+              that someone could edit. Every score change comes from a real
+              post or validation event. It is a genuine track record.
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:#0F172A">4</div>
+          <div class="step-content">
+            <div class="step-title">If RealityNow shuts down tomorrow</div>
+            <div class="step-desc">
+              All your posts, all validations, all reputation scores remain on
+              Polygon forever. Anyone can rebuild the app from the blockchain data.
+              The truth is not owned by any company - it belongs to the community
+              that created it.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="help-callout info">
+        You do not need to understand blockchain to use RealityNow.
+        Think of it as a public notice board that nobody controls and nobody
+        can erase. The app just makes it easy to read and write to that board.
+      </div>
+    </div>
+
+    <!-- SECTION 9: FAQ -->
+    <div class="help-section" id="faq">
+      <div class="help-section-title">
+        <div class="help-section-icon" style="background:#F3F3F3">&#10067;</div>
+        Frequently asked questions
+      </div>
+      <div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Why do I have to pay Rs.5 to post?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            The Rs.5 is a quality deposit, not a fee. It prevents spam and
+            fake reports. If your post is confirmed as accurate by the
+            community, you earn credits. If it is rejected as false,
+            the Rs.5 stays with the platform. This small friction keeps
+            the truth network reliable.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            What can I actually do with credits?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            Credits can be spent to: boost your posts to the top of the feed
+            (5 credits), highlight posts visually (3 credits), post a help
+            request like "need cook" or "need driver" (3 credits), offer
+            something to nearby users like free tea or a discount (10 credits),
+            set location alerts for saved places (1 credit per month), or
+            promote a local business in a 2km radius (50 credits).
+            Credits cannot be converted to cash.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            How many credits can I earn per day?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            The maximum is 10 credits per day from all sources combined.
+            The daily cap prevents the system from being gamed.
+            At cap, you earn: 3 credits for a stale-area gap post,
+            plus 7 correct validation votes (+1 each).
+            A consistent daily contributor earns around 300 credits per month.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            My post was marked Invalid. Why?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            It means fewer than 70% of validators agreed with your report.
+            Most common reasons: the situation changed between when you posted
+            and when validators checked (traffic cleared, crowd thinned),
+            or the photo was unclear and validators could not confirm what
+            you described. An invalid post costs you -1.0 reputation score.
+            Focus on posting obvious, easily verifiable situations with clear photos.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Nobody validated my post. Did I lose my Rs.5?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            Yes, but your reputation score does not drop. An Inconclusive
+            outcome (fewer than 3 validators in the window) means the post
+            was not confirmed or denied. It simply expires. This is not your
+            fault - it usually means your area needs more active validators.
+            Your post still appeared in the feed during its fresh window and
+            may have helped people who saw it.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Can someone game the system and hurt my reputation?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            The system has several protections. First, each disputing user
+            must have their own valid post history - brand new wallets
+            cannot remove posts. Second, fast rejection (a post hidden
+            immediately) requires 2 disputes from Contributor-tier users
+            or above. Third, if validators vote wrongly consistently,
+            their own reputation drops and their vote weight decreases.
+            Over time, bad actors are self-eliminated. If you believe your
+            score was affected unfairly, focus on validation to recover quickly.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            How do I change my location in the app?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            Tap the location label at the top of the screen
+            (it shows your current area like "Banjara Hills, Hyderabad").
+            A search panel opens. Type any area name - Madhapur, Kondapur,
+            Jubilee Hills - and tap a result. The feed will instantly show
+            truth from that area. Tap "Use my current location" to go back
+            to your GPS location.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Is my location data private?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            Your exact GPS coordinates are never stored or shared publicly.
+            What goes on the blockchain is a geohash - a short code
+            representing a neighbourhood area (roughly 500m x 500m).
+            Nobody can determine your exact street address from a geohash.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            What is a Ground Witness bonus?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            If you are physically within 500 metres of the location you
+            are validating, you get a Ground Witness bonus. Your vote counts
+            1.5x more than normal, and you earn an extra +0.5 credits.
+            This is the app's way of rewarding people who are actually there
+            - delivery riders, students, commuters - not people validating
+            from their sofa based on a photo alone.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Does this work without internet or GPS?
+            <span class="faq-q-icon">+</span>
+          </div>
+          <div class="faq-a">
+            Internet is required to load the feed and post. GPS is required
+            for full credit eligibility. If GPS is off, you can enter your
+            pincode instead - but posts made via pincode earn 50% fewer
+            credits and carry less trust weight than GPS-verified posts.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer spacing -->
+    <div style="height:var(--space-8)"></div>
+
+  </div><!-- page-content -->
+
+  <div id="bottom-nav-slot"></div>
+</div><!-- page-shell -->
+
+<div id="loc-search-overlay" onclick="closeLocationSearch()"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000"></div>
+<div id="loc-search-panel" style="display:none;position:fixed;top:0;left:50%;
+     transform:translateX(-50%);width:min(100%,520px);
+     background:var(--color-surface);border-radius:0 0 16px 16px;
+     padding:16px;z-index:2001;box-shadow:0 4px 24px rgba(0,0,0,0.15)">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <button onclick="closeLocationSearch()"
+            style="background:none;border:none;font-size:20px;cursor:pointer;padding:0">
+      &#8592;
+    </button>
+    <div style="font-size:var(--text-sm);font-weight:600">Search location</div>
+  </div>
+  <input id="loc-search-input" type="text"
+         placeholder="e.g. Madhapur, Jubilee Hills, Kondapur..."
+         style="width:100%;padding:10px 14px;border:1px solid var(--color-border);
+                border-radius:var(--radius-md);font-size:var(--text-sm);
+                font-family:inherit;outline:none;box-sizing:border-box"
+         oninput="onLocSearchInput(this.value)"
+         onkeydown="if(event.key==='Enter')doLocSearch(this.value)">
+  <div id="loc-search-results" style="margin-top:8px"></div>
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--color-border)">
+    <button onclick="useCurrentGPS()"
+            style="width:100%;padding:10px;background:none;
+                   border:1px solid var(--color-brand-primary);
+                   border-radius:var(--radius-md);color:var(--color-brand-primary);
+                   font-size:var(--text-sm);font-weight:500;cursor:pointer">
+      &#128205; Use my current location
+    </button>
+  </div>
+</div>
+
+<script>
+/* Help page JS */
+function toggleFaq(el) {
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i) {
+    i.classList.remove('open');
+  });
+  if (!wasOpen) item.classList.add('open');
+}
+
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.topic-pill').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  event.target.classList.add('active');
+}
+
+/* Shared utilities needed for header/nav injection */
+function showToast(msg, dur) {
+  var t = document.querySelector('.toast');
+  if (!t) { t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove('show'); }, dur || 2500);
+}
+
+function injectHeader(config) {
+  config = config || {};
+  var backHref = config.backHref || 'index.html';
+  var title = config.title || 'How it works';
+  var html = '<header class="page-header">'
+    + '<a href="' + backHref + '" class="page-header-back">&#8592;</a>'
+    + '<div class="page-header-content">'
+    + '<div class="page-header-title">' + title + '</div>'
+    + '</div>'
+    + '</header>';
+  var el = document.getElementById('header-slot');
+  if (el) el.innerHTML = html;
+}
+
+function injectBottomNav(active) {
+  var pages = [
+    { id: 'feed',     href: 'index.html',    icon: '&#127968;', label: 'Feed' },
+    { id: 'validate', href: 'validate.html', icon: '&#9989;',   label: 'Validate' },
+    { id: 'post',     href: 'post.html',     icon: '+',         label: '', isFab: true },
+    { id: 'location', href: 'location.html', icon: '&#128205;', label: 'Places' },
+    { id: 'profile',  href: 'profile.html',  icon: '&#128100;', label: 'Profile' },
+  ];
+  var items = pages.map(function(p) {
+    if (p.isFab) return '<button class="post-fab" onclick="showActionSheet()">+</button>';
+    var cls = p.id === active ? 'active' : '';
+    return '<a href="' + p.href + '" class="bottom-nav-item ' + cls + '">'
+      + '<span class="bottom-nav-icon">' + p.icon + '</span>'
+      + '<span class="bottom-nav-label">' + p.label + '</span>'
+      + '</a>';
+  }).join('');
+  var el = document.getElementById('bottom-nav-slot');
+  if (el) el.innerHTML = '<nav class="bottom-nav">' + items + '</nav>';
+}
+
+function injectFooter() {}
+
+/* Action sheet stub */
+function showActionSheet() { window.location = 'index.html'; }
+
+/* Location stubs */
+function openLocationSearch() {
+  document.getElementById('loc-search-overlay').style.display = 'block';
+  document.getElementById('loc-search-panel').style.display = 'block';
+}
+function closeLocationSearch() {
+  document.getElementById('loc-search-overlay').style.display = 'none';
+  document.getElementById('loc-search-panel').style.display = 'none';
+}
+function useCurrentGPS() { closeLocationSearch(); }
+function onLocSearchInput() {}
+function doLocSearch() {}
+function latLngToGeohash() { return ''; }
+function updateLocationLabel() {}
+function initLocation() {}
+
+document.addEventListener('DOMContentLoaded', function() {
+  injectHeader({ backHref: 'index.html', title: 'How it works' });
+  injectBottomNav('help');
+});
+</script>
+</body>
+</html>
