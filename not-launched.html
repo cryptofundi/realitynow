@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RealityNow - Not yet in your area</title>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+.empty-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--color-bg);
+}
+.empty-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-5);
+  text-align: center;
+}
+.empty-icon {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-dark));
+  border-radius: var(--radius-xl);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  margin-bottom: var(--space-5);
+  box-shadow: 0 8px 24px rgba(13,147,115,0.3);
+}
+.empty-title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+}
+.empty-area {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-brand-primary);
+  margin-bottom: var(--space-3);
+}
+.empty-sub {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-6);
+  max-width: 300px;
+}
+.empty-visual {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.empty-stat-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: var(--space-3);
+}
+.empty-stat {
+  text-align: center;
+}
+.empty-stat-num {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  color: var(--color-brand-primary);
+}
+.empty-stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+.city-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-brand-light);
+  border: 1px solid var(--color-brand-primary);
+  border-radius: var(--radius-full);
+  padding: 3px 10px;
+  font-size: var(--text-xs);
+  color: var(--color-brand-primary);
+  font-weight: var(--weight-medium);
+  margin: 3px;
+}
+.cities-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+.notify-form {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+.notify-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+.clp-cta {
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-dark));
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+}
+.clp-cta-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+.clp-cta-icon {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.clp-cta-title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+.clp-cta-sub {
+  font-size: var(--text-xs);
+  opacity: 0.8;
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-3);
+}
+.clp-earnings {
+  display: flex;
+  gap: var(--space-2);
+}
+.clp-earn-chip {
+  background: rgba(255,255,255,0.15);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+}
+.clp-btn {
+  width: 100%;
+  padding: var(--space-3);
+  background: #fff;
+  color: var(--color-brand-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  margin-top: var(--space-3);
+}
+</style>
+</head>
+<body>
+<div class="empty-shell">
+
+  <!-- Minimal header -->
+  <div style="display:flex;align-items:center;padding:var(--space-3) var(--space-4);
+              background:var(--color-surface);border-bottom:1px solid var(--color-border)">
+    <div style="display:flex;align-items:center;gap:var(--space-2);flex:1">
+      <div style="width:28px;height:28px;background:var(--color-brand-primary);
+                  border-radius:var(--radius-sm);display:flex;align-items:center;
+                  justify-content:center;color:#fff;font-size:14px">&#9889;</div>
+      <span style="font-size:var(--text-md);font-weight:var(--weight-semibold);
+                   color:var(--color-text-primary)">RealityNow</span>
+    </div>
+    <button onclick="changeArea()"
+            style="background:none;border:1px solid var(--color-border);
+                   border-radius:var(--radius-full);padding:4px 12px;
+                   font-size:var(--text-xs);color:var(--color-text-secondary);cursor:pointer">
+      &#128205; Change area
+    </button>
+  </div>
+
+  <div class="empty-hero">
+
+    <!-- Icon -->
+    <div class="empty-icon">&#127758;</div>
+
+    <div class="empty-title">Coming soon to</div>
+    <div class="empty-area" id="area-name">your area</div>
+    <div class="empty-sub">
+      RealityNow is not yet active here. But you can be the first to bring it -
+      or get notified when it launches.
+    </div>
+
+    <!-- Where it is live -->
+    <div class="empty-visual">
+      <div style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-tertiary);
+                  text-transform:uppercase;letter-spacing:0.05em;margin-bottom:var(--space-2)">
+        Currently active in
+      </div>
+      <div class="cities-wrap">
+        <span class="city-chip">&#9679; Banjara Hills</span>
+        <span class="city-chip">&#9679; Jubilee Hills</span>
+        <span class="city-chip">&#9679; Madhapur</span>
+        <span class="city-chip">&#9679; Gachibowli</span>
+      </div>
+      <div class="empty-stat-row">
+        <div class="empty-stat">
+          <div class="empty-stat-num">2,400+</div>
+          <div class="empty-stat-label">Users active</div>
+        </div>
+        <div class="empty-stat">
+          <div class="empty-stat-num">142</div>
+          <div class="empty-stat-label">Posts today</div>
+        </div>
+        <div class="empty-stat">
+          <div class="empty-stat-num">89%</div>
+          <div class="empty-stat-label">Accuracy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notify me -->
+    <div class="notify-form">
+      <div class="notify-title">Notify me when it launches here</div>
+      <div style="display:flex;gap:var(--space-2)">
+        <input type="tel" id="notify-phone" placeholder="Your phone number"
+               style="flex:1;padding:10px 12px;border:1px solid var(--color-border);
+                      border-radius:var(--radius-md);font-size:var(--text-sm);
+                      font-family:inherit;outline:none">
+        <button onclick="submitNotify()"
+                style="padding:10px 16px;background:var(--color-brand-primary);
+                       color:#fff;border:none;border-radius:var(--radius-md);
+                       font-size:var(--text-sm);font-weight:600;cursor:pointer;white-space:nowrap">
+          Notify me
+        </button>
+      </div>
+    </div>
+
+    <!-- CLP CTA -->
+    <div class="clp-cta" onclick="window.location='clp-signup.html'">
+      <div class="clp-cta-top">
+        <div class="clp-cta-icon">&#128640;</div>
+        <div>
+          <div class="clp-cta-title">Launch RealityNow in your area</div>
+          <div style="font-size:var(--text-xs);opacity:0.75">Become a City Launch Partner</div>
+        </div>
+      </div>
+      <div class="clp-cta-sub">
+        Be the first to bring real-time truth to your neighbourhood.
+        Help onboard the first 50 active users and earn milestone rewards.
+      </div>
+      <div class="clp-earnings">
+        <span class="clp-earn-chip">&#8377;1,000 at 50 users</span>
+        <span class="clp-earn-chip">&#8377;2,500 at 100 users</span>
+        <span class="clp-earn-chip">&#8377;5,000 at retention</span>
+      </div>
+      <button class="clp-btn">Become a City Launch Partner &#8594;</button>
+    </div>
+
+    <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);text-align:center;
+                line-height:var(--leading-relaxed)">
+      Have a question? <a href="help.html" style="color:var(--color-brand-primary)">Read how it works</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Read detected location and show it
+(function() {
+  try {
+    var cached = localStorage.getItem("rn_location");
+    if (cached) {
+      var data = JSON.parse(cached);
+      var area = (data.label || "your area").split(",")[0];
+      document.getElementById("area-name").textContent = area;
+    }
+  } catch(e) {}
+})();
+
+function changeArea() {
+  window.location = "index.html";
+}
+
+function submitNotify() {
+  var phone = document.getElementById("notify-phone").value.trim();
+  if (!phone || phone.length < 10) {
+    alert("Please enter a valid phone number");
+    return;
+  }
+  document.getElementById("notify-phone").value = "";
+  var btn = document.querySelector(".notify-form button");
+  btn.textContent = "Done!";
+  btn.style.background = "#0A6E57";
+  setTimeout(function() {
+    btn.textContent = "Notify me";
+    btn.style.background = "";
+  }, 3000);
+}
+</script>
+</body>
+</html>
